@@ -41,9 +41,15 @@ class TestCaseTest(TestCase):
         self.test.run()
         assert self.test.log == "setUp testMethod tearDown"
 
+    def testResult(self) -> None:
+        test = WasRun("testMethod")
+        result = test.run() # type: ignore
+        assert "1 run, 0 failed" == result.summary()
+
 
 def main() -> None:
     TestCaseTest("testTemplateMethod").run()
+    TestCaseTest("testResult").run()
 
 
 if __name__ == "__main__":
