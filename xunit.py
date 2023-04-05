@@ -19,11 +19,16 @@ class WasRun(TestCase):
        self.wasRun = 1
 
 
+class TestCaseTest(TestCase):
+    def testRunning(self) -> None:
+        test = WasRun("testMethod")
+        assert test.wasRun is None
+        test.run()
+        assert test.wasRun == 1
+
+
 def main() -> None:
-    test = WasRun("testMethod")
-    print(test.wasRun)
-    test.run()
-    print(test.wasRun)
+    TestCaseTest("testRunning").run()
 
 
 if __name__ == "__main__":
