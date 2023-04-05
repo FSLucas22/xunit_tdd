@@ -4,5 +4,5 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
 ECHO running module...
 ECHO.
 py xunit.py
-ECHO.
+ECHO running module... done
 EXIT /B %ERRORLEVEL%
