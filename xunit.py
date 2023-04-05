@@ -28,11 +28,9 @@ class WasRun(TestCase):
 
 class TestCaseTest(TestCase):
     test: WasRun
-    
-    def setUp(self) -> None:
-        self.test = WasRun("testMethod")
 
     def testTemplateMethod(self) -> None:
+        self.test = WasRun("testMethod")
         self.test.run()
         assert self.test.log == "setUp testMethod"
 
