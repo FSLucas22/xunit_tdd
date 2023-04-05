@@ -26,9 +26,15 @@ class TestCaseTest(TestCase):
         test.run()
         assert test.wasRun == 1
 
+    def testSetUp(self) -> None:
+        test = WasRun("testMethod")
+        test.run()
+        assert test.wasSetUp == 1 # type: ignore
+
 
 def main() -> None:
     TestCaseTest("testRunning").run()
+    TestCaseTest("testSetUp").run()
 
 
 if __name__ == "__main__":
