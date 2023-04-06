@@ -80,9 +80,9 @@ class TestCaseTest(TestCase):
 
 
 def main() -> None:
-    TestCaseTest("testTemplateMethod").run()
-    TestCaseTest("testResult").run()
-    TestCaseTest("testFailedResult").run()
+    print(TestCaseTest("testTemplateMethod").run().summary())
+    print(TestCaseTest("testResult").run().summary())
+    print(TestCaseTest("testFailedResult").run().summary())
 
 
 if __name__ == "__main__":
