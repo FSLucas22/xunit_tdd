@@ -66,7 +66,10 @@ class TestCaseTest(TestCase):
     def testCompletedMultipleTests(self) -> None:
         self.result.testStarted("someTest")
         self.result.testStarted("someOtherTest")
+        self.result.testFailed("someTest")
+        self.result.testFailed("someOtherTest")
         assert self.result.getAllStarted() == "someTest someOtherTest"
+        assert self.result.getAllFailed() == "someTest someOtherTest"
         
 
 
