@@ -55,18 +55,15 @@ class TestSuite:
         
 
 class WasRun(TestCase):
-    wasRun: int | None
     log: str
     
     def setUp(self) -> None:
-        self.wasRun = None
         self.log = "setUp"
 
     def tearDown(self) -> None:
         self.log += " tearDown"
 
     def testMethod(self) -> None:
-       self.wasRun = 1
        self.log += " testMethod"
 
     def testBrokenMethod(self) -> None:
