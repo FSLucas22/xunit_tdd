@@ -16,9 +16,6 @@ class TestResult:
 
     def testFailed(self) -> None:
         self.failedCount += 1
-        
-    def summary(self) -> str:
-        return f"{self.runCount} run, {self.failedCount} failed"
 
 
 class TestSummary:
