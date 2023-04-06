@@ -40,6 +40,12 @@ class TestCaseTest(TestCase):
         assert self.result.failedCount == 0
         assert self.result.notCompletedCount == 1
 
+    def testSummary(self) -> None:
+        summary = TestSummary()
+        self.result.testStarted()
+        self.result.testNotCompleted()
+        assert summary.results(self.result) == "1 started, 0 failed, 1 not completed"
+
     def testSuite(self) -> None:
         suite = TestSuite()
         suite.add(WasRun("testMethod"))
@@ -59,6 +65,7 @@ def main() -> None:
     suite.add(TestCaseTest("testFailedResultCallsTearDown"))
     suite.add(TestCaseTest("testSuite"))
     suite.add(TestCaseTest("testFailedInSetUp"))
+    suite.add(TestCaseTest("testSummary"))
     suite.run(result)
     print(result.summary())
 
