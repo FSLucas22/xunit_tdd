@@ -1,4 +1,4 @@
-from xunit import TestCase, WasRun
+from xunit import TestCase, WasRun, TestResult
 
 
 class TestCaseTest(TestCase):
@@ -19,11 +19,20 @@ class TestCaseTest(TestCase):
         result = test.run()
         assert "1 run, 1 failed" == result.summary()
 
+    def testSuite(self) -> None:
+        suite = TestSuite()
+        suite.add(WasRun("testMethod"))
+        suite.add(WasRun("testBrokenMethod"))
+        result = TestResult()
+        suite.run(result)
+        assert "2 run, 1 failed" == result.summary()
+
 
 def main() -> None:
     print(TestCaseTest("testTemplateMethod").run().summary())
     print(TestCaseTest("testResult").run().summary())
     print(TestCaseTest("testFailedResult").run().summary())
+    print(TestCaseTest("testSuite").run().summary())
 
 
 if __name__ == "__main__":
