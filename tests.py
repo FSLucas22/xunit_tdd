@@ -44,7 +44,7 @@ class TestCaseTest(TestCase):
         summary = TestSummary()
         self.result.testStarted()
         self.result.testNotCompleted()
-        assert summary.results(self.result) == "1 started, 0 failed, 1 not completed"
+        assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
     def testSuite(self) -> None:
         suite = TestSuite()
