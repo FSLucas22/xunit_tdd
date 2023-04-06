@@ -32,8 +32,11 @@ class TestCase:
         result = TestResult()
         result.testStarted()
         self.setUp()
-        method = getattr(self, self.name)
-        method()
+        try:
+            method = getattr(self, self.name)
+            method()
+        except:
+            result.testFailed()
         self.tearDown()
         return result
         
@@ -86,7 +89,7 @@ def main() -> None:
     TestCaseTest("testTemplateMethod").run()
     TestCaseTest("testResult").run()
     TestCaseTest("testFailedResultFormatting").run()
-    # TestCaseTest("testFailedResult").run()
+    TestCaseTest("testFailedResult").run()
 
 
 if __name__ == "__main__":
