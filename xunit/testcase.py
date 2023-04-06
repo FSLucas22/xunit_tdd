@@ -30,8 +30,8 @@ class TestCase:
 
     def run(self, result: TestResult) -> None:
         result.testStarted()
-        self.setUp()
         try:
+            self.setUp()
             method = getattr(self, self.name)
             method()
         except:
@@ -54,7 +54,7 @@ class TestSuite:
              
 
 class WasRun(TestCase):
-    log: str
+    log: str = ""
     
     def setUp(self) -> None:
         self.log = "setUp"
