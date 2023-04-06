@@ -78,17 +78,10 @@ class TestCaseTest(TestCase):
         result = test.run()
         assert "1 run, 1 failed" == result.summary()
 
-    def testFailedResultFormatting(self) -> None:
-        result = TestResult()
-        result.testStarted()
-        result.testFailed()
-        assert "1 run, 1 failed" == result.summary()
-
 
 def main() -> None:
     TestCaseTest("testTemplateMethod").run()
     TestCaseTest("testResult").run()
-    TestCaseTest("testFailedResultFormatting").run()
     TestCaseTest("testFailedResult").run()
 
 
