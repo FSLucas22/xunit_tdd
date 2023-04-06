@@ -42,13 +42,20 @@ class TestCase:
 
 
 class TestSuite:
+    tests: list[TestCase]
+
+    def __init__(self) -> None:
+        self.tests = []
+        
     def add(self, test: TestCase) -> None:
-        pass
+        self.tests.append(test)
 
     def run(self, result_collector: TestResult) -> None:
-        result_collector.testStarted()
-        result_collector.testStarted()
-        result_collector.testFailed()
+        results: list[TestResult] = [test.run() for test in self.tests]
+        for test in self.tests:
+            result = test.run()
+            result_collector.runCount += result.runCount
+            result_collector.failedCount += result.failedCount
         
         
 
