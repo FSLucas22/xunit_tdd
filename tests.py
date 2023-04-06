@@ -16,13 +16,17 @@ class TestCaseTest(TestCase):
     def testResult(self) -> None:
         test = WasRun("testMethod")
         test.run(self.result)
-        assert "1 run, 0 failed" == self.result.summary()
+        assert 1 == self.result.runCount
+        assert 0 == self.result.failedCount
+        assert 0 == self.result.notCompletedCount
 
     def testFailedResult(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
-        assert "1 run, 1 failed" == self.result.summary()
-
+        assert 1 == self.result.runCount
+        assert 1 == self.result.failedCount
+        assert 0 == self.result.notCompletedCount
+        
     def testFailedResultCallsTearDown(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
@@ -32,6 +36,7 @@ class TestCaseTest(TestCase):
         test = FailedSetUp("testMethod")
         test.run(self.result)
         assert "tearDown" in test.log
+        assert self.result.notCompletedCount == 1
 
     def testSuite(self) -> None:
         suite = TestSuite()
