@@ -48,6 +48,9 @@ class WasRun(TestCase):
        self.wasRun = 1
        self.log += " testMethod"
 
+    def testBrokenMethod(self) -> None:
+        raise Exception
+
 
 class TestCaseTest(TestCase):
     test: WasRun
@@ -62,10 +65,16 @@ class TestCaseTest(TestCase):
         result = test.run()
         assert "1 run, 0 failed" == result.summary()
 
+    def testFailedResult(self) -> None:
+        test = WasRun("testBrokenMethod")
+        result = test.run()
+        assert "1 run, 1 failed" == result.summary()
+
 
 def main() -> None:
     TestCaseTest("testTemplateMethod").run()
     TestCaseTest("testResult").run()
+    TestCaseTest("testFailedResult").run()
 
 
 if __name__ == "__main__":
