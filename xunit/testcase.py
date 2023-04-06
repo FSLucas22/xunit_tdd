@@ -14,6 +14,8 @@ class TestResult:
 
     def testStarted(self, test_name: str = "AnonTest") -> None:
         self.runCount += 1
+        if self.runned != "":
+            self.runned += " "
         self.runned += test_name
 
     def testNotCompleted(self) -> None:
@@ -21,6 +23,8 @@ class TestResult:
 
     def testFailed(self, test_name: str = "AnonTest") -> None:
         self.failedCount += 1
+        if self.failed != "":
+            self.failed += " "
         self.failed += test_name
 
     def getAllStarted(self) -> str:
