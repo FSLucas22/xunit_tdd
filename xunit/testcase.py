@@ -2,20 +2,26 @@ class TestResult:
     runCount: int
     failedCount: int
     notCompletedCount: int
+    runned: str
 
     def __init__(self) -> None:
         self.runCount = 0
         self.failedCount = 0
         self.notCompletedCount = 0
+        self.runned = ""
 
-    def testStarted(self) -> None:
+    def testStarted(self, test_name: str = "None") -> None:
         self.runCount += 1
+        self.runned += test_name
 
     def testNotCompleted(self) -> None:
         self.notCompletedCount += 1
 
     def testFailed(self) -> None:
         self.failedCount += 1
+
+    def getAllStarted(self) -> str:
+        return self.runned
 
 
 class TestSummary:
