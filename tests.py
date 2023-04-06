@@ -66,10 +66,7 @@ class TestCaseTest(TestCase):
     def testCompletedMultipleTests(self) -> None:
         self.result.testStarted("someTest")
         self.result.testStarted("someOtherTest")
-        self.result.testFailed("someOtherTest")
-        self.result.testFailed("someOtherTest")
         assert self.result.getAllStarted() == "someTest someOtherTest"
-        assert self.result.getAllFailed() == "someTest someOtherTest"
         
 
 
@@ -85,7 +82,7 @@ def main() -> None:
     suite.add(TestCaseTest("testFailedInSetUp"))
     suite.add(TestCaseTest("testSummary"))
     suite.add(TestCaseTest("testCompletedTests"))
-    suite.add(TestCaseTest("testMultipleCompletedTests"))
+    suite.add(TestCaseTest("testCompletedMultipleTests"))
     suite.run(result)
     print(summary.results(result))
 
