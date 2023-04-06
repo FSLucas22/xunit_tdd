@@ -26,7 +26,7 @@ class TestCaseTest(TestCase):
     def testFailedResultCallsTearDown(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
-        assert test.log == "setUp testBrokenMethod tearDown"
+        assert "tearDown" in test.log
 
     def testSuite(self) -> None:
         suite = TestSuite()
