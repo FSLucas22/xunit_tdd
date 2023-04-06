@@ -34,12 +34,14 @@ class TestCase:
         pass
 
     def run(self, result: TestResult) -> None:
-        result.testStarted()
         try:
             self.setUp()
         except:
             result.testNotCompleted()
+            self.tearDown()
+            return
         try:
+            result.testStarted()
             method = getattr(self, self.name)
             method()
         except:
