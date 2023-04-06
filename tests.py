@@ -55,6 +55,15 @@ class TestCaseTest(TestCase):
         assert self.result.failedCount == 1
         assert self.result.notCompletedCount == 0
 
+    def testCompletedTests(self) -> None:
+        assert self.result.getAllStarted() == ""
+        self.result.testStarted("someTest")
+        assert self.result.getAllStarted() == "someTest"
+        self.result.testFailed("someTest")
+        assert self.result.getAllStarted() == "someTest"
+        assert self.result.getAllFailed() == "someTest"
+        
+
 
 def main() -> None:
     result = TestResult()
@@ -67,6 +76,7 @@ def main() -> None:
     suite.add(TestCaseTest("testSuite"))
     suite.add(TestCaseTest("testFailedInSetUp"))
     suite.add(TestCaseTest("testSummary"))
+    suite.add(TestCaseTest("testCompletedTests"))
     suite.run(result)
     print(summary.results(result))
 
