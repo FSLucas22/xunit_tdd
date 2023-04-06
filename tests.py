@@ -58,6 +58,7 @@ class TestCaseTest(TestCase):
 
 def main() -> None:
     result = TestResult()
+    summary = TestSummary()
     suite = TestSuite()
     suite.add(TestCaseTest("testTemplateMethod"))
     suite.add(TestCaseTest("testResult"))
@@ -67,7 +68,7 @@ def main() -> None:
     suite.add(TestCaseTest("testFailedInSetUp"))
     suite.add(TestCaseTest("testSummary"))
     suite.run(result)
-    print(result.summary())
+    print(summary.results(result))
 
 
 if __name__ == "__main__":
