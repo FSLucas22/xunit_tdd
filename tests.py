@@ -5,18 +5,21 @@ class TestCaseTest(TestCase):
     test: WasRun
 
     def testTemplateMethod(self) -> None:
+        result = TestResult()
         self.test = WasRun("testMethod")
-        self.test.run()
+        self.test.run(result)
         assert self.test.log == "setUp testMethod tearDown"
 
     def testResult(self) -> None:
+        result = TestResult()
         test = WasRun("testMethod")
-        result = test.run()
+        test.run(result)
         assert "1 run, 0 failed" == result.summary()
 
     def testFailedResult(self) -> None:
+        result = TestResult()
         test = WasRun("testBrokenMethod")
-        result = test.run()
+        test.run(result)
         assert "1 run, 1 failed" == result.summary()
 
     def testSuite(self) -> None:
@@ -29,10 +32,12 @@ class TestCaseTest(TestCase):
 
 
 def main() -> None:
-    print(TestCaseTest("testTemplateMethod").run().summary())
-    print(TestCaseTest("testResult").run().summary())
-    print(TestCaseTest("testFailedResult").run().summary())
-    print(TestCaseTest("testSuite").run().summary())
+    result = TestResult()
+    TestCaseTest("testTemplateMethod").run(result)
+    TestCaseTest("testResult").run(result)
+    TestCaseTest("testFailedResult").run(result)
+    TestCaseTest("testSuite").run(result)
+    print(result.summary())
 
 
 if __name__ == "__main__":

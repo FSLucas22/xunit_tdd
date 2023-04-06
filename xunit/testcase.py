@@ -28,8 +28,7 @@ class TestCase:
     def tearDown(self) -> None:
         pass
 
-    def run(self) -> TestResult:
-        result = TestResult()
+    def run(self, result: TestResult) -> None:
         result.testStarted()
         self.setUp()
         try:
@@ -38,7 +37,6 @@ class TestCase:
         except:
             result.testFailed()
         self.tearDown()
-        return result
 
 
 class TestSuite:
@@ -50,12 +48,9 @@ class TestSuite:
     def add(self, test: TestCase) -> None:
         self.tests.append(test)
 
-    def run(self, result_collector: TestResult) -> None:
-        results: list[TestResult] = [test.run() for test in self.tests]
+    def run(self, result: TestResult) -> None:
         for test in self.tests:
-            result = test.run()
-            result_collector.runCount += result.runCount
-            result_collector.failedCount += result.failedCount
+            test.run(result)
         
         
 
