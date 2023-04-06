@@ -36,6 +36,8 @@ class TestCaseTest(TestCase):
         test = FailedSetUp("testMethod")
         test.run(self.result)
         assert "tearDown" in test.log
+        assert self.result.runCount == 0
+        assert self.result.failedCount == 0
         assert self.result.notCompletedCount == 1
 
     def testSuite(self) -> None:
