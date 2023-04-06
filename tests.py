@@ -45,7 +45,9 @@ class TestCaseTest(TestCase):
         suite.add(WasRun("testMethod"))
         suite.add(WasRun("testBrokenMethod"))
         suite.run(self.result)
-        assert "2 run, 1 failed" == self.result.summary()
+        assert self.result.runCount == 2
+        assert self.result.failedCount == 1
+        assert self.result.notCompletedCount == 0
 
 
 def main() -> None:
