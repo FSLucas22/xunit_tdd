@@ -1,13 +1,18 @@
 class TestResult:
     runCount: int
     failedCount: int
+    notCompletedCount: int
 
     def __init__(self) -> None:
         self.runCount = 0
         self.failedCount = 0
+        self.notCompletedCount = 0
 
     def testStarted(self) -> None:
         self.runCount += 1
+
+    def testNotCompleted(self) -> None:
+        self.notCompletedCount += 1
 
     def testFailed(self) -> None:
         self.failedCount += 1
@@ -32,6 +37,9 @@ class TestCase:
         result.testStarted()
         try:
             self.setUp()
+        except:
+            result.testNotCompleted()
+        try:
             method = getattr(self, self.name)
             method()
         except:
