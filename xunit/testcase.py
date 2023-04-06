@@ -39,6 +39,17 @@ class TestCase:
             result.testFailed()
         self.tearDown()
         return result
+
+
+class TestSuite:
+    def add(self, test: TestCase) -> None:
+        pass
+
+    def run(self, result_collector: TestResult) -> None:
+        result_collector.testStarted()
+        result_collector.testStarted()
+        result_collector.testFailed()
+        
         
 
 class WasRun(TestCase):

@@ -1,4 +1,4 @@
-from xunit import TestCase, WasRun, TestResult
+from xunit import TestCase, WasRun, TestResult, TestSuite
 
 
 class TestCaseTest(TestCase):
