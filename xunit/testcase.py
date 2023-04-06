@@ -51,8 +51,7 @@ class TestSuite:
     def run(self, result: TestResult) -> None:
         for test in self.tests:
             test.run(result)
-        
-        
+             
 
 class WasRun(TestCase):
     log: str
@@ -67,4 +66,9 @@ class WasRun(TestCase):
        self.log += " testMethod"
 
     def testBrokenMethod(self) -> None:
+        raise Exception
+
+
+class FailedSetUp(WasRun):
+    def setUp(self) -> None:
         raise Exception
