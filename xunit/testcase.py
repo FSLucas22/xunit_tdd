@@ -75,15 +75,15 @@ class TestCase:
         try:
             self.setUp()
         except:
-            result.testNotCompleted()
+            result.testNotCompleted(self.name)
             self.tearDown()
             return
         try:
-            result.testStarted()
+            result.testStarted(self.name)
             method = getattr(self, self.name)
             method()
         except:
-            result.testFailed()
+            result.testFailed(self.name)
         self.tearDown()
 
 
