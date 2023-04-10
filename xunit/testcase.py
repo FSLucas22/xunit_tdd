@@ -23,13 +23,13 @@ class TestResult:
         self.failed = Log()
         self.notCompleted = Log()
 
-    def testStarted(self, test_name: str = "AnonTest") -> None:
+    def testStarted(self, test_name: str) -> None:
         self.runned.register(test_name)
 
-    def testNotCompleted(self, test_name: str = "AnonTest") -> None:
+    def testNotCompleted(self, test_name: str) -> None:
         self.notCompleted.register(test_name)
 
-    def testFailed(self, test_name: str = "AnonTest") -> None:
+    def testFailed(self, test_name: str) -> None:
         self.failed.register(test_name)
 
     @property
