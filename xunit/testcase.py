@@ -59,6 +59,14 @@ class TestSummary:
         return f"{result.runCount} run, {result.failedCount} failed, {result.notCompletedCount} not completed"
 
 
+class DetailedTestSummary:
+    def results(self, result: TestResult) -> str:
+        return """
+someTest - Failed
+someOtherTest - Passed
+someBrokenTest - Not completed"""
+
+
 class TestCase:
     name: str
     
