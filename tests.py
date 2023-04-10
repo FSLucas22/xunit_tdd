@@ -20,6 +20,7 @@ class TestCaseTest(TestCase):
         assert 0 == self.result.failedCount
         assert 0 == self.result.notCompletedCount
         assert "testMethod" == self.result.getAllStarted()
+        assert "testMethod" == self.result.getAllPassed()
 
     def testFailedResult(self) -> None:
         test = WasRun("testBrokenMethod")
@@ -58,6 +59,7 @@ class TestCaseTest(TestCase):
         assert self.result.failedCount == 1
         assert self.result.notCompletedCount == 0
         assert "testMethod testBrokenMethod" == self.result.getAllStarted()
+        assert "testMethod" == self.result.getAllPassed()
 
     def testCompletedTests(self) -> None:
         assert self.result.getAllStarted() == ""
@@ -95,9 +97,7 @@ class TestCaseTest(TestCase):
         self.result.testStarted("someOtherTest")
         self.result.testFailed("someTest")
         self.result.testNotCompleted("someBrokenTest")
-        assert summary.results(self.result) == f"""someTest - Failed
-someOtherTest - Passed
-someBrokenTest - Not completed"""
+        assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
 
 def main() -> None:
