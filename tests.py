@@ -19,6 +19,7 @@ class TestCaseTest(TestCase):
         assert 1 == self.result.runCount
         assert 0 == self.result.failedCount
         assert 0 == self.result.notCompletedCount
+        assert "testMethod" == self.result.getAllStarted()
 
     def testFailedResult(self) -> None:
         test = WasRun("testBrokenMethod")
@@ -26,6 +27,7 @@ class TestCaseTest(TestCase):
         assert 1 == self.result.runCount
         assert 1 == self.result.failedCount
         assert 0 == self.result.notCompletedCount
+        assert "testBrokenMethod" == self.result.getAllFailed()
         
     def testFailedResultCallsTearDown(self) -> None:
         test = WasRun("testBrokenMethod")
@@ -39,6 +41,7 @@ class TestCaseTest(TestCase):
         assert self.result.runCount == 0
         assert self.result.failedCount == 0
         assert self.result.notCompletedCount == 1
+        assert "testMethod" == self.result.getAllNotCompleted()
 
     def testSummary(self) -> None:
         summary = TestSummary()
@@ -54,6 +57,7 @@ class TestCaseTest(TestCase):
         assert self.result.runCount == 2
         assert self.result.failedCount == 1
         assert self.result.notCompletedCount == 0
+        assert "testMethod testBrokenMethod" == self.result.getAllStarted()
 
     def testCompletedTests(self) -> None:
         assert self.result.getAllStarted() == ""
@@ -78,7 +82,6 @@ class TestCaseTest(TestCase):
         assert self.result.getAllFailed() == self.result.getAllStarted() == ""
         self.result.testNotCompleted("someOtherBrokenTest")
         assert self.result.getAllNotCompleted() == "someBrokenTest someOtherBrokenTest"
-        
 
 
 def main() -> None:
