@@ -68,11 +68,15 @@ class TestSummary:
 
 
 class DetailedTestSummary:
-    
     def results(self, result: TestResult) -> str:
-        return """someTest - Failed
-someOtherTest - Passed
-someBrokenTest - Not completed"""
+        summary = ""
+        for test in result.getAllFailed().split():
+            summary += test + ' - Failed\n'
+        for test in result.getAllPassed().split():
+            summary += test + ' - Passed\n'
+        for test in result.getAllNotCompleted().split():
+            summary += test + ' - Not completed\n'
+        return summary[:-1]
 
 
 class TestCase:
@@ -98,6 +102,7 @@ class TestCase:
             result.testStarted(self.name)
             method = getattr(self, self.name)
             method()
+            result.testPassed(self.name)
         except:
             result.testFailed(self.name)
         self.tearDown()
