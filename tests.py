@@ -99,6 +99,15 @@ class TestCaseTest(TestCase):
         self.result.testNotCompleted("someBrokenTest")
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
+    def testRunnedEqualsPassedPlusFailed(self) -> None:
+        suite = TestSuite()
+        suite.add(WasRun("testMethod"))
+        suite.add(WasRun("testBrokenMethod"))
+        suite.run(self.result)
+        assert self.result.passedCount == 1
+        assert self.result.failedCount == 1
+        assert self.result.runCount == self.result.passedCount + self.result.failedCount
+
 
 def main() -> None:
     result = TestResult()
