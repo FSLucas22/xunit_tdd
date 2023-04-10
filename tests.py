@@ -86,7 +86,8 @@ class TestCaseTest(TestCase):
     def testPassedTests(self) -> None:
         assert self.result.getAllPassed() == ""
         self.result.testPassed("someTest")
-        assert self.result.getAllPassed() == "someTest"
+        self.result.testPassed("someOtherTest")
+        assert self.result.getAllPassed() == "someTest someOtherTest"
         
     def testDetailedSummary(self) -> None:
         summary = DetailedTestSummary()
@@ -113,6 +114,7 @@ def main() -> None:
     suite.add(TestCaseTest("testCompletedTests"))
     suite.add(TestCaseTest("testCompletedMultipleTests"))
     suite.add(TestCaseTest("testNotCompletedTests"))
+    suite.add(TestCaseTest("testPassedTests"))
     # suite.add(TestCaseTest("testDetailedSummary"))
     suite.run(result)
     print(summary.results(result))
