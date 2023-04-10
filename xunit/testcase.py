@@ -16,14 +16,14 @@ class Log:
 class TestResult:
     runned: Log
     failed: Log
-    passed: str
+    passed: Log
     notCompleted: Log
     
     def __init__(self) -> None:
         self.runned = Log()
         self.failed = Log()
         self.notCompleted = Log()
-        self.passed = ""
+        self.passed = Log()
 
     def testStarted(self, test_name: str) -> None:
         self.runned.register(test_name)
@@ -32,7 +32,7 @@ class TestResult:
         self.notCompleted.register(test_name)
 
     def testPassed(self, test_name: str) -> None:
-        self.passed = test_name
+        self.passed.register(test_name)
 
     def testFailed(self, test_name: str) -> None:
         self.failed.register(test_name)
@@ -56,7 +56,7 @@ class TestResult:
         return self.failed.executed
 
     def getAllPassed(self) -> str:
-        return self.passed
+        return self.passed.executed
 
     def getAllNotCompleted(self) -> str:
         return self.notCompleted.executed
