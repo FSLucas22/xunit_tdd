@@ -9,6 +9,9 @@ class Log:
             self.executed += " "
         self.executed += name
 
+    def registerCount(self) -> int:
+        return len(self.executed.split())
+
 
 class TestResult:
     runned: Log
@@ -31,15 +34,15 @@ class TestResult:
 
     @property
     def runCount(self) -> int:
-        return len(self.runned.executed.split())
+        return self.runned.registerCount()
 
     @property
     def failedCount(self) -> int:
-        return len(self.failed.executed.split())
+        return self.failed.registerCount()
 
     @property
     def notCompletedCount(self) -> int:
-        return len(self.notCompleted.executed.split())
+        return self.notCompleted.registerCount()
 
     def getAllStarted(self) -> str:
         return self.runned.executed
