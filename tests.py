@@ -46,7 +46,7 @@ class TestCaseTest(TestCase):
 
     def testSummary(self) -> None:
         summary = TestSummary()
-        self.result.testStarted("someTest")
+        self.result.testPassed("someTest")
         self.result.testNotCompleted("someTest")
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
@@ -103,6 +103,7 @@ class TestCaseTest(TestCase):
         suite = TestSuite()
         suite.add(WasRun("testMethod"))
         suite.add(WasRun("testBrokenMethod"))
+        suite.add(FailedSetUp("testMethod"))
         suite.run(self.result)
         assert self.result.passedCount == 1
         assert self.result.failedCount == 1
@@ -111,7 +112,7 @@ class TestCaseTest(TestCase):
 
 def main() -> None:
     result = TestResult()
-    summary = TestSummary()
+    summary = DetailedTestSummary()
     suite = TestSuite()
     suite.add(TestCaseTest("testTemplateMethod"))
     suite.add(TestCaseTest("testResult"))
@@ -125,6 +126,7 @@ def main() -> None:
     suite.add(TestCaseTest("testNotCompletedTests"))
     suite.add(TestCaseTest("testPassedTests"))
     suite.add(TestCaseTest("testDetailedSummary"))
+    suite.add(TestCaseTest("testRunnedEqualsPassedPlusFailed"))
     suite.run(result)
     print(summary.results(result))
 
