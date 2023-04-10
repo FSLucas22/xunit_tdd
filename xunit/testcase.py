@@ -1,19 +1,14 @@
 class TestResult:
-    runCount: int
-    failedCount: int
     notCompletedCount: int
     runned: str
     failed: str
 
     def __init__(self) -> None:
-        self.runCount = 0
-        self.failedCount = 0
         self.notCompletedCount = 0
         self.runned = ""
         self.failed = ""
 
     def testStarted(self, test_name: str = "AnonTest") -> None:
-        self.runCount += 1
         if self.runned != "":
             self.runned += " "
         self.runned += test_name
@@ -22,10 +17,17 @@ class TestResult:
         self.notCompletedCount += 1
 
     def testFailed(self, test_name: str = "AnonTest") -> None:
-        self.failedCount += 1
         if self.failed != "":
             self.failed += " "
         self.failed += test_name
+
+    @property
+    def runCount(self) -> int:
+        return len(self.getAllStarted().split())
+
+    @property
+    def failedCount(self) -> int:
+        return len(self.getAllFailed().split())
 
     def getAllStarted(self) -> str:
         return self.runned
