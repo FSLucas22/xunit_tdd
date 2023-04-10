@@ -1,47 +1,54 @@
+class Log:
+    executed: str
+
+    def __init__(self) -> None:
+        self.executed = ""
+        
+    def register(self, name: str) -> None:
+        if self.executed != "":
+            self.executed += " "
+        self.executed += name
+
+
 class TestResult:
-    notCompletedCount: int
-    runned: str
-    failed: str
-    notCompleted: str
+    runned: Log
+    failed: Log
+    notCompleted: Log
     
     def __init__(self) -> None:
-        self.notCompletedCount = 0
-        self.runned = ""
-        self.failed = ""
-        self.notCompleted = ""
+        self.runned = Log()
+        self.failed = Log()
+        self.notCompleted = Log()
 
     def testStarted(self, test_name: str = "AnonTest") -> None:
-        if self.runned != "":
-            self.runned += " "
-        self.runned += test_name
+        self.runned.register(test_name)
 
     def testNotCompleted(self, test_name: str = "AnonTest") -> None:
-        self.notCompletedCount += 1
-        if self.notCompleted != "":
-            self.notCompleted += " "
-        self.notCompleted += test_name
+        self.notCompleted.register(test_name)
 
     def testFailed(self, test_name: str = "AnonTest") -> None:
-        if self.failed != "":
-            self.failed += " "
-        self.failed += test_name
+        self.failed.register(test_name)
 
     @property
     def runCount(self) -> int:
-        return len(self.getAllStarted().split())
+        return len(self.runned.executed.split())
 
     @property
     def failedCount(self) -> int:
-        return len(self.getAllFailed().split())
+        return len(self.failed.executed.split())
+
+    @property
+    def notCompletedCount(self) -> int:
+        return len(self.notCompleted.executed.split())
 
     def getAllStarted(self) -> str:
-        return self.runned
+        return self.runned.executed
 
     def getAllFailed(self) -> str:
-        return self.failed
+        return self.failed.executed
 
     def getAllNotCompleted(self) -> str:
-        return self.notCompleted
+        return self.notCompleted.executed
 
 
 class TestSummary:
