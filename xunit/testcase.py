@@ -14,20 +14,15 @@ class Log:
 
 
 class TestResult:
-    runned: Log
     failed: Log
     passed: Log
     notCompleted: Log
     
     def __init__(self) -> None:
-        self.runned = Log()
         self.failed = Log()
         self.notCompleted = Log()
         self.passed = Log()
-
-    def testStarted(self, test_name: str) -> None:
-        self.runned.register(test_name)
-
+        
     def testNotCompleted(self, test_name: str) -> None:
         self.notCompleted.register(test_name)
 
@@ -39,7 +34,7 @@ class TestResult:
 
     @property
     def runCount(self) -> int:
-        return self.runned.registerCount()
+        return self.passed.registerCount() + self.failed.registerCount() 
 
     @property
     def failedCount(self) -> int:
@@ -49,8 +44,17 @@ class TestResult:
     def notCompletedCount(self) -> int:
         return self.notCompleted.registerCount()
 
+    @property
+    def passedCount(self) -> int:
+        return self.passed.registerCount()
+
     def getAllStarted(self) -> str:
-        return self.runned.executed
+        started = Log()
+        for passed in self.getAllPassed().split():
+            started.register(passed)
+        for failed in self.getAllFailed().split():
+            started.register(failed)
+        return started.executed
 
     def getAllFailed(self) -> str:
         return self.failed.executed
@@ -99,7 +103,6 @@ class TestCase:
             self.tearDown()
             return
         try:
-            result.testStarted(self.name)
             method = getattr(self, self.name)
             method()
             result.testPassed(self.name)
