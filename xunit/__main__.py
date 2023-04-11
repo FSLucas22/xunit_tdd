@@ -9,7 +9,8 @@ def main() -> None:
         TestCaseTest,
         TestSummaryTest,
         TestResultTest,
-        TestSuiteTest
+        TestSuiteTest,
+        TestTest
     )
     suite.run(result)
     print(summary.results(result))
