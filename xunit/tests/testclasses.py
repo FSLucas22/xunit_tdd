@@ -37,3 +37,23 @@ class DummyTestCase(TestCase):
     def failedTest2(self) -> None:
         raise Exception
 
+
+class UnnamedTestClass(TestCase):
+    def testMethod(self) -> None:
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
