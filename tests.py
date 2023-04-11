@@ -63,15 +63,11 @@ class TestCaseTest(TestCase):
 
     def testCompletedTests(self) -> None:
         assert self.result.getAllStarted() == ""
-        self.result.testStarted("someTest")
-        assert self.result.getAllStarted() == "someTest"
         self.result.testFailed("someTest")
         assert self.result.getAllStarted() == "someTest"
         assert self.result.getAllFailed() == "someTest"
 
     def testCompletedMultipleTests(self) -> None:
-        self.result.testStarted("someTest")
-        self.result.testStarted("someOtherTest")
         self.result.testFailed("someTest")
         self.result.testFailed("someOtherTest")
         assert self.result.getAllStarted() == "someTest someOtherTest"
@@ -93,7 +89,6 @@ class TestCaseTest(TestCase):
         
     def testDetailedSummary(self) -> None:
         summary = DetailedTestSummary()
-        self.result.testStarted("someTest")
         self.result.testPassed("someOtherTest")
         self.result.testFailed("someTest")
         self.result.testNotCompleted("someBrokenTest")
@@ -108,11 +103,13 @@ class TestCaseTest(TestCase):
         assert self.result.passedCount == 1
         assert self.result.failedCount == 1
         assert self.result.runCount == self.result.passedCount + self.result.failedCount
+        assert self.result.getAllStarted() == 'testMethod testBrokenMethod'
 
 
 def main() -> None:
     result = TestResult()
     summary = DetailedTestSummary()
+    resumedSummary = TestSummary()
     suite = TestSuite()
     suite.add(TestCaseTest("testTemplateMethod"))
     suite.add(TestCaseTest("testResult"))
@@ -129,7 +126,8 @@ def main() -> None:
     suite.add(TestCaseTest("testRunnedEqualsPassedPlusFailed"))
     suite.run(result)
     print(summary.results(result))
-
+    print(resumedSummary.results(result))
+    
 
 if __name__ == "__main__":
     main()
