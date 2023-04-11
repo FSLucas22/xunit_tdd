@@ -107,6 +107,13 @@ class TestCaseTest(TestCase):
         assert self.result.runCount == self.result.passedCount + self.result.failedCount
         assert self.result.getAllStarted() == 'testMethod testBrokenMethod'
 
+    def testSuiteFromTestCase(self) -> None:
+        suite = TestSuite.fromTestCase(DummyTestCase)
+        suite.run(self.result)
+        assert self.result.getAllPassed() == "testPassed1 testPassed2"
+        assert self.result.getAllFailed() == "testFailed1 testFailed2"
+        assert self.result.getAllNotCompleted() == "testNotCompleted1 testNotCompleted2"
+
 
 def main() -> None:
     result = TestResult()
