@@ -41,7 +41,7 @@ class TestCaseTest(TestCase):
         assert self.result.notCompletedCount == 1
         assert "testMethod" == self.result.getAllNotCompleted()
 
-    def testFailedInSetUpWhenNotFound(self) -> None:
+    def testNotCompletedWhenNotFound(self) -> None:
         test = WasRun("notImplementedTest")
         test.run(self.result)
         assert self.result.notCompletedCount == 1
@@ -126,7 +126,7 @@ def main() -> None:
     suite.add(TestCaseTest("testPassedTests"))
     suite.add(TestCaseTest("testDetailedSummary"))
     suite.add(TestCaseTest("testRunnedEqualsPassedPlusFailed"))
-    suite.add(TestCaseTest("testFailedInSetUpWhenNotFound"))
+    suite.add(TestCaseTest("testNotCompletedWhenNotFound"))
     suite.run(result)
     print(summary.results(result))
     print(resumedSummary.results(result))
