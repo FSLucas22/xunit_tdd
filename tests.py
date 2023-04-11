@@ -2,7 +2,8 @@ from xunit import *
 
 
 class DummyTestCase(TestCase):
-    pass
+    def passedTest1(self) -> None:
+        pass
 
 
 class TestCaseTest(TestCase):
