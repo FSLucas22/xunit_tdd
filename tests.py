@@ -118,6 +118,9 @@ class TestCaseTest(TestCase):
         suite.run(self.result)
         assert self.result.getAllPassed() == "passedTest1"
 
+    def testNamesFromTests(self) -> None:
+        assert DummyTestCase.testNames == "passedTest1"
+
 
 def main() -> None:
     result = TestResult()
