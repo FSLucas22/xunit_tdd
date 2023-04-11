@@ -56,3 +56,31 @@ class TestSuiteTest(TestCase):
 
     def testNamesFromTests(self) -> None:
         assert DummyTestCase.testNames == "passedTest1 passedTest2 failedTest1 failedTest2"
+
+    def testSuiteFromMultipleTestCases(self) -> None:
+        individualResult = TestResult()
+        
+        normalSuite = TestSuite()
+        normalSuite.add(DummyTestCase("passedTest1"))
+        normalSuite.add(DummyTestCase("passedTest2"))
+        normalSuite.add(DummyTestCase("failedTest1"))
+        normalSuite.add(DummyTestCase("failedTest2"))
+        normalSuite.add(DummyTestCase("passedTest1"))
+        normalSuite.add(DummyTestCase("passedTest2"))
+        normalSuite.add(DummyTestCase("failedTest1"))
+        normalSuite.add(DummyTestCase("failedTest2"))
+        normalSuite.run(individualResult)
+        
+        suite = TestSuite.fromTestCase(DummyTestCase, DummyTestCase)
+        suite.run(self.result)
+        
+        assert self.result.getAllPassed() == individualResult.getAllPassed() == "passedTest1 passedTest2 passedTest1 passedTest2"
+        assert self.result.getAllFailed() == individualResult.getAllFailed() == "failedTest1 failedTest2 failedTest1 failedTest2"
+
+
+
+
+
+
+
+
