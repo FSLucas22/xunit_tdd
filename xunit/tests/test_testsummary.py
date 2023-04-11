@@ -20,3 +20,12 @@ class TestSummaryTest(TestCase):
         self.result.testFailed("someTest")
         self.result.testNotCompleted("someBrokenTest")
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
+
+    def testMixedSummary(self) -> None:
+        summariesToMix = [DetailedTestSummary(), TestSummary()]
+        summary = MixedTestSummary(*summariesToMix)
+        self.result.testPassed("someTest")
+        self.result.testNotCompleted("someTest")
+        summary_result = summary.results(self.result)
+        individual_results = [s.results(self.result) for s in summariesToMix]
+        assert summary_result == '\n'.join(individual_results)
