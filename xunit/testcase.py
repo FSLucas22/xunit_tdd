@@ -130,7 +130,8 @@ class TestSuite:
     @classmethod
     def fromTestCase(cls, tests: Type[TestCase]) -> Self:
         suite = cls()
-        suite.add(tests("passedTest1"))
+        for testName in tests.testNames.split():
+            suite.add(tests(testName))
         return suite
              
 
