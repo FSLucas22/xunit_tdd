@@ -20,10 +20,7 @@ class DummyTestCase(TestCase):
 class TestCaseTest(TestCase):
     test: WasRun
     result: TestResult
-    testNames = "testTemplateMethod testResult testFailedResult testFailedResultCallsTearDown testFailedInSetUp "\
-                "testNotCompletedWhenNotFound testSummary testSuite testCompletedTests testCompletedMultipleTests "\
-                "testNotCompletedTests testPassedTests testDetailedSummary testRunnedEqualsPassedPlusFailed testSuiteFromTestCase "\
-                "testNamesFromTests"
+    testNames = "testTemplateMethod testResult testFailedResult testFailedInSetUp testNotCompletedWhenNotFound testFailedResultCallsTearDown"
     
     def setUp(self) -> None:
         self.result = TestResult()
@@ -47,11 +44,6 @@ class TestCaseTest(TestCase):
         assert 1 == self.result.failedCount
         assert 0 == self.result.notCompletedCount
         assert "testBrokenMethod" == self.result.getAllFailed()
-        
-    def testFailedResultCallsTearDown(self) -> None:
-        test = WasRun("testBrokenMethod")
-        test.run(self.result)
-        assert "tearDown" in test.log
 
     def testFailedInSetUp(self) -> None:
         test = FailedSetUp("testMethod")
@@ -66,13 +58,19 @@ class TestCaseTest(TestCase):
         test.run(self.result)
         assert self.result.notCompletedCount == 1
         assert "notImplementedTest" == self.result.getAllNotCompleted()
+        
+    def testFailedResultCallsTearDown(self) -> None:
+        test = WasRun("testBrokenMethod")
+        test.run(self.result)
+        assert "tearDown" in test.log
 
-    def testSummary(self) -> None:
-        summary = TestSummary()
-        self.result.testPassed("someTest")
-        self.result.testNotCompleted("someTest")
-        assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
+class TestSuiteTest(TestCase):
+    result: TestResult
+    testNames = "testSuite testSuiteFromTestCase testNamesFromTests" 
+    def setUp(self) -> None:
+        self.result = TestResult()
+        
     def testSuite(self) -> None:
         suite = TestSuite()
         suite.add(WasRun("testMethod"))
@@ -83,49 +81,6 @@ class TestCaseTest(TestCase):
         assert self.result.notCompletedCount == 0
         assert "testMethod testBrokenMethod" == self.result.getAllStarted()
         assert "testMethod" == self.result.getAllPassed()
-
-    def testCompletedTests(self) -> None:
-        assert self.result.getAllStarted() == ""
-        self.result.testFailed("someTest")
-        assert self.result.getAllStarted() == "someTest"
-        assert self.result.getAllFailed() == "someTest"
-
-    def testCompletedMultipleTests(self) -> None:
-        self.result.testFailed("someTest")
-        self.result.testFailed("someOtherTest")
-        assert self.result.getAllFailed() == "someTest someOtherTest"
-
-    def testNotCompletedTests(self) -> None:
-        assert self.result.getAllNotCompleted() == ""
-        self.result.testNotCompleted("someBrokenTest")
-        assert self.result.getAllNotCompleted() == "someBrokenTest"
-        assert self.result.getAllFailed() == self.result.getAllStarted() == ""
-        self.result.testNotCompleted("someOtherBrokenTest")
-        assert self.result.getAllNotCompleted() == "someBrokenTest someOtherBrokenTest"
-
-    def testPassedTests(self) -> None:
-        assert self.result.getAllPassed() == ""
-        self.result.testPassed("someTest")
-        self.result.testPassed("someOtherTest")
-        assert self.result.getAllPassed() == "someTest someOtherTest"
-        
-    def testDetailedSummary(self) -> None:
-        summary = DetailedTestSummary()
-        self.result.testPassed("someOtherTest")
-        self.result.testFailed("someTest")
-        self.result.testNotCompleted("someBrokenTest")
-        assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
-
-    def testRunnedEqualsPassedPlusFailed(self) -> None:
-        suite = TestSuite()
-        suite.add(WasRun("testMethod"))
-        suite.add(WasRun("testBrokenMethod"))
-        suite.add(FailedSetUp("testMethod"))
-        suite.run(self.result)
-        assert self.result.passedCount == 1
-        assert self.result.failedCount == 1
-        assert self.result.runCount == self.result.passedCount + self.result.failedCount
-        assert self.result.getAllStarted() == 'testMethod testBrokenMethod'
 
     def testSuiteFromTestCase(self) -> None:
         individualResult = TestResult()
@@ -151,11 +106,83 @@ class TestCaseTest(TestCase):
         assert DummyTestCase.testNames == "passedTest1 passedTest2 failedTest1 failedTest2"
 
 
+class TestResultTest(TestCase):
+    result: TestResult
+    testNames = "testCompletedTests testCompletedMultipleTests testNotCompletedTests "\
+                "testPassedTests testRunnedEqualsPassedPlusFailed"
+    
+    def setUp(self) -> None:
+        self.result = TestResult()
+
+    def testCompletedTests(self) -> None:
+        assert self.result.getAllStarted() == ""
+        self.result.testFailed("someTest")
+        assert self.result.getAllStarted() == "someTest"
+        assert self.result.getAllFailed() == "someTest"
+
+    def testCompletedMultipleTests(self) -> None:
+        self.result.testFailed("someTest")
+        self.result.testFailed("someOtherTest")
+        assert self.result.getAllFailed() == "someTest someOtherTest"
+
+    def testNotCompletedTests(self) -> None:
+        assert self.result.getAllNotCompleted() == ""
+        self.result.testNotCompleted("someBrokenTest")
+        assert self.result.getAllNotCompleted() == "someBrokenTest"
+        assert self.result.getAllFailed() == self.result.getAllStarted() == ""
+        self.result.testNotCompleted("someOtherBrokenTest")
+        assert self.result.getAllNotCompleted() == "someBrokenTest someOtherBrokenTest"
+
+    def testPassedTests(self) -> None:
+        assert self.result.getAllPassed() == ""
+        self.result.testPassed("someTest")
+        self.result.testPassed("someOtherTest")
+        assert self.result.getAllPassed() == "someTest someOtherTest"
+
+    def testRunnedEqualsPassedPlusFailed(self) -> None:
+        suite = TestSuite()
+        suite.add(WasRun("testMethod"))
+        suite.add(WasRun("testBrokenMethod"))
+        suite.add(FailedSetUp("testMethod"))
+        suite.run(self.result)
+        assert self.result.passedCount == 1
+        assert self.result.failedCount == 1
+        assert self.result.runCount == self.result.passedCount + self.result.failedCount
+        assert self.result.getAllStarted() == 'testMethod testBrokenMethod'
+
+
+class TestSummaryTest(TestCase):
+    result: TestResult
+    testNames = "testSummary testDetailedSummary"
+
+    def setUp(self) -> None:
+        self.result = TestResult()
+
+    def testSummary(self) -> None:
+        summary = TestSummary()
+        self.result.testPassed("someTest")
+        self.result.testNotCompleted("someTest")
+        assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
+
+    def testDetailedSummary(self) -> None:
+        summary = DetailedTestSummary()
+        self.result.testPassed("someOtherTest")
+        self.result.testFailed("someTest")
+        self.result.testNotCompleted("someBrokenTest")
+        assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
+
+
 def main() -> None:
     result = TestResult()
     summary = DetailedTestSummary()
     resumedSummary = TestSummary()
     suite = TestSuite.fromTestCase(TestCaseTest)
+    suite.run(result)
+    suite = TestSuite.fromTestCase(TestSummaryTest)
+    suite.run(result)
+    suite = TestSuite.fromTestCase(TestResultTest)
+    suite.run(result)
+    suite = TestSuite.fromTestCase(TestSuiteTest)
     suite.run(result)
     print(summary.results(result))
     print(resumedSummary.results(result))
