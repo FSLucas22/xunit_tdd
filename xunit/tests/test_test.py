@@ -3,17 +3,15 @@ from xunit.tests.testclasses import UnnamedTestClass
 
 
 class TestTest(TestCase):
-    testNames = "testNameIsAddedByDecorator"
-    
-    def testNameIsAddedByDecorator(self) -> None:
-        assert not hasattr(UnnamedTestClass, "testNames")
+    testNames = "testDecoratorDontChangeTest"
+
+    def testDecoratorDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
         UnnamedTestClass("testMethod").run(result_before_decorator)
-        setattr(UnnamedTestClass, "testMethod", Test(UnnamedTestClass)(
+        setattr(UnnamedTestClass, "testMethod", Test(
             UnnamedTestClass.testMethod
         ))
-        assert UnnamedTestClass.testNames == "testMethod"
         UnnamedTestClass("testMethod").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
