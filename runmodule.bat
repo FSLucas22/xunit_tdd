@@ -1,8 +1,8 @@
 @echo off
-mypy xunit tests.py --strict
+mypy xunit --strict
 IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
 ECHO running module...
 ECHO.
-py tests.py
+py -m xunit
 ECHO running module... done
 EXIT /B %ERRORLEVEL%
