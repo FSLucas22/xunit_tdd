@@ -98,12 +98,12 @@ class TestCase:
     def run(self, result: TestResult) -> None:
         try:
             self.setUp()
+            method = getattr(self, self.name)
         except:
             result.testNotCompleted(self.name)
             self.tearDown()
             return
         try:
-            method = getattr(self, self.name)
             method()
             result.testPassed(self.name)
         except:
