@@ -129,7 +129,9 @@ class TestSuite:
 
     @classmethod
     def fromTestCase(cls, tests: Type[TestCase]) -> Self:
-        return cls()
+        suite = cls()
+        suite.add(tests("passedTest1"))
+        return suite
              
 
 class WasRun(TestCase):
