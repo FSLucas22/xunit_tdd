@@ -112,9 +112,11 @@ class TestCaseTest(TestCase):
         assert self.result.getAllStarted() == 'testMethod testBrokenMethod'
 
     def testSuiteFromTestCase(self) -> None:
+        assert hasattr(DummyTestCase, "passedTest1")
         suite = TestSuite.fromTestCase(DummyTestCase)
         suite.run(self.result)
-        assert self.result.getAllPassed() == "testPassed1"
+        suite.run(self.result)
+        assert self.result.getAllPassed() == "passedTest1"
 
 
 def main() -> None:
