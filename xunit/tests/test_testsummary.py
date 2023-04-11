@@ -9,7 +9,7 @@ class TestSummaryTest(TestCase):
         self.result = TestResult()
 
     def testSummary(self) -> None:
-        summary = TestSummary()
+        summary = SimpleTestSummary()
         self.result.testPassed("someTest")
         self.result.testNotCompleted("someTest")
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
@@ -22,7 +22,9 @@ class TestSummaryTest(TestCase):
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     def testMixedSummary(self) -> None:
-        summariesToMix: list[TestSummaryProtocol] = [DetailedTestSummary(), TestSummary()]
+        summariesToMix: list[TestSummary] = [
+            DetailedTestSummary(), SimpleTestSummary()
+        ]
         summary = MixedTestSummary(*summariesToMix)
         self.result.testPassed("someTest")
         self.result.testNotCompleted("someTest")

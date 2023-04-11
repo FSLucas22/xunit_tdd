@@ -70,12 +70,12 @@ class TestResult:
         return self.notCompleted.executed
 
 
-class TestSummaryProtocol(Protocol):
+class TestSummary(Protocol):
     def results(self, result: TestResult) -> str:
         pass
 
     
-class TestSummary:
+class SimpleTestSummary:
     def results(self, result: TestResult) -> str:
         return f"{result.runCount} run, {result.failedCount} failed, {result.notCompletedCount} not completed"
 
@@ -93,7 +93,7 @@ class DetailedTestSummary:
 
 
 class MixedTestSummary:
-    def __init__(self, *summaries: TestSummaryProtocol):
+    def __init__(self, *summaries: TestSummary):
         self.summaries = summaries
         
     def results(self, result: TestResult) -> str:

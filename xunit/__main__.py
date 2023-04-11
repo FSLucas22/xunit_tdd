@@ -4,8 +4,7 @@ from xunit.tests import *
 
 def main() -> None:
     result = TestResult()
-    summary = DetailedTestSummary()
-    resumedSummary = TestSummary()
+    summary = MixedTestSummary(DetailedTestSummary(), SimpleTestSummary())
     suite = TestSuite.fromTestCase(
         TestCaseTest,
         TestSummaryTest,
@@ -14,7 +13,6 @@ def main() -> None:
     )
     suite.run(result)
     print(summary.results(result))
-    print(resumedSummary.results(result))
     
 
 if __name__ == "__main__":
