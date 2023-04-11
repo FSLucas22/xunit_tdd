@@ -3,7 +3,7 @@ from xunit.tests.testclasses import UnnamedTestClass
 
 
 class TestTest(TestCase):
-    testNames = "testDecoratorDontChangeTest"
+    testNames = "testDecoratorDontChangeTest testNameIsAddedByDecorator"
 
     def testDecoratorDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
@@ -15,3 +15,12 @@ class TestTest(TestCase):
         UnnamedTestClass("testMethod").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
+
+    def testNameIsAddedByDecorator(self) -> None:
+        class SomeTestClass(TestCase):
+
+            @Test
+            def testMethod(self) -> None:
+                pass
+
+        assert SomeTestClass.testNames == "testMethod"
