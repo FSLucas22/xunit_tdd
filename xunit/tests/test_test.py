@@ -10,8 +10,8 @@ class TestTest(TestCase):
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
         UnnamedTestClass("testMethod").run(result_before_decorator)
-        setattr(UnnamedTestClass, "testMethod", Test(
-            UnnamedTestClass, UnnamedTestClass.testMethod 
+        setattr(UnnamedTestClass, "testMethod", Test(UnnamedTestClass)(
+            UnnamedTestClass.testMethod
         ))
         assert UnnamedTestClass.testNames == "testMethod"
         UnnamedTestClass("testMethod").run(result_after_decorator)
