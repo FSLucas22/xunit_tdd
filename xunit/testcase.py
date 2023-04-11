@@ -1,3 +1,6 @@
+from typing import Type, Self
+
+
 class Log:
     executed: str
 
@@ -123,6 +126,10 @@ class TestSuite:
     def run(self, result: TestResult) -> None:
         for test in self.tests:
             test.run(result)
+
+    @classmethod
+    def fromTestCase(cls, tests: Type[TestCase]) -> Self:
+        return cls()
              
 
 class WasRun(TestCase):
