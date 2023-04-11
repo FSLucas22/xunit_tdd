@@ -1,4 +1,4 @@
-from xunit import *
+from xunit.src import *
 
 
 class TestSummaryTest(TestCase):

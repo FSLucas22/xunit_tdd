@@ -1,8 +1,5 @@
-from xunit import *
-from test_testsummary import *
-from test_testresult import *
-from test_testcase import *
-from test_testsuite import *
+from xunit.src import *
+from xunit.tests import *
 
 
 def main() -> None:
