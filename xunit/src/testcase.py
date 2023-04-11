@@ -93,8 +93,14 @@ class DetailedTestSummary:
 
 
 class MixedTestSummary:
+    def __init__(self, *summaries: TestSummaryProtocol):
+        self.summaries = summaries
+        
     def results(self, result: TestResult) -> str:
-        return ""
+        summary_results = []
+        for summary in self.summaries:
+            summary_results.append(summary.results(result))
+        return '\n'.join(summary_results)
 
 
 class TestCase:
