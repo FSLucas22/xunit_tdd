@@ -1,4 +1,5 @@
 from typing import Type, Self
+from typing import Protocol
 
 
 class Log:
@@ -69,6 +70,11 @@ class TestResult:
         return self.notCompleted.executed
 
 
+class TestSummaryProtocol(Protocol):
+    def results(self, result: TestResult) -> str:
+        pass
+
+    
 class TestSummary:
     def results(self, result: TestResult) -> str:
         return f"{result.runCount} run, {result.failedCount} failed, {result.notCompletedCount} not completed"
@@ -84,6 +90,11 @@ class DetailedTestSummary:
         for test in result.getAllNotCompleted().split():
             summary += test + ' - Not completed\n'
         return summary[:-1]
+
+
+class MixedTestSummary:
+    def results(self, result: TestResult) -> str:
+        return ""
 
 
 class TestCase:

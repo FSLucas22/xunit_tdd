@@ -3,7 +3,7 @@ from xunit.src import *
 
 class TestSummaryTest(TestCase):
     result: TestResult
-    testNames = "testSummary testDetailedSummary"
+    testNames = "testSummary testDetailedSummary testMixedSummary"
 
     def setUp(self) -> None:
         self.result = TestResult()
@@ -22,7 +22,7 @@ class TestSummaryTest(TestCase):
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     def testMixedSummary(self) -> None:
-        summariesToMix = [DetailedTestSummary(), TestSummary()]
+        summariesToMix: list[TestSummaryProtocol] = [DetailedTestSummary(), TestSummary()]
         summary = MixedTestSummary(*summariesToMix)
         self.result.testPassed("someTest")
         self.result.testNotCompleted("someTest")
