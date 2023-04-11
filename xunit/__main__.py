@@ -6,13 +6,12 @@ def main() -> None:
     result = TestResult()
     summary = DetailedTestSummary()
     resumedSummary = TestSummary()
-    suite = TestSuite.fromTestCase(TestCaseTest)
-    suite.run(result)
-    suite = TestSuite.fromTestCase(TestSummaryTest)
-    suite.run(result)
-    suite = TestSuite.fromTestCase(TestResultTest)
-    suite.run(result)
-    suite = TestSuite.fromTestCase(TestSuiteTest)
+    suite = TestSuite.fromTestCase(
+        TestCaseTest,
+        TestSummaryTest,
+        TestResultTest,
+        TestSuiteTest
+    )
     suite.run(result)
     print(summary.results(result))
     print(resumedSummary.results(result))
