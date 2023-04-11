@@ -115,7 +115,6 @@ class TestCaseTest(TestCase):
         assert hasattr(DummyTestCase, "passedTest1")
         suite = TestSuite.fromTestCase(DummyTestCase)
         suite.run(self.result)
-        suite.run(self.result)
         assert self.result.getAllPassed() == "passedTest1"
 
 
