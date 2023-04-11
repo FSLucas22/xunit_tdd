@@ -2,6 +2,8 @@ from xunit import *
 
 
 class DummyTestCase(TestCase):
+    testNames = "passedTest1"
+    
     def passedTest1(self) -> None:
         pass
 
@@ -142,6 +144,7 @@ def main() -> None:
     suite.add(TestCaseTest("testRunnedEqualsPassedPlusFailed"))
     suite.add(TestCaseTest("testNotCompletedWhenNotFound"))
     suite.add(TestCaseTest("testSuiteFromTestCase"))
+    suite.add(TestCaseTest("testNamesFromTests"))
     suite.run(result)
     print(summary.results(result))
     print(resumedSummary.results(result))
