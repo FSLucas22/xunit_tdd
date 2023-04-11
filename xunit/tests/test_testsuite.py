@@ -19,7 +19,7 @@ class DummyTestCase(TestCase):
 
 class TestSuiteTest(TestCase):
     result: TestResult
-    testNames = "testSuite testSuiteFromTestCase testNamesFromTests" 
+    testNames = "testSuite testSuiteFromTestCase testNamesFromTests testSuiteFromMultipleTestCases" 
     def setUp(self) -> None:
         self.result = TestResult()
         

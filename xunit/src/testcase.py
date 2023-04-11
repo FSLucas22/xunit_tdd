@@ -128,10 +128,11 @@ class TestSuite:
             test.run(result)
 
     @classmethod
-    def fromTestCase(cls, tests: Type[TestCase]) -> Self:
+    def fromTestCase(cls, *tests: Type[TestCase]) -> Self:
         suite = cls()
-        for testName in tests.testNames.split():
-            suite.add(tests(testName))
+        for testCase in tests:
+            for testName in testCase.testNames.split():
+                suite.add(testCase(testName))
         return suite
              
 
