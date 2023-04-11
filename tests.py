@@ -2,7 +2,7 @@ from xunit import *
 
 
 class DummyTestCase(TestCase):
-    testNames = "passedTest1"
+    testNames = "passedTest1 passedTest2 failedTest1 failedTest2 notCompletedTest1 notCompletedTest2"
     
     def passedTest1(self) -> None:
         pass
@@ -121,7 +121,7 @@ class TestCaseTest(TestCase):
         assert self.result.getAllPassed() == "passedTest1"
 
     def testNamesFromTests(self) -> None:
-        assert DummyTestCase.testNames == "passedTest1"
+        assert DummyTestCase.testNames == "passedTest1 passedTest2 failedTest1 failedTest2 notCompletedTest1 notCompletedTest2"
 
 
 def main() -> None:
