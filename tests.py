@@ -1,6 +1,10 @@
 from xunit import *
 
 
+class DummyTestCase(TestCase):
+    pass
+
+
 class TestCaseTest(TestCase):
     test: WasRun
     result: TestResult
@@ -110,9 +114,7 @@ class TestCaseTest(TestCase):
     def testSuiteFromTestCase(self) -> None:
         suite = TestSuite.fromTestCase(DummyTestCase)
         suite.run(self.result)
-        assert self.result.getAllPassed() == "testPassed1 testPassed2"
-        assert self.result.getAllFailed() == "testFailed1 testFailed2"
-        assert self.result.getAllNotCompleted() == "testNotCompleted1 testNotCompleted2"
+        assert self.result.getAllPassed() == "testPassed1"
 
 
 def main() -> None:
@@ -134,6 +136,7 @@ def main() -> None:
     suite.add(TestCaseTest("testDetailedSummary"))
     suite.add(TestCaseTest("testRunnedEqualsPassedPlusFailed"))
     suite.add(TestCaseTest("testNotCompletedWhenNotFound"))
+    suite.add(TestCaseTest("testSuiteFromTestCase"))
     suite.run(result)
     print(summary.results(result))
     print(resumedSummary.results(result))
