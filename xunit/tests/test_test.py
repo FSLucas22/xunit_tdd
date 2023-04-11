@@ -7,5 +7,5 @@ class TestTest(TestCase):
     
     def testNameIsAddedByDecorator(self) -> None:
         assert not hasattr(UnnamedTestClass, "testNames")
-        Test(UnnamedTestClass.testMethod)
+        Test(UnnamedTestClass.testMethod, UnnamedTestClass)
         assert UnnamedTestClass.testNames == "testMethod"
