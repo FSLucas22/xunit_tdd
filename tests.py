@@ -11,6 +11,10 @@ class DummyTestCase(TestCase):
 class TestCaseTest(TestCase):
     test: WasRun
     result: TestResult
+    testNames = "testTemplateMethod testResult testFailedResult testFailedResultCallsTearDown testFailedInSetUp "\
+                "testNotCompletedWhenNotFound testSummary testSuite testCompletedTests testCompletedMultipleTests "\
+                "testNotCompletedTests testPassedTests testDetailedSummary testRunnedEqualsPassedPlusFailed testSuiteFromTestCase "\
+                "testNamesFromTests"
     
     def setUp(self) -> None:
         self.result = TestResult()

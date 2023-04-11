@@ -88,7 +88,7 @@ class DetailedTestSummary:
 
 class TestCase:
     name: str
-    
+    testNames: str
     def __init__(self, name: str):
         self.name = name
 
@@ -136,7 +136,7 @@ class TestSuite:
 
 class WasRun(TestCase):
     log: str = ""
-    
+    testNames = "testMethod testBrokenMethod"
     def setUp(self) -> None:
         self.log = "setUp"
 
