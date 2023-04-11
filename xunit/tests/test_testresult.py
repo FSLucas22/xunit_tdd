@@ -1,4 +1,5 @@
-from xunit import *
+from xunit.src import *
+from xunit.tests.testclasses import *
 
 
 class TestResultTest(TestCase):
@@ -40,6 +41,7 @@ class TestResultTest(TestCase):
         suite.add(WasRun("testBrokenMethod"))
         suite.add(FailedSetUp("testMethod"))
         suite.run(self.result)
+        
         assert self.result.passedCount == 1
         assert self.result.failedCount == 1
         assert self.result.runCount == self.result.passedCount + self.result.failedCount

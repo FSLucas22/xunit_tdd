@@ -1,4 +1,5 @@
 from xunit.src import *
+from xunit.tests.testclasses import WasRun, FailedSetUp
 
 
 class TestCaseTest(TestCase):

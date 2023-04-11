@@ -1,20 +1,5 @@
 from xunit.src import *
-
-
-class DummyTestCase(TestCase):
-    testNames = "passedTest1 passedTest2 failedTest1 failedTest2"
-    
-    def passedTest1(self) -> None:
-        pass
-
-    def passedTest2(self) -> None:
-        pass
-
-    def failedTest1(self) -> None:
-        raise Exception
-
-    def failedTest2(self) -> None:
-        raise Exception
+from xunit.tests.testclasses import *
 
 
 class TestSuiteTest(TestCase):
