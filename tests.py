@@ -16,16 +16,14 @@ class TestCaseTest(TestCase):
     def testResult(self) -> None:
         test = WasRun("testMethod")
         test.run(self.result)
-        assert 1 == self.result.runCount
+        assert 1 == self.result.passedCount
         assert 0 == self.result.failedCount
         assert 0 == self.result.notCompletedCount
-        assert "testMethod" == self.result.getAllStarted()
         assert "testMethod" == self.result.getAllPassed()
 
     def testFailedResult(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
-        assert 1 == self.result.runCount
         assert 1 == self.result.failedCount
         assert 0 == self.result.notCompletedCount
         assert "testBrokenMethod" == self.result.getAllFailed()
@@ -39,7 +37,6 @@ class TestCaseTest(TestCase):
         test = FailedSetUp("testMethod")
         test.run(self.result)
         assert "tearDown" in test.log
-        assert self.result.runCount == 0
         assert self.result.failedCount == 0
         assert self.result.notCompletedCount == 1
         assert "testMethod" == self.result.getAllNotCompleted()
@@ -55,7 +52,7 @@ class TestCaseTest(TestCase):
         suite.add(WasRun("testMethod"))
         suite.add(WasRun("testBrokenMethod"))
         suite.run(self.result)
-        assert self.result.runCount == 2
+        assert self.result.passedCount == 1
         assert self.result.failedCount == 1
         assert self.result.notCompletedCount == 0
         assert "testMethod testBrokenMethod" == self.result.getAllStarted()
@@ -70,7 +67,6 @@ class TestCaseTest(TestCase):
     def testCompletedMultipleTests(self) -> None:
         self.result.testFailed("someTest")
         self.result.testFailed("someOtherTest")
-        assert self.result.getAllStarted() == "someTest someOtherTest"
         assert self.result.getAllFailed() == "someTest someOtherTest"
 
     def testNotCompletedTests(self) -> None:
