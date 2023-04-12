@@ -47,6 +47,9 @@ class TestTest(TestCase):
             @Test
             def anotherTestMethod(self) -> None:
                 pass
+
+            class notATestMethod:
+                pass
         
         assert getTestMethods(SomeTestClass) == "testMethod anotherTestMethod"
 
