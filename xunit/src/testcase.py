@@ -25,7 +25,6 @@ class TestCase:
         try:
             method()
             result.testPassed(self.name)
-        except Exception as e:
-            print(e)
+        except:
             result.testFailed(self.name)
         self.tearDown()
