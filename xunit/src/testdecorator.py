@@ -1,6 +1,5 @@
-from typing import Type, Callable, TypeVar, ParamSpec, NewType
+from typing import Type, TypeVar, ParamSpec, Callable
 from xunit.src.testcase import TestCase
-from abc import ABC, abstractmethod
 
     
 T = TypeVar('T', bound=TestCase)
