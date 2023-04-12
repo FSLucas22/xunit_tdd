@@ -3,7 +3,8 @@ from typing import Type, NewType
 
 
 class TestTest(TestCase):
-    testNames = "testDecoratorDontChangeTest testDecoratorInClassDontChangeTest"
+    testNames = "testDecoratorDontChangeTest testDecoratorReturnsInstance "\
+                "testDecoratorInClassDontChangeTest"
     test_cls: Type[TestCase]
     
     def setUp(self) -> None:
@@ -25,9 +26,9 @@ class TestTest(TestCase):
                result_after_decorator.getAllPassed()
 
 
-    def testDecoratorReturnsInstance(self) -> None:
-        Test(getattr(self.test_cls, "testMethod"))
-        assert type(getattr(self.test_cls, "testMethod")) == TestMethod
+    def testDecoratorReturnsSubClass(self) -> None:
+        cls = Test(getattr(self.test_cls, "testMethod"))
+        assert issubclass(cls, TestMethod))
         
     def testDecoratorInClassDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
