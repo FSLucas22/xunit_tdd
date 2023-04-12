@@ -38,6 +38,7 @@ class TestTest(TestCase):
                result_after_decorator.getAllPassed()
 
     def testNameIsAddedByDecorator(self) -> None:
+        @TestClass
         class SomeTestClass(TestCase):
 
             @Test
