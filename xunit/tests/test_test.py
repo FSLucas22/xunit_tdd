@@ -68,3 +68,22 @@ class TestTest(TestCase):
                 pass
 
         assert SomeTestClass.testNames == "anotherTestMethod testMethod"
+
+    @Test
+    def testCannotHaveNamesWhenDecorated(self) -> None:
+        try:
+            @TestClass
+            class SomeTestClass(TestCase):
+                testNames = "anotherTestMethod"
+                
+                @Test
+                def testMethod(self) -> None:
+                    pass
+
+                def anotherTestMethod(self) -> None:
+                    pass
+                
+        except InvalidAttributeException as e:
+            return
+        
+        raise AssertionError
