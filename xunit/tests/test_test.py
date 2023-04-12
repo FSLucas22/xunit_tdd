@@ -4,7 +4,7 @@ from typing import Type, NewType
 
 class TestTest(TestCase):
     testNames = "testDecoratorDontChangeTest testDecoratorReturnsSubClass "\
-                "testDecoratorInClassDontChangeTest testNameIsAddedByDecorator"
+                "testDecoratorInClassDontChangeTest"
     test_cls: Type[TestCase]
     
     def setUp(self) -> None:
@@ -36,6 +36,15 @@ class TestTest(TestCase):
         TestClass(self.test_cls)("testMethod").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
+
+    def testCanFindTestMethods(self) -> None:
+        class SomeTestClass(TestCase):
+
+            @Test
+            def testMethod(self) -> None:
+                pass
+
+        assert getTestMethods(SomeTestClass) == "testMethod"
 
     def testNameIsAddedByDecorator(self) -> None:
         @TestClass
