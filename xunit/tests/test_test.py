@@ -1,11 +1,8 @@
 from xunit.src import *
 from typing import Type, NewType
 
-
+@TestClass
 class TestTest(TestCase):
-    testNames = "testDecoratorDontChangeTest testDecoratorReturnsSubClass "\
-                "testDecoratorInClassDontChangeTest testCanFindTestMethods "\
-                "testNameIsAddedByDecorator"
     test_cls: Type[TestCase]
     
     def setUp(self) -> None:
@@ -14,7 +11,7 @@ class TestTest(TestCase):
                 pass
         self.test_cls = UnnamedTestClass
         
-
+    @Test
     def testDecoratorDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
@@ -26,10 +23,12 @@ class TestTest(TestCase):
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
 
+    @Test
     def testDecoratorReturnsSubClass(self) -> None:
         cls = Test(getattr(self.test_cls, "testMethod"))
         assert issubclass(cls, TestMethod)
-        
+
+    @Test    
     def testDecoratorInClassDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
@@ -38,6 +37,7 @@ class TestTest(TestCase):
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
 
+    @Test
     def testCanFindTestMethods(self) -> None:
         class SomeTestClass(TestCase):
 
@@ -54,6 +54,7 @@ class TestTest(TestCase):
         
         assert getTestMethods(SomeTestClass) == "testMethod anotherTestMethod"
 
+    @Test
     def testNameIsAddedByDecorator(self) -> None:
         @TestClass
         class SomeTestClass(TestCase):

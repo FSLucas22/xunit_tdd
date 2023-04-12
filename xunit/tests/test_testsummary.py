@@ -1,19 +1,21 @@
 from xunit.src import *
 
 
+@TestClass
 class TestSummaryTest(TestCase):
     result: TestResult
-    testNames = "testSummary testDetailedSummary testMixedSummary"
-
+    
     def setUp(self) -> None:
         self.result = TestResult()
 
+    @Test
     def testSummary(self) -> None:
         summary = SimpleTestSummary()
         self.result.testPassed("someTest")
         self.result.testNotCompleted("someTest")
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
+    @Test
     def testDetailedSummary(self) -> None:
         summary = DetailedTestSummary()
         self.result.testPassed("someOtherTest")
@@ -21,6 +23,7 @@ class TestSummaryTest(TestCase):
         self.result.testNotCompleted("someBrokenTest")
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
+    @Test
     def testMixedSummary(self) -> None:
         summariesToMix: list[TestSummary] = [
             DetailedTestSummary(), SimpleTestSummary()

@@ -2,12 +2,14 @@ from xunit.src import *
 from xunit.tests.testclasses import *
 
 
+@TestClass
 class TestSuiteTest(TestCase):
     result: TestResult
-    testNames = "testSuite testSuiteFromTestCase testNamesFromTests testSuiteFromMultipleTestCases" 
+    
     def setUp(self) -> None:
         self.result = TestResult()
-        
+
+    @Test
     def testSuite(self) -> None:
         suite = TestSuite()
         suite.add(WasRun("testMethod"))
@@ -19,6 +21,7 @@ class TestSuiteTest(TestCase):
         assert "testMethod testBrokenMethod" == self.result.getAllStarted()
         assert "testMethod" == self.result.getAllPassed()
 
+    @Test
     def testSuiteFromTestCase(self) -> None:
         individualResult = TestResult()
         assert hasattr(DummyTestCase, "passedTest1")
@@ -39,9 +42,11 @@ class TestSuiteTest(TestCase):
         assert self.result.getAllPassed() == individualResult.getAllPassed() == "passedTest1 passedTest2"
         assert self.result.getAllFailed() == individualResult.getAllFailed() == "failedTest1 failedTest2"
 
+    @Test
     def testNamesFromTests(self) -> None:
         assert DummyTestCase.testNames == "passedTest1 passedTest2 failedTest1 failedTest2"
 
+    @Test
     def testSuiteFromMultipleTestCases(self) -> None:
         individualResult = TestResult()
         

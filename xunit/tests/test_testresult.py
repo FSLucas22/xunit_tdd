@@ -2,25 +2,27 @@ from xunit.src import *
 from xunit.tests.testclasses import *
 
 
+@TestClass
 class TestResultTest(TestCase):
     result: TestResult
-    testNames = "testCompletedTests testCompletedMultipleTests testNotCompletedTests "\
-                "testPassedTests testRunnedEqualsPassedPlusFailed"
     
     def setUp(self) -> None:
         self.result = TestResult()
 
+    @Test
     def testCompletedTests(self) -> None:
         assert self.result.getAllStarted() == ""
         self.result.testFailed("someTest")
         assert self.result.getAllStarted() == "someTest"
         assert self.result.getAllFailed() == "someTest"
 
+    @Test
     def testCompletedMultipleTests(self) -> None:
         self.result.testFailed("someTest")
         self.result.testFailed("someOtherTest")
         assert self.result.getAllFailed() == "someTest someOtherTest"
 
+    @Test
     def testNotCompletedTests(self) -> None:
         assert self.result.getAllNotCompleted() == ""
         self.result.testNotCompleted("someBrokenTest")
@@ -29,12 +31,14 @@ class TestResultTest(TestCase):
         self.result.testNotCompleted("someOtherBrokenTest")
         assert self.result.getAllNotCompleted() == "someBrokenTest someOtherBrokenTest"
 
+    @Test
     def testPassedTests(self) -> None:
         assert self.result.getAllPassed() == ""
         self.result.testPassed("someTest")
         self.result.testPassed("someOtherTest")
         assert self.result.getAllPassed() == "someTest someOtherTest"
 
+    @Test
     def testRunnedEqualsPassedPlusFailed(self) -> None:
         suite = TestSuite()
         suite.add(WasRun("testMethod"))
