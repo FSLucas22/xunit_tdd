@@ -11,6 +11,10 @@ class TestMethod:
         pass
 
 
+def getTestMethods(test_cls: Type[T]) -> str:
+    return "testMethod"
+
+
 def Test(test_method: Callable[P, None]) -> Type[TestMethod]:
     return type('TestMethod', (TestMethod,), {
         '__call__': test_method
