@@ -26,4 +26,5 @@ def Test(test_method: Callable[P, None]) -> Type[TestMethod]:
 
 
 def TestClass(test_cls: Type[T]) -> Type[T]:
+    test_cls.testNames = getTestMethods(test_cls)
     return test_cls
