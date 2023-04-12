@@ -12,10 +12,11 @@ class TestMethod:
 
 
 def getTestMethods(test_cls: Type[T]) -> str:
+    names = []
     for name, value in test_cls.__dict__.items():
         if type(value) == type:
-            return name
-    return "testMethod"
+            names.append(name)
+    return ' '.join(names)
 
 
 def Test(test_method: Callable[P, None]) -> Type[TestMethod]:

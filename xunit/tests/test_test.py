@@ -47,8 +47,7 @@ class TestTest(TestCase):
             @Test
             def anotherTestMethod(self) -> None:
                 pass
-            
-        print(getTestMethods(SomeTestClass))
+        
         assert getTestMethods(SomeTestClass) == "testMethod anotherTestMethod"
 
     def testNameIsAddedByDecorator(self) -> None:
