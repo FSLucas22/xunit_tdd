@@ -38,11 +38,6 @@ class DummyTestCase(TestCase):
         raise Exception
 
 
-class UnnamedTestClass(TestCase):
-    def testMethod(self) -> None:
-        pass
-
-
 
 
 

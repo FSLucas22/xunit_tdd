@@ -1,26 +1,35 @@
 from xunit.src import *
-from xunit.tests.testclasses import UnnamedTestClass
+from typing import Type, NewType
 
 
 class TestTest(TestCase):
     testNames = "testDecoratorDontChangeTest testDecoratorInClassDontChangeTest"
+    test_cls: Type[TestCase]
+    
+    def setUp(self) -> None:
+        class UnnamedTestClass(TestCase):
+            def testMethod(self) -> None:
+                pass
+        self.test_cls = UnnamedTestClass
+        
 
     def testDecoratorDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
-        UnnamedTestClass("testMethod").run(result_before_decorator)
-        setattr(UnnamedTestClass, "testMethod", Test(
-            UnnamedTestClass.testMethod
+        self.test_cls("testMethod").run(result_before_decorator)
+        setattr(self.test_cls, "testMethod", Test(
+            getattr(self.test_cls, "testMethod")
         ))
-        UnnamedTestClass("testMethod").run(result_after_decorator)
+        self.test_cls("testMethod").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
 
+        
     def testDecoratorInClassDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
-        UnnamedTestClass("testMethod").run(result_before_decorator)
-        TestClass(UnnamedTestClass)("testMethod").run(result_after_decorator)
+        self.test_cls("testMethod").run(result_before_decorator)
+        TestClass(self.test_cls)("testMethod").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
 
