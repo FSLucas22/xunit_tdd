@@ -1,9 +1,9 @@
-from typing import Type, Callable, TypeVar
+from typing import Type, Callable, TypeVar, Generic
 from xunit.src.testcase import TestCase
 
 
-TestSubCase = TypeVar('TestSubCase', bound=TestCase)
-TestMethod = Callable[[TestSubCase], None]
+T = TypeVar('T', bound=TestCase)
 
-def Test(test_method: TestMethod[TestSubCase]) -> TestMethod[TestSubCase]:
+
+def Test(test_method: Callable[[T], None]) -> Callable[[T], None]:
     return test_method

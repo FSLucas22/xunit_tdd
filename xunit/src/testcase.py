@@ -4,6 +4,7 @@ from xunit.src.testresult import TestResult
 class TestCase:
     name: str
     testNames: str
+
     def __init__(self, name: str):
         self.name = name
 
