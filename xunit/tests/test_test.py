@@ -57,9 +57,12 @@ class TestTest(TestCase):
     def testNameIsAddedByDecorator(self) -> None:
         @TestClass
         class SomeTestClass(TestCase):
-
+            testNames = "anotherTestMethod"
             @Test
             def testMethod(self) -> None:
                 pass
 
-        assert SomeTestClass.testNames == "testMethod"
+            def anotherTestMethod(self) -> None:
+                pass
+
+        assert SomeTestClass.testNames == "anotherTestMethod testMethod"
