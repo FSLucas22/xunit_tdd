@@ -4,22 +4,32 @@ from typing import Type, NewType
 @TestClass
 class TestTest(TestCase):
     test_cls: Type[TestCase]
+
+    testNames = "testDecoratorDontChangeTest"
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):
             def testMethod(self) -> None:
                 pass
+
+            def brokenMethod(self) -> None:
+                raise Exception
+            
         self.test_cls = UnnamedTestClass
         
-    @Test
     def testDecoratorDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
         self.test_cls("testMethod").run(result_before_decorator)
+        self.test_cls("brokenMethod").run(result_before_decorator)
         setattr(self.test_cls, "testMethod", Test(
             getattr(self.test_cls, "testMethod")
         ))
+        setattr(self.test_cls, "brokenMethod", Test(
+            getattr(self.test_cls, "brokenMethod")
+        ))
         self.test_cls("testMethod").run(result_after_decorator)
+        self.test_cls("brokenMethod").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
 
@@ -72,6 +82,8 @@ class TestTest(TestCase):
     @Test
     def testCannotHaveNamesWhenDecorated(self) -> None:
         try:
+            raise AssertionError
+        
             @TestClass
             class SomeTestClass(TestCase):
                 testNames = "anotherTestMethod"
@@ -82,8 +94,9 @@ class TestTest(TestCase):
 
                 def anotherTestMethod(self) -> None:
                     pass
+
+            
                 
         except InvalidAttributeException as e:
             return
         
-        raise AssertionError
