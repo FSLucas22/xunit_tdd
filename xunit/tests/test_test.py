@@ -4,7 +4,7 @@ from typing import Type, NewType
 
 class TestTest(TestCase):
     testNames = "testDecoratorDontChangeTest testDecoratorReturnsSubClass "\
-                "testDecoratorInClassDontChangeTest"
+                "testDecoratorInClassDontChangeTest testNameIsAddedByDecorator"
     test_cls: Type[TestCase]
     
     def setUp(self) -> None:
