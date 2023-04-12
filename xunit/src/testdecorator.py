@@ -12,6 +12,9 @@ class TestMethod:
 
 
 def getTestMethods(test_cls: Type[T]) -> str:
+    for name, value in test_cls.__dict__.items():
+        if type(value) == type:
+            return name
     return "testMethod"
 
 
