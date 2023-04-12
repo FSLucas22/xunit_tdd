@@ -24,6 +24,10 @@ class TestTest(TestCase):
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
 
+
+    def testDecoratorReturnsInstance(self) -> None:
+        Test(getattr(self.test_cls, "testMethod"))
+        assert type(getattr(self.test_cls, "testMethod")) == TestMethod
         
     def testDecoratorInClassDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
