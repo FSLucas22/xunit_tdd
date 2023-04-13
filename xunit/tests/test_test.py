@@ -5,9 +5,7 @@ from typing import Type, NewType
 class TestTest(TestCase):
     test_cls: Type[TestCase]
 
-    testNames = "testDecoratorReturnsFlag testDecoratorDontChangeTest "\
-                "testDecoratorInClassDontChangeTest testCanFindTestMethods "\
-                "testIsEqualWithNewSintax"
+    testNames = "testIsEqualWhenFailsInSetUp"
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):
@@ -18,7 +16,8 @@ class TestTest(TestCase):
                 raise Exception
             
         self.test_cls = UnnamedTestClass
-        
+    
+    @Test    
     def testDecoratorDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
@@ -36,7 +35,8 @@ class TestTest(TestCase):
                result_after_decorator.getAllPassed()
         assert result_before_decorator.getAllFailed() ==\
                result_after_decorator.getAllFailed()
-
+        
+    @Test
     def testDecoratorReturnsFlag(self) -> None:
         test_method = Test(getattr(self.test_cls, "testMethod"))
         attr = getattr(test_method, "_is_test_method")
@@ -55,6 +55,7 @@ class TestTest(TestCase):
         assert result_before_decorator.getAllFailed() ==\
                result_after_decorator.getAllFailed()
 
+    @Test
     def testCanFindTestMethods(self) -> None:
         class SomeTestClass(TestCase):
 
@@ -70,7 +71,8 @@ class TestTest(TestCase):
                 pass
         
         assert getTestMethods(SomeTestClass) == "testMethod anotherTestMethod"
-
+        
+    @Test
     def testIsEqualWithNewSintax(self) -> None:
         @TestClass
         class UnnamedTestClass(TestCase):
@@ -118,7 +120,7 @@ class TestTest(TestCase):
         suite.run(result)
         assert result.passedCount == 1
         assert result.failedCount == 1
-        assert result.notCompletedCount == 1
+        assert result.notCompletedCount == 2
         
 
     @Test
@@ -151,9 +153,7 @@ class TestTest(TestCase):
 
                 def anotherTestMethod(self) -> None:
                     pass
-
-            
-                
+      
         except InvalidAttributeException as e:
             return
         
