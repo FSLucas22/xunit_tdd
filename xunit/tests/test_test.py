@@ -140,8 +140,6 @@ class TestTest(TestCase):
     @Test
     def testCannotHaveNamesWhenDecorated(self) -> None:
         try:
-            raise AssertionError
-        
             @TestClass
             class SomeTestClass(TestCase):
                 testNames = "anotherTestMethod"
@@ -155,4 +153,6 @@ class TestTest(TestCase):
       
         except InvalidAttributeException as e:
             return
+
+        raise AssertionError
         
