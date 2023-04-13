@@ -11,3 +11,5 @@ class TestErrorInfo:
         self.line_number = info.lineno or 0
         self.exception_type = type(error)
         self.path = info.filename
+        print(''.join(traceback.format_exception(
+            type(error), error, error.__traceback__)))
