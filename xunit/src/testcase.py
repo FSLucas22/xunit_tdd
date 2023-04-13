@@ -1,5 +1,5 @@
 from xunit.src.testresult import TestResult
-
+from xunit.src.testerrorinfo import TestErrorInfo
 
 class TestCase:
     name: str
@@ -18,13 +18,15 @@ class TestCase:
         try:
             self.setUp()
             method = getattr(self, self.name)
-        except:
-            result.testNotCompleted(self.name)
+        except Exception as e:
+            error_info = TestErrorInfo(e, 1, "")
+            result.testNotCompleted(self.name, error_info)
             self.tearDown()
             return
         try:
             method()
             result.testPassed(self.name)
-        except:
-            result.testFailed(self.name)
+        except Exception as e:
+            error_info = TestErrorInfo(e, 1, "")
+            result.testFailed(self.name, error_info)
         self.tearDown()

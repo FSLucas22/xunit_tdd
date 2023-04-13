@@ -1,5 +1,5 @@
 from xunit.src.log import Log
-
+from xunit.src.testerrorinfo import TestErrorInfo
 
 class TestResult:
     failed: Log
@@ -11,13 +11,14 @@ class TestResult:
         self.notCompleted = Log()
         self.passed = Log()
         
-    def testNotCompleted(self, test_name: str) -> None:
+    def testNotCompleted(self, test_name: str,
+                         error_info: TestErrorInfo) -> None:
         self.notCompleted.register(test_name)
 
     def testPassed(self, test_name: str) -> None:
         self.passed.register(test_name)
 
-    def testFailed(self, test_name: str) -> None:
+    def testFailed(self, test_name: str, error_info: TestErrorInfo) -> None:
         self.failed.register(test_name)
 
     @property
