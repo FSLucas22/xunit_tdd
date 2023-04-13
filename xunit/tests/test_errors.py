@@ -11,3 +11,4 @@ class TestErrors(TestCase):
         except Exception as e:
             info = TestErrorInfo(e)
             assert info.line_number == 10
+            assert info.exception_type == Exception
