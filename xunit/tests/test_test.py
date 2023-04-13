@@ -4,8 +4,6 @@ from typing import Type, NewType
 @TestClass
 class TestTest(TestCase):
     test_cls: Type[TestCase]
-
-    testNames = "testIsEqualWhenFailsInSetUp"
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):
@@ -90,6 +88,7 @@ class TestTest(TestCase):
         assert result.getAllPassed() == "testMethod"
         assert result.getAllFailed() == "brokenMethod"
 
+    @Test
     def testIsEqualWhenFailsInSetUp(self) -> None:
         @TestClass
         class BrokenUnnamedTestClass(TestCase):
