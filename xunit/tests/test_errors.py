@@ -12,4 +12,4 @@ class TestErrors(TestCase):
             info = TestErrorInfo(e)
             assert info.line_number == 10
             assert info.exception_type == InvalidAttributeException
-            
+            assert info.path == __file__
