@@ -5,7 +5,8 @@ from typing import Type, NewType
 class TestTest(TestCase):
     test_cls: Type[TestCase]
 
-    testNames = "testDecoratorReturnsFlag testDecoratorDontChangeTest testDecoratorInClassDontChangeTest"
+    testNames = "testDecoratorReturnsFlag testDecoratorDontChangeTest "\
+                "testDecoratorInClassDontChangeTest testCanFindTestMethods"
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):
@@ -53,7 +54,6 @@ class TestTest(TestCase):
         assert result_before_decorator.getAllFailed() ==\
                result_after_decorator.getAllFailed()
 
-    @Test
     def testCanFindTestMethods(self) -> None:
         class SomeTestClass(TestCase):
 
