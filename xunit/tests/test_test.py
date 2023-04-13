@@ -5,7 +5,7 @@ from typing import Type, NewType
 class TestTest(TestCase):
     test_cls: Type[TestCase]
 
-    testNames = "testDecoratorReturnsFlag"
+    testNames = "testDecoratorReturnsFlag testDecoratorDontChangeTest"
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):

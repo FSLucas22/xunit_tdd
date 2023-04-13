@@ -23,6 +23,7 @@ def Test(test_method: Callable[P, None]) -> Callable[P, None]:
     setattr(test_method, '_is_test_method', True)
     return test_method
 
+
 def TestClass(test_cls: Type[T]) -> Type[T]:
     testNames = getTestMethods(test_cls)
     if hasattr(test_cls, 'testNames') and test_cls.testNames != '':
