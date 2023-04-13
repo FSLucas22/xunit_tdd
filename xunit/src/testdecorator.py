@@ -1,5 +1,6 @@
 from typing import Type, TypeVar, ParamSpec, Callable
 from xunit.src.testcase import TestCase
+from xunit.src.testexceptions import InvalidAttributeException
 
     
 T = TypeVar('T', bound=TestCase)
@@ -20,8 +21,10 @@ def Test(test_method: Callable[P, None]) -> Callable[P, None]:
 
 
 def TestClass(test_cls: Type[T]) -> Type[T]:
-    testNames = getTestMethods(test_cls)
-    if hasattr(test_cls, 'testNames') and test_cls.testNames != '':
-        testNames = test_cls.testNames + ' ' + testNames
-    test_cls.testNames = testNames
+    if hasattr(test_cls, 'testNames'):
+        raise InvalidAttributeException(
+            "Class decorated with @TestClass cannot contain 'testName' attribute"
+        )
+    
+    test_cls.testNames = getTestMethods(test_cls)
     return test_cls
