@@ -37,7 +37,8 @@ class TestTest(TestCase):
 
     def testDecoratorReturnsFlag(self) -> None:
         test_method = Test(getattr(self.test_cls, "testMethod"))
-        assert test_method._is_test_method == True
+        attr = getattr(test_method, "_is_test_method")
+        assert attr
 
     @Test    
     def testDecoratorInClassDontChangeTest(self) -> None:
