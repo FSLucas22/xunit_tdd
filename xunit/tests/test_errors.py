@@ -15,3 +15,11 @@ class TestErrors(TestCase):
             assert info.exception_type == InvalidAttributeException
             assert info.path == __file__
             assert info.error_info == "Test"
+
+    @Test
+    def testResultAcceptsErroInfo(self) -> None:
+        e = Exception()
+        info = TestErrorInfo(e, 11, "Test")
+        result = TestResult()
+        result.testFailed("testMethod", info)
+        result.testNotCompleted("testMethod", info)
