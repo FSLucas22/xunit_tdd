@@ -14,7 +14,7 @@ class TestMethod:
 def getTestMethods(test_cls: Type[T]) -> str:
     names = []
     for name, value in test_cls.__dict__.items():
-        if type(value) == type and issubclass(value, TestMethod):
+        if hasattr(value, '_is_test_method') and value._is_test_method:
             names.append(name)
     return ' '.join(names)
 
