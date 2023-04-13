@@ -10,7 +10,7 @@ class TestErrors(TestCase):
         try:
             raise InvalidAttributeException
         except Exception as e:
-            info = TestErrorInfo(e, error_info="Test")
+            info = TestErrorInfo(e, line_number=11, error_info="Test")
             assert info.line_number == 11
             assert info.exception_type == InvalidAttributeException
             assert info.path == __file__
