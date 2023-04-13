@@ -6,11 +6,6 @@ T = TypeVar('T', bound=TestCase)
 P = ParamSpec('P')
 
 
-class TestMethod:
-    def __call__(self) -> None:
-        pass
-
-
 def getTestMethods(test_cls: Type[T]) -> str:
     names = []
     for name, value in test_cls.__dict__.items():
