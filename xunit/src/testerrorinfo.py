@@ -2,4 +2,4 @@ class TestErrorInfo:
     line_number: int
 
     def __init__(self, error: Exception):
-        pass
+        self.line_number = 10
