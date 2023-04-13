@@ -87,6 +87,38 @@ class TestTest(TestCase):
         suite.run(result)
         assert result.getAllPassed() == "testMethod"
         assert result.getAllFailed() == "brokenMethod"
+
+    def testIsEqualWhenFailsInSetUp(self) -> None:
+        @TestClass
+        class BrokenUnnamedTestClass(TestCase):
+            def setUp(self) -> None:
+                raise Exception
+            
+            @Test
+            def testMethod(self) -> None:
+                pass
+
+            @Test
+            def brokenMethod(self) -> None:
+                raise Exception
+
+        @TestClass
+        class UnnamedTestClass(TestCase):
+            
+            @Test
+            def testMethod1(self) -> None:
+                pass
+
+            @Test
+            def brokenMethod1(self) -> None:
+                raise Exception
+
+        suite = TestSuite.fromTestCase(BrokenUnnamedTestClass, UnnamedTestClass)
+        result = TestResult()
+        suite.run(result)
+        assert result.passedCount == 1
+        assert result.failedCount == 1
+        assert result.notCompletedCount == 1
         
 
     @Test
