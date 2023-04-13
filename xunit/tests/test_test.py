@@ -32,6 +32,8 @@ class TestTest(TestCase):
         self.test_cls("brokenMethod").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
+        assert result_before_decorator.getAllFailed() ==\
+               result_after_decorator.getAllFailed()
 
     @Test
     def testDecoratorReturnsSubClass(self) -> None:
@@ -44,6 +46,10 @@ class TestTest(TestCase):
         result_after_decorator = TestResult()
         self.test_cls("testMethod").run(result_before_decorator)
         TestClass(self.test_cls)("testMethod").run(result_after_decorator)
+        print(self.test_cls)
+        print('before:',result_before_decorator.getAllPassed())
+        print('after:',result_after_decorator.getAllPassed())
+        
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
 
@@ -77,7 +83,7 @@ class TestTest(TestCase):
             def anotherTestMethod(self) -> None:
                 pass
 
-        assert SomeTestClass.testNames == "anotherTestMethod testMethod"
+        assert SomeTestClass.testNames == "testMethod anotherTestMethod"
 
     @Test
     def testCannotHaveNamesWhenDecorated(self) -> None:
