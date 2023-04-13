@@ -6,7 +6,8 @@ class TestTest(TestCase):
     test_cls: Type[TestCase]
 
     testNames = "testDecoratorReturnsFlag testDecoratorDontChangeTest "\
-                "testDecoratorInClassDontChangeTest testCanFindTestMethods"
+                "testDecoratorInClassDontChangeTest testCanFindTestMethods "\
+                "testIsEqualWithNewSintax"
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):
@@ -69,6 +70,24 @@ class TestTest(TestCase):
                 pass
         
         assert getTestMethods(SomeTestClass) == "testMethod anotherTestMethod"
+
+    def testIsEqualWithNewSintax(self) -> None:
+        @TestClass
+        class UnnamedTestClass(TestCase):
+            @Test
+            def testMethod(self) -> None:
+                pass
+
+            @Test
+            def brokenMethod(self) -> None:
+                raise Exception
+
+        suite = TestSuite.fromTestCase(UnnamedTestClass)
+        result = TestResult()
+        suite.run(result)
+        assert result.getAllPassed() == "testMethod"
+        assert result.getAllFailed() == "brokenMethod"
+        
 
     @Test
     def testNameIsAddedByDecorator(self) -> None:
