@@ -36,9 +36,9 @@ class TestTest(TestCase):
                result_after_decorator.getAllFailed()
 
     @Test
-    def testDecoratorReturnsSubClass(self) -> None:
-        cls = Test(getattr(self.test_cls, "testMethod"))
-        assert issubclass(cls, TestMethod)
+    def testDecoratorReturnsFlag(self) -> None:
+        test_method = Test(getattr(self.test_cls, "testMethod"))
+        assert test_method._is_test_method == True
 
     @Test    
     def testDecoratorInClassDontChangeTest(self) -> None:
