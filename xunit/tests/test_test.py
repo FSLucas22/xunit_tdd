@@ -5,7 +5,7 @@ from typing import Type, NewType
 class TestTest(TestCase):
     test_cls: Type[TestCase]
 
-    testNames = "testDecoratorReturnsFlag testDecoratorDontChangeTest"
+    testNames = "testDecoratorReturnsFlag testDecoratorDontChangeTest testDecoratorInClassDontChangeTest"
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):
@@ -39,8 +39,7 @@ class TestTest(TestCase):
         test_method = Test(getattr(self.test_cls, "testMethod"))
         attr = getattr(test_method, "_is_test_method")
         assert attr
-
-    @Test    
+   
     def testDecoratorInClassDontChangeTest(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
