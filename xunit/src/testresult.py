@@ -48,6 +48,9 @@ class TestResult:
     def getAllFailed(self) -> str:
         return self.failed.executed
 
+    def getAllFailedErrors(self) -> list[TestErrorInfo]:
+        return []
+
     def getAllPassed(self) -> str:
         return self.passed.executed
 
