@@ -6,16 +6,19 @@ class TestResult:
     passed: Log
     notCompleted: Log
     failedErrors: list[TestErrorInfo]
+    notCompletedErrors: list[TestErrorInfo]
     
     def __init__(self) -> None:
         self.failed = Log()
         self.notCompleted = Log()
         self.passed = Log()
         self.failedErrors = []
+        self.notCompletedErrors = []
         
     def testNotCompleted(self, test_name: str,
                          error_info: TestErrorInfo) -> None:
         self.notCompleted.register(test_name)
+        self.notCompletedErrors.append(error_info)
 
     def testPassed(self, test_name: str) -> None:
         self.passed.register(test_name)
