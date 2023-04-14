@@ -52,3 +52,22 @@ class TestResultTest(TestCase):
         assert self.result.failedCount == 1
         assert self.result.runCount == self.result.passedCount + self.result.failedCount
         assert self.result.getAllStarted() == 'testMethod testBrokenMethod'
+
+    @Test
+    def testFailedErrors(self) -> None:
+        assert self.result.getAllFailedErrors() == []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
