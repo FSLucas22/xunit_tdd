@@ -9,7 +9,7 @@ class TestResultTest(TestCase):
     
     def setUp(self) -> None:
         self.result = TestResult()
-        self.error_info = TestErrorInfo(Exception(), 1, "")
+        self.error_info = TestErrorInfo(Exception(), 1, "", "")
 
     @Test
     def testCompletedTests(self) -> None:

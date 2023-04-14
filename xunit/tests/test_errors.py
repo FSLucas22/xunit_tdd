@@ -21,7 +21,7 @@ class TestErrors(TestCase):
     @Test
     def testResultAcceptsErroInfo(self) -> None:
         e = Exception()
-        info = TestErrorInfo(e, 11, "Test")
+        info = TestErrorInfo(e, 11, "Test", "testResultAcceptsErroInfo")
         result = TestResult()
         result.testFailed("testMethod", info)
         result.testNotCompleted("testMethod", info)

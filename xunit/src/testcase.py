@@ -19,7 +19,7 @@ class TestCase:
             self.setUp()
             method = getattr(self, self.name)
         except Exception as e:
-            error_info = TestErrorInfo(e, 1, "")
+            error_info = TestErrorInfo(e, 1, "", "")
             result.testNotCompleted(self.name, error_info)
             self.tearDown()
             return
@@ -27,6 +27,6 @@ class TestCase:
             method()
             result.testPassed(self.name)
         except Exception as e:
-            error_info = TestErrorInfo(e, 1, "")
+            error_info = TestErrorInfo(e, 1, "", "")
             result.testFailed(self.name, error_info)
         self.tearDown()
