@@ -55,9 +55,9 @@ class TestResultTest(TestCase):
 
     @Test
     def testFailedErrors(self) -> None:
-        assert self.result.getAllFailedErrors() == []
+        assert self.result.failedErrors == []
         self.result.testFailed("someTest", self.error_info)
-        assert self.result.getAllFailedErrors() == [self.error_info]
+        assert self.result.failedErrors == [self.error_info]
 
 
 
