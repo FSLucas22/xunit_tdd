@@ -7,8 +7,10 @@ class TestErrorInfo:
     exception_type: Type[Exception]
     path: str | None
     error_info: str
+    test_name: str | None
     
-    def __init__(self, error: Exception, line_number: int, error_info: str):
+    def __init__(self, error: Exception, line_number: int,
+                 error_info: str, test_name: str | None = None):
         self.line_number = line_number
         self.error_info = error_info
         self.exception_type = type(error)
