@@ -5,11 +5,13 @@ class TestResult:
     failed: Log
     passed: Log
     notCompleted: Log
+    failedErrors: list[TestErrorInfo]
     
     def __init__(self) -> None:
         self.failed = Log()
         self.notCompleted = Log()
         self.passed = Log()
+        self.failedErrors = []
         
     def testNotCompleted(self, test_name: str,
                          error_info: TestErrorInfo) -> None:
@@ -20,6 +22,7 @@ class TestResult:
 
     def testFailed(self, test_name: str, error_info: TestErrorInfo) -> None:
         self.failed.register(test_name)
+        self.failedErrors.append(error_info)
 
     @property
     def runCount(self) -> int:
@@ -49,7 +52,7 @@ class TestResult:
         return self.failed.executed
 
     def getAllFailedErrors(self) -> list[TestErrorInfo]:
-        return []
+        return self.failedErrors
 
     def getAllPassed(self) -> str:
         return self.passed.executed
