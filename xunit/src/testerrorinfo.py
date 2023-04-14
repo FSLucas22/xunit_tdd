@@ -14,6 +14,7 @@ class TestErrorInfo:
         self.line_number = line_number
         self.error_info = error_info
         self.exception_type = type(error)
+        self.test_name = test_name
         try:
             info = traceback.extract_tb(error.__traceback__)[-1]
             self.path = info.filename
