@@ -42,7 +42,9 @@ class TestSummaryTest(TestCase):
     def testErrorInfoSummaryForFailedTest(self) -> None:
         summary = ErrorInfoSummary()
         test = MockTestCase("testMethod", Exception())
+        test2 = MockTestCase("testMethod2", Exception())
         test.run(self.result)
-        error_info: TestErrorInfo = self.result.failedErrors[0]
-        assert summary.results(self.result) == f"testMethod - Failed\n{error_info.error_info}"
+        test2.run(self.result)
+        error_info = self.result.failedErrors
+        assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].error_info}\ntestMethod2 - Failed\n{error_info[1].error_info}"
         
