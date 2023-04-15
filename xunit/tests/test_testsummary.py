@@ -1,5 +1,6 @@
 from xunit.src import *
 from xunit.tests.testclasses import *
+import colorama
 
 
 @TestClass
@@ -58,4 +59,21 @@ class TestSummaryTest(TestCase):
         failed_info = self.result.failedErrors[0]
         notCompleted_info = self.result.notCompletedErrors[0]
         assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.error_info}\ntestMethod - Not completed\n{notCompleted_info.error_info}"
+
+    def testColors(self) -> None:
+        colorama.init()
+        print(colorama.Fore.RED + "ERROR")
+        print(colorama.Fore.GREEN + "PASSED")
+        print(colorama.Style.RESET_ALL, end=' ')
+
+
+
+
+
+
+
+
+
+
+
         
