@@ -60,6 +60,17 @@ class TestSummaryTest(TestCase):
         notCompleted_info = self.result.notCompletedErrors[0]
         assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.error_info}\ntestMethod - Not completed\n{notCompleted_info.error_info}"
 
+    @Test
+    def testFormatMesseges(self) -> None:
+        failed_formatter = lambda messege: "{F}" + messege
+        passed_formatter = lambda messege: "{P}" + messege
+        notCompleted_formatter = lambda messege: "{NC}" + messege
+        summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, notCompleted_formatter=notCompleted_formatter)
+        self.result.testPassed("passedTest")
+        self.result.testFailed("failedTest", self.error_info)
+        self.result.testnotCompleted("notCompletedTest", self.error_info)
+        assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}notCompletedTest - Not completed"
+
     def testColors(self) -> None:
         colorama.init()
         print(colorama.Fore.RED + "ERROR")
