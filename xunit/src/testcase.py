@@ -1,5 +1,7 @@
 from xunit.src.testresult import TestResult
 from xunit.src.testerrorinfo import TestErrorInfo
+from typing import Type
+
 
 class TestCase:
     name: str
@@ -14,7 +16,9 @@ class TestCase:
     def tearDown(self) -> None:
         pass
 
-    def run(self, result: TestResult) -> None:
+    def run(self, result: TestResult,
+            error_info_class: Type[TestErrorInfo] = TestErrorInfo
+            ) -> None:
         try:
             self.setUp()
             method = getattr(self, self.name)
