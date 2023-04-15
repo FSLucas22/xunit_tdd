@@ -23,7 +23,7 @@ class TestCase:
             self.setUp()
             method = getattr(self, self.name)
         except Exception as e:
-            error_info = TestErrorInfo(e, 1, "", "")
+            error_info = error_info_class.fromException(e)
             result.testNotCompleted(self.name, error_info)
             self.tearDown()
             return
