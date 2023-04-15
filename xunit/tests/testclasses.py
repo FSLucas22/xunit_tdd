@@ -43,7 +43,8 @@ class MockTestErrorInfo(TestErrorInfo):
     exception_passed: Exception
 
     def __init__(self, calls: int, exception_passed: Exception) -> None:
-        pass
+        self.calls = calls
+        self.exception_passed = exception_passed
     
     @staticmethod
     def fromException(error: Exception) -> 'MockTestErrorInfo':
