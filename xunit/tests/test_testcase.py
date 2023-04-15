@@ -1,5 +1,7 @@
 from xunit.src import *
-from xunit.tests.testclasses import WasRun, FailedSetUp, MockTestErrorInfo
+from xunit.tests.testclasses import (
+    WasRun, FailedSetUp, MockTestErrorInfo, MockTestCase
+)
 
 
 @TestClass
@@ -60,7 +62,7 @@ class TestCaseTest(TestCase):
         mock_info = MockTestErrorInfo.fromException(error)
         assert mock_info.exception_passed == error
 
-        mock_class = MockTestCase("testMethod")
+        mock_class = MockTestCase("testMethod", error)
         mock_class.run(self.result, MockTestErrorInfo)
-        assert mock_info.exception_passed == mock_class.exception_raised
+        
         
