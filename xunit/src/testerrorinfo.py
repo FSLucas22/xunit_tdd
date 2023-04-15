@@ -1,5 +1,5 @@
 import traceback
-from typing import Type, Self
+from typing import Type, Protocol
 
 
 class TestErrorInfo:
@@ -33,5 +33,11 @@ class TestErrorInfo:
 
     def __str__(self) -> str:
         return f"TestErrorInfo({self.line_number}, {self.test_name}, {self.error_info})"
+
+
+class ErrorInfoFactory(Protocol):
+    def __call__(self, error: Exception,/,test_name: str | None =...
+                 ) -> TestErrorInfo:
+        pass
 
         

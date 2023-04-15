@@ -1,5 +1,5 @@
 from xunit.src.testresult import TestResult
-from xunit.src.testerrorinfo import TestErrorInfo
+from xunit.src.testerrorinfo import TestErrorInfo, ErrorInfoFactory
 from typing import Callable
 
 
@@ -17,13 +17,13 @@ class TestCase:
         pass
 
     def run(self, result: TestResult,
-            error_info_factory: Callable[[Exception], TestErrorInfo] = TestErrorInfo.fromException
+            error_info_factory: ErrorInfoFactory = TestErrorInfo.fromException
             ) -> None:
         try:
             self.setUp()
             method = getattr(self, self.name)
         except Exception as e:
-            error_info = error_info_factory(e)
+            error_info = error_info_factory(e, self.name)
             result.testNotCompleted(self.name, error_info)
             self.tearDown()
             return
@@ -31,6 +31,6 @@ class TestCase:
             method()
             result.testPassed(self.name)
         except Exception as e:
-            error_info = error_info_factory(e)
+            error_info = error_info_factory(e, self.name)
             result.testFailed(self.name, error_info)
         self.tearDown()
