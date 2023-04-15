@@ -1,18 +1,35 @@
-from typing import Protocol
+from typing import Protocol, Callable
 from xunit.src.testresult import TestResult
+from abc import ABC, abstractmethod
 
 
 class TestSummary(Protocol):
     def results(self, result: TestResult) -> str:
         pass
 
+
+formatter = Callable[[str], str]
+
+
+class Summary(ABC):
+    def __init__(self, passed_formatter: formatter = lambda messege: messege,
+                       failed_formatter: formatter = lambda messege: messege,
+                       notCompleted_formatter: formatter = lambda messege: messege):
+        self.passed_formater = passed_formatter
+        self.failed_formatter = failed_formatter
+        self.notCompletedFormatter = notCompleted_formatter
+
+    @abstractmethod
+    def results(self, result: TestResult) -> str:
+        pass
+    
     
 class SimpleTestSummary:
     def results(self, result: TestResult) -> str:
         return f"{result.runCount} run, {result.failedCount} failed, {result.notCompletedCount} not completed"
 
 
-class PassedSummary:
+class PassedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
         for test in result.getAllPassed().split():
@@ -20,7 +37,7 @@ class PassedSummary:
         return '\n'.join(results)
 
 
-class FailedSummary:
+class FailedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
         for test in result.getAllFailed().split():
@@ -28,7 +45,7 @@ class FailedSummary:
         return '\n'.join(results)
 
 
-class NotCompletedSummary:
+class NotCompletedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
         for test in result.getAllNotCompleted().split():
@@ -36,7 +53,7 @@ class NotCompletedSummary:
         return '\n'.join(results)
 
 
-class DetailedTestSummary:
+class DetailedTestSummary(Summary):
     def results(self, result: TestResult) -> str:
         summary = [
             FailedSummary().results(result),
@@ -57,7 +74,7 @@ class MixedTestSummary:
         return '\n'.join(summary_results)
 
 
-class ErrorInfoSummary:
+class ErrorInfoSummary(Summary):
     def results(self, result: TestResult) -> str:
         errors = []
         for error_info in result.failedErrors:
