@@ -1,5 +1,5 @@
 from xunit.src import *
-from xunit.tests.testclasses import WasRun, FailedSetUp
+from xunit.tests.testclasses import WasRun, FailedSetUp, MockTestErrorInfo
 
 
 @TestClass
@@ -9,17 +9,16 @@ class TestCaseTest(TestCase):
     
     def setUp(self) -> None:
         self.result = TestResult()
+        self.test = WasRun("testMethod")
 
     @Test
     def testTemplateMethod(self) -> None:
-        self.test = WasRun("testMethod")
         self.test.run(self.result)
         assert self.test.log == "setUp testMethod tearDown"
 
     @Test
     def testResult(self) -> None:
-        test = WasRun("testMethod")
-        test.run(self.result)
+        self.test.run(self.result)
         assert 1 == self.result.passedCount
         assert 0 == self.result.failedCount
         assert 0 == self.result.notCompletedCount
@@ -54,3 +53,11 @@ class TestCaseTest(TestCase):
         test = WasRun("testBrokenMethod")
         test.run(self.result)
         assert "tearDown" in test.log
+
+    @Test
+    def testFailedResultPassesException(self) -> None:
+        error = Exception()
+        mock_info = MockTestErrorInfo.fromException(error)
+        assert mock_info.calls == 1
+        assert mock_info.exception_passed == error
+        
