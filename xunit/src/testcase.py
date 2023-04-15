@@ -31,6 +31,6 @@ class TestCase:
             method()
             result.testPassed(self.name)
         except Exception as e:
-            error_info = TestErrorInfo(e, 1, "", "")
+            error_info = error_info_class.fromException(e)
             result.testFailed(self.name, error_info)
         self.tearDown()

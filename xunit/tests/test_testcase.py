@@ -68,7 +68,8 @@ class TestCaseTest(TestCase):
         assert mock_class.exception_raised == error
         
         error_info = cast(MockTestErrorInfo, self.result.failedErrors[0])
-        assert error_info.exception_passed == error
+        assert error == error_info.exception_passed
+
         
 
         
