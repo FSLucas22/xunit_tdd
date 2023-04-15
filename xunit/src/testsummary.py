@@ -37,4 +37,5 @@ class MixedTestSummary:
 
 class ErrorInfoSummary:
     def results(self, result: TestResult) -> str:
-        return ""
+        error_info = result.failedErrors[0]
+        return f"{error_info.test_name} - Failed\n{error_info.error_info}"

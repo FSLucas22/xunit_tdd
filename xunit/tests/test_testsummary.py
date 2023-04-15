@@ -44,7 +44,5 @@ class TestSummaryTest(TestCase):
         test = MockTestCase("testMethod", Exception())
         test.run(self.result)
         error_info: TestErrorInfo = self.result.failedErrors[0]
-        assert summary.results(self.result) == f"""testMethod - Failed
-        {error_info.error_info}
-        """
+        summary.results(self.result) == f"testMethod - Failed\n{error_info.error_info}"
         

@@ -31,4 +31,7 @@ class TestErrorInfo:
         test_name = info[2]
         return TestErrorInfo(error, line_number, error_info, test_name)
 
+    def __str__(self) -> str:
+        return f"TestErrorInfo({self.line_number}, {self.test_name}, {self.error_info})"
+
         
