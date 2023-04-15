@@ -59,4 +59,8 @@ class TestCaseTest(TestCase):
         error = Exception()
         mock_info = MockTestErrorInfo.fromException(error)
         assert mock_info.exception_passed == error
+
+        mock_class = MockTestCase("testMethod")
+        mock_class.run(self.result, MockTestErrorInfo)
+        assert mock_info.exception_passed == mock_class.exception_raised
         
