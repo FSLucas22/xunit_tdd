@@ -2,6 +2,7 @@ from xunit.src import *
 from xunit.tests.testclasses import (
     WasRun, FailedSetUp, MockTestErrorInfo, MockTestCase
 )
+from typing import cast
 
 
 @TestClass
@@ -63,8 +64,14 @@ class TestCaseTest(TestCase):
         assert mock_info.exception_passed == error
 
         mock_class = MockTestCase("testMethod", error)
-        mock_class.run(self.result)
+        mock_class.run(self.result, MockTestErrorInfo)
         assert mock_class.exception_raised == error
+        
+        error_info = cast(MockTestErrorInfo, self.result.failedErrors[0])
+        assert error_info.exception_passed == error
+        
+
+        
         
         
         
