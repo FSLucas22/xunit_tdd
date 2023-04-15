@@ -68,7 +68,7 @@ class TestSummaryTest(TestCase):
         summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, notCompleted_formatter=notCompleted_formatter)
         self.result.testPassed("passedTest")
         self.result.testFailed("failedTest", self.error_info)
-        self.result.testnotCompleted("notCompletedTest", self.error_info)
+        self.result.testNotCompleted("notCompletedTest", self.error_info)
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}notCompletedTest - Not completed"
 
     def testColors(self) -> None:
