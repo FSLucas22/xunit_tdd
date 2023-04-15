@@ -60,6 +60,20 @@ class MockTestCase(TestCase):
         raise self.exception_raised
 
 
+class MockBrokenTestCase(TestCase):
+    exception_raised: Exception
+
+    def __init__(self, name: str, exception: Exception) -> None:
+        self.exception_raised = exception
+        super().__init__(name)
+
+    def setUp(self) -> None:
+        raise self.exception_raised
+    
+    def testMethod(self) -> None:
+        pass
+
+
 
 
 
