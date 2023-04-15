@@ -12,16 +12,38 @@ class SimpleTestSummary:
         return f"{result.runCount} run, {result.failedCount} failed, {result.notCompletedCount} not completed"
 
 
+class PassedSummary:
+    def results(self, result: TestResult) -> str:
+        results = []
+        for test in result.getAllPassed().split():
+            results.append(test + ' - Passed')
+        return '\n'.join(results)
+
+
+class FailedSummary:
+    def results(self, result: TestResult) -> str:
+        results = []
+        for test in result.getAllFailed().split():
+            results.append(test + ' - Failed')
+        return '\n'.join(results)
+
+
+class NotCompletedSummary:
+    def results(self, result: TestResult) -> str:
+        results = []
+        for test in result.getAllNotCompleted().split():
+            results.append(test + ' - Not completed')
+        return '\n'.join(results)
+
+
 class DetailedTestSummary:
     def results(self, result: TestResult) -> str:
-        summary = ""
-        for test in result.getAllFailed().split():
-            summary += test + ' - Failed\n'
-        for test in result.getAllPassed().split():
-            summary += test + ' - Passed\n'
-        for test in result.getAllNotCompleted().split():
-            summary += test + ' - Not completed\n'
-        return summary[:-1]
+        summary = [
+            FailedSummary().results(result),
+            PassedSummary().results(result),
+            NotCompletedSummary().results(result)
+        ]
+        return '\n'.join(summary)
 
 
 class MixedTestSummary:
