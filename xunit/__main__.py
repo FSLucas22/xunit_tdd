@@ -4,7 +4,11 @@ from xunit.tests import *
 
 def main() -> None:
     result = TestResult()
-    summary = MixedTestSummary(DetailedTestSummary(), SimpleTestSummary())
+    summary = MixedTestSummary(
+        ErrorInfoSummary(),
+        PassedSummary(),
+        SimpleTestSummary()
+    )
     suite = TestSuite.fromTestCase(
         TestCaseTest,
         TestSummaryTest,

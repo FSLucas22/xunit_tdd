@@ -65,16 +65,3 @@ class ErrorInfoSummary:
         for error_info in result.notCompletedErrors:
             errors.append(f"{error_info.test_name} - Not completed\n{error_info.error_info}")
         return '\n'.join(errors)
-
-
-
-
-
-
-
-
-
-
-
-
-
