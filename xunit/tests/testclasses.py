@@ -1,4 +1,4 @@
-from xunit.src import TestCase
+from xunit.src import TestCase, TestErrorInfo
 
 
 class WasRun(TestCase):
@@ -38,7 +38,16 @@ class DummyTestCase(TestCase):
         raise Exception
 
 
+class MockTestErrorInfo(TestErrorInfo):
+    calls: int
+    exception_passed: Exception
 
+    def __init__(self, calls: int, exception_passed: Exception) -> None:
+        pass
+    
+    @staticmethod
+    def fromException(error: Exception) -> 'MockTestErrorInfo':
+        return MockTestErrorInfo(1, error)
 
 
 
