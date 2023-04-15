@@ -39,16 +39,14 @@ class DummyTestCase(TestCase):
 
 
 class MockTestErrorInfo(TestErrorInfo):
-    calls: int
     exception_passed: Exception
 
-    def __init__(self, calls: int, exception_passed: Exception) -> None:
-        self.calls = calls
+    def __init__(self, exception_passed: Exception) -> None:
         self.exception_passed = exception_passed
     
     @staticmethod
     def fromException(error: Exception) -> 'MockTestErrorInfo':
-        return MockTestErrorInfo(1, error)
+        return MockTestErrorInfo(error)
 
 
 

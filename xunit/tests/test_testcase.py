@@ -58,6 +58,5 @@ class TestCaseTest(TestCase):
     def testFailedResultPassesException(self) -> None:
         error = Exception()
         mock_info = MockTestErrorInfo.fromException(error)
-        assert mock_info.calls == 1
         assert mock_info.exception_passed == error
         
