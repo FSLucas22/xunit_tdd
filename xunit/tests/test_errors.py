@@ -1,4 +1,5 @@
 from xunit.src import *
+import traceback
 
 
 @TestClass
@@ -21,10 +22,13 @@ class TestErrors(TestCase):
     def testFromException(self) -> None:
         try:
             raise InvalidAttributeException("Test")
-        except Exceptin as e:
+        except Exception as e:
+            error_info = traceback.extract_tb(e.__traceback__)[-1]
             info = TestErrorInfo.fromException(e)
-            assert info.line_number == 23
+            assert info.line_number == 24
             assert info.exception_type == InvalidAttributeException
             assert info.path == __file__
-            assert info.error_info == "Test"
-            assert info.test_name == "testErrorInfo"
+            assert info.error_info == ''.join(
+            traceback.format_exception(type(e), e, e.__traceback__)
+            )
+            assert info.test_name == "testFromException"
