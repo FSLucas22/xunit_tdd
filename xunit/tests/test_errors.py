@@ -32,3 +32,13 @@ class TestErrors(TestCase):
             traceback.format_exception(type(e), e, e.__traceback__)
             )
             assert info.test_name == "testFromException"
+
+    @Test
+    def testFromExceptionWithTestName(self) -> None:
+        try:
+            raise InvalidAttributeException("Test")
+        except Exception as e:
+            info = TestErrorInfo.fromException(e, "testMethod")
+            assert info.test_name == "testMethod"
+
+
