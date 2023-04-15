@@ -74,3 +74,6 @@ class TestCaseTest(TestCase):
         mock_class = MockBrokenTestCase("testMethod", error)
         mock_class.run(self.result, MockTestErrorInfo)
         assert mock_class.exception_raised == error
+
+        error_info = cast(MockTestErrorInfo, self.result.notCompletedErrors[0])
+        assert error == error_info.exception_passed
