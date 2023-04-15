@@ -49,6 +49,15 @@ class MockTestErrorInfo(TestErrorInfo):
         return MockTestErrorInfo(error)
 
 
+class MockTestCase(TestCase):
+    exception_raised: Exception
+
+    def __init__(self, name: str, exception: Exception) -> None:
+        self.exception_raised = exception
+        super().__init__(name)
+
+    def testMethod(self) -> None:
+        raise self.exception_raised
 
 
 
