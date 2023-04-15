@@ -33,3 +33,8 @@ class MixedTestSummary:
         for summary in self.summaries:
             summary_results.append(summary.results(result))
         return '\n'.join(summary_results)
+
+
+class ErrorInfoSummary:
+    def results(self, result: TestResult) -> str:
+        return ""
