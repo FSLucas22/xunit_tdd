@@ -58,7 +58,7 @@ class TestCaseTest(TestCase):
     @Test
     def testFailedResultPassesException(self) -> None:
         error = Exception()
-        mock_info = MockTestErrorInfo.fromException(error)
+        mock_info = MockTestErrorInfo(error)
         assert mock_info.exception_passed == error
 
         mock_class = MockTestCase("testMethod", error)
