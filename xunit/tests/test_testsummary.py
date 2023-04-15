@@ -1,4 +1,5 @@
 from xunit.src import *
+from xunit.tests.testclasses import *
 
 
 @TestClass
@@ -36,3 +37,14 @@ class TestSummaryTest(TestCase):
         summary_result = summary.results(self.result)
         individual_results = [s.results(self.result) for s in summariesToMix]
         assert summary_result == '\n'.join(individual_results)
+
+    @Test
+    def testErrorInfoSummaryForFailedTest(self) -> None:
+        summary = ErrorInfoSummary()
+        test = MockTestCase("testMethod", Exception())
+        test.run(self.result)
+        error_info: TestErrorInfo = self.result.failedErrors[0]
+        assert summary.results(self.result) == f"""testMethod - Failed
+        {error_info.error_info}
+        """
+        
