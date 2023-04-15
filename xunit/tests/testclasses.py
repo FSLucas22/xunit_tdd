@@ -55,6 +55,9 @@ class MockTestCase(TestCase):
     def testMethod(self) -> None:
         raise self.exception_raised
 
+    def testMethod2(self) -> None:
+        raise self.exception_raised
+
 
 class MockBrokenTestCase(TestCase):
     exception_raised: Exception
