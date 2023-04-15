@@ -47,4 +47,15 @@ class TestSummaryTest(TestCase):
         test2.run(self.result)
         error_info = self.result.failedErrors
         assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].error_info}\ntestMethod2 - Failed\n{error_info[1].error_info}"
+
+    @Test
+    def testErrorInfoSummaryForNotCompletedTest(self) -> None:
+        summary = ErrorInfoSummary()
+        test = MockTestCase("testMethod2", Exception())
+        test2 = MockBrokenTestCase("testMethod", Exception())
+        test.run(self.result)
+        test2.run(self.result)
+        failed_info = self.result.failedErrors[0]
+        notCompleted_info = self.result.notCompletedErrors[0]
+        assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.error_info}\ntestMethod - Not completed\n{notCompleted_info.error_info}"
         
