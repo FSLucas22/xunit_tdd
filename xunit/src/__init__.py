@@ -5,3 +5,4 @@ from xunit.src.testsuite import *
 from xunit.src.testdecorator import *
 from xunit.src.testexceptions import *
 from xunit.src.testerrorinfo import *
+from xunit.src.testcolors import *
