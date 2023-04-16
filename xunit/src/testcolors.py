@@ -1,2 +1,5 @@
+from termcolor import colored
+
+
 def green(text: str) -> str:
-    return '\033[32mTest\033[0m'
+    return colored(text, 'green')
