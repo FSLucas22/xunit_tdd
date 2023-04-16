@@ -15,7 +15,8 @@ def main() -> None:
         TestResultTest,
         TestSuiteTest,
         TestTest,
-        TestErrors
+        TestErrors,
+        TestColors
     )
     suite.run(result)
     print(summary.results(result))

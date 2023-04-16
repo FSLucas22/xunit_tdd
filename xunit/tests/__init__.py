@@ -5,3 +5,4 @@ from xunit.tests.test_testcase import TestCaseTest as TestCaseTest
 from xunit.tests.test_testsuite import TestSuiteTest as TestSuiteTest
 from xunit.tests.test_test import TestTest as TestTest
 from xunit.tests.test_errors import TestErrors as TestErrors
+from xunit.tests.test_colors import TestColors as TestColors
