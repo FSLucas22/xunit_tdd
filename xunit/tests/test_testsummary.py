@@ -70,21 +70,3 @@ class TestSummaryTest(TestCase):
         self.result.testFailed("failedTest", self.error_info)
         self.result.testNotCompleted("notCompletedTest", self.error_info)
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}notCompletedTest - Not completed"
-
-    def testColors(self) -> None:
-        colorama.init()
-        print(colorama.Fore.RED + "ERROR")
-        print(colorama.Fore.GREEN + "PASSED")
-        print(colorama.Style.RESET_ALL, end=' ')
-
-
-
-
-
-
-
-
-
-
-
-        
