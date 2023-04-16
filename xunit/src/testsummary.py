@@ -85,7 +85,13 @@ class ErrorInfoSummary(Summary):
     def results(self, result: TestResult) -> str:
         errors = []
         for error_info in result.failedErrors:
-            errors.append(f"{error_info.test_name} - Failed\n{error_info.error_info}")
+            messege = self.failed_formatter(
+                f"{error_info.test_name} - Failed\n{error_info.error_info}"
+            )
+            errors.append(messege)
         for error_info in result.notCompletedErrors:
-            errors.append(f"{error_info.test_name} - Not completed\n{error_info.error_info}")
+            messege = self.notCompleted_formatter(
+                f"{error_info.test_name} - Not completed\n{error_info.error_info}"
+            )
+            errors.append(messege)
         return '\n'.join(errors)
