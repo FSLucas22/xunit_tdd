@@ -12,12 +12,16 @@ formatter = Callable[[str], str]
 
 
 class Summary(ABC):
+    passed_formatter: formatter
+    failed_formatter: formatter
+    notCompleted_formatter: formatter
+    
     def __init__(self, passed_formatter: formatter = lambda messege: messege,
                        failed_formatter: formatter = lambda messege: messege,
                        notCompleted_formatter: formatter = lambda messege: messege):
-        self.passed_formater = passed_formatter
+        self.passed_formatter = passed_formatter
         self.failed_formatter = failed_formatter
-        self.notCompletedFormatter = notCompleted_formatter
+        self.notCompleted_formatter = notCompleted_formatter
 
     @abstractmethod
     def results(self, result: TestResult) -> str:
@@ -33,7 +37,8 @@ class PassedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
         for test in result.getAllPassed().split():
-            results.append(test + ' - Passed')
+            messege = self.passed_formatter(test + ' - Passed')
+            results.append(messege)
         return '\n'.join(results)
 
 
@@ -41,7 +46,8 @@ class FailedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
         for test in result.getAllFailed().split():
-            results.append(test + ' - Failed')
+            messege = self.failed_formatter(test + ' - Failed')
+            results.append(messege)
         return '\n'.join(results)
 
 
@@ -49,16 +55,17 @@ class NotCompletedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
         for test in result.getAllNotCompleted().split():
-            results.append(test + ' - Not completed')
+            messege = self.notCompleted_formatter(test + ' - Not completed')
+            results.append(messege)
         return '\n'.join(results)
 
 
 class DetailedTestSummary(Summary):
     def results(self, result: TestResult) -> str:
         summary = [
-            FailedSummary().results(result),
-            PassedSummary().results(result),
-            NotCompletedSummary().results(result)
+            FailedSummary(failed_formatter=self.failed_formatter).results(result),
+            PassedSummary(passed_formatter=self.passed_formatter).results(result),
+            NotCompletedSummary(notCompleted_formatter=self.notCompleted_formatter).results(result)
         ]
         return '\n'.join(summary)
 
