@@ -26,6 +26,10 @@ class TestSuite:
                 suite.add(testCase(testName))
         return suite
 
+    @classmethod
+    def fromModule(cls, module: ModuleType) -> Self:
+        return cls.fromTestCase(*getTestClasses(module))
+
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
     return [cls for _, cls in getmembers(
