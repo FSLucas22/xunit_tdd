@@ -86,7 +86,16 @@ class TestSuiteTest(TestCase):
         suite.run(self.result)
         assert self.result.getAllPassed() == "someTest someTest"
         assert self.result.getAllFailed() == "someOtherTest someOtherTest"
-        
+
+    @Test
+    def testFromPackage(self) -> None:
+        from xunit.tests.testpackage import (
+            packagemodule, packagemodule2
+        )
+        suite = TestSuite.fromModule(packagemodule, packagemodule2)
+        suite.run(self.result)
+        assert self.result.getAllPassed() == "x y"
+        assert self.result.getAllFailed() == "x1 y1"
         
         
         
