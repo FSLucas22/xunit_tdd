@@ -6,7 +6,8 @@ from typing import Callable
 class TestCase:
     name: str
     testNames: str
-
+    _is_xunit_test_class: bool
+    
     def __init__(self, name: str):
         self.name = name
 

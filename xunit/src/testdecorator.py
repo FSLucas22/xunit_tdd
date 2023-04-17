@@ -27,4 +27,5 @@ def TestClass(test_cls: Type[T]) -> Type[T]:
         )
     
     test_cls.testNames = getTestMethods(test_cls)
+    test_cls._is_xunit_test_class = True
     return test_cls
