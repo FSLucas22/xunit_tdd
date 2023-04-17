@@ -2,6 +2,7 @@ from typing import Type, Self
 from xunit.src.testcase import TestCase
 from xunit.src.testresult import TestResult
 from types import ModuleType
+from inspect import getmembers, isfunction
 
 
 class TestSuite:
@@ -27,4 +28,8 @@ class TestSuite:
 
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
-    return []
+    return [cls for _, cls in getmembers(
+        module,
+        lambda value: hasattr(value, "_is_xunit_test_class") and \
+        value._is_xunit_test_class and value.__module__ == module.__name__
+    )]

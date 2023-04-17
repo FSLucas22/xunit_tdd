@@ -1,5 +1,6 @@
 from xunit.src import *
 from xunit.tests.testclasses import *
+from importlib import import_module
 
 
 @TestClass
@@ -77,7 +78,10 @@ class TestSuiteTest(TestCase):
     @Test
     def testGetTestClasses(self) -> None:
         import xunit.tests.testmodule as testmodule
-        assert getTestClasses(testmodule) == [testmodule.SomeTest]
+        classes = getTestClasses(testmodule)
+        assert len(classes) == 2
+        assert testmodule.SomeTest in classes
+        assert testmodule.SomeOtherTest in classes
         
         
 
