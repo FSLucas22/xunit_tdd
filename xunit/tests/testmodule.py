@@ -7,6 +7,9 @@ class SomeTest(TestCase):
     def someTest(self) -> None:
         pass
 
+
 @TestClass
 class SomeOtherTest(TestCase):
-    pass
+    @Test
+    def someOtherTest(self) -> None:
+        raise Exception

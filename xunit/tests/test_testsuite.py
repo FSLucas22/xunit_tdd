@@ -71,9 +71,13 @@ class TestSuiteTest(TestCase):
     @Test
     def testTestModule(self) -> None:
         import xunit.tests.testmodule as testmodule
-        suite = TestSuite.fromTestCase(testmodule.SomeTest)
+        suite = TestSuite.fromTestCase(
+            testmodule.SomeTest,
+            testmodule.SomeOtherTest
+        )
         suite.run(self.result)
         assert self.result.getAllPassed() == "someTest"
+        assert self.result.getAllFailed() == "someOtherTest"
 
     @Test
     def testGetTestClasses(self) -> None:
@@ -82,6 +86,7 @@ class TestSuiteTest(TestCase):
         assert len(classes) == 2
         assert testmodule.SomeTest in classes
         assert testmodule.SomeOtherTest in classes
+        
         
         
 
