@@ -123,7 +123,7 @@ class TestTest(TestCase):
         
 
     @Test
-    def testNameIsAddedByDecorator(self) -> None:
+    def testAttributesAddedByDecorator(self) -> None:
         @TestClass
         class SomeTestClass(TestCase):
             
@@ -136,6 +136,7 @@ class TestTest(TestCase):
                 pass
 
         assert SomeTestClass.testNames == "testMethod anotherTestMethod"
+        assert SomeTestClass._is_xunit_test_class == True
 
     @Test
     def testCannotHaveNamesWhenDecorated(self) -> None:
@@ -155,20 +156,5 @@ class TestTest(TestCase):
             return
 
         raise AssertionError
-
-    @Test
-    def testDiscoverTestClasses(self) -> None:
-        @TestClass
-        class SomeTestClass(TestCase):
-            
-            @Test
-            def testMethod(self) -> None:
-                pass
-
-            @Test
-            def anotherTestMethod(self) -> None:
-                pass
-
-        assert SomeTestClass._is_xunit_test_class == True
         
         
