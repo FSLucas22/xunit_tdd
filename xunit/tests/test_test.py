@@ -155,4 +155,20 @@ class TestTest(TestCase):
             return
 
         raise AssertionError
+
+    @Test
+    def testDiscoverTestClasses(self) -> None:
+        @TestClass
+        class SomeTestClass(TestCase):
+            
+            @Test
+            def testMethod(self) -> None:
+                pass
+
+            @Test
+            def anotherTestMethod(self) -> None:
+                pass
+
+        assert SomeTestClass._is_xunit_test_class == True
+        
         
