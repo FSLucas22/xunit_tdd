@@ -41,8 +41,7 @@ class TestSuite:
 
     @classmethod
     def fromPackage(cls, package: ModuleType) -> Self:
-        modules = [obj.value for obj in getPackageObjects(package)]
-        return cls.fromModule(*modules)
+        return cls.fromModule(*getModules(package))
 
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
@@ -51,3 +50,19 @@ def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
         lambda value: hasattr(value, "_is_xunit_test_class") and \
         value._is_xunit_test_class and value.__module__ == module.__name__
     )]
+
+
+def getModules(package: ModuleType) -> list[ModuleType]:
+    modules = [obj.value for obj in getPackageObjects(package)]
+    return modules
+
+
+
+
+
+
+
+
+
+
+

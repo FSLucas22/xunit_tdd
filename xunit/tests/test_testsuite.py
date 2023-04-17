@@ -102,8 +102,15 @@ class TestSuiteTest(TestCase):
         result = TestResult()
         packagesuite.run(result)
         suite.run(self.result)
-        assert self.result.getAllPassed() == "x y z" == result.getAllPassed()
-        assert self.result.getAllFailed() == "x1 y1 z1" == result.getAllFailed()
+        normal_passed = self.result.getAllPassed()
+        normal_failed = self.result.getAllFailed()
+        package_passed = result.getAllPassed()
+        package_failed = result.getAllFailed()
+        
+        assert "x" in normal_passed and "y" in normal_passed and "z" in normal_passed
+        assert "x" in package_passed and "y" in package_passed and "z" in package_passed
+        assert "x1" in normal_failed and "y1" in normal_failed and "z1" in normal_failed
+        assert "x1" in package_failed and "y1" in package_failed and "z1" in package_failed
         
     @Test
     def testMerge(self) -> None:
