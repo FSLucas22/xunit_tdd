@@ -18,7 +18,8 @@ def main() -> None:
         TestSuiteTest,
         TestTest,
         TestErrors,
-        TestColors
+        TestColors,
+        TestCaptureException
     )
     suite.run(result)
     print(summary.results(result))
