@@ -12,8 +12,8 @@ class TestSuite:
     def __init__(self) -> None:
         self.tests = []
         
-    def add(self, test: TestCase) -> None:
-        self.tests.append(test)
+    def add(self, *tests: TestCase) -> None:
+        self.tests += list(tests)
 
     def merge(self, otherSuite: 'TestSuite') -> 'TestSuite':
         merged = TestSuite()
