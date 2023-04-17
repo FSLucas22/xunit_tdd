@@ -68,12 +68,12 @@ class TestSuiteTest(TestCase):
         assert self.result.getAllFailed() == individualResult.getAllFailed() == "failedTest1 failedTest2 failedTest1 failedTest2"
 
     @Test
-    def testSuiteFromModule(self) -> None:
+    def testTestModule(self) -> None:
         import xunit.tests.testmodule as testmodule
-        assert hasattr(testmodule, "SomeTest")
         suite = TestSuite.fromTestCase(testmodule.SomeTest)
         suite.run(self.result)
         assert self.result.getAllPassed() == "someTest"
+        
         
 
 
