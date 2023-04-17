@@ -1,4 +1,4 @@
-from typing import Type, Any
+from typing import Type, Any, Iterator
 from contextlib import contextmanager
 
 
@@ -7,7 +7,7 @@ class InvalidAttributeException(Exception):
 
 
 @contextmanager
-def expects(error_class: Type[Exception]) -> Any:
+def expects(error_class: Type[Exception]) -> Iterator[None]:
     try:
         yield
     except error_class as e:
