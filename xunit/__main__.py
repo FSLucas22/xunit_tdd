@@ -29,3 +29,4 @@ if __name__ == "__main__":
     if os.name == "nt":
         colorama.init()
     main()
+    colorama.deinit()
