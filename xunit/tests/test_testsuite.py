@@ -74,6 +74,7 @@ class TestSuiteTest(TestCase):
         suite.run(self.result)
         assert self.result.getAllPassed() == "someTest"
 
+    @Test
     def testGetTestClasses(self) -> None:
         import xunit.tests.testmodule as testmodule
         assert getTestClasses(testmodule) == [testmodule.SomeTest]
