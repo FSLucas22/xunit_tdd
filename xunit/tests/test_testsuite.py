@@ -13,8 +13,7 @@ class TestSuiteTest(TestCase):
     @Test
     def testSuite(self) -> None:
         suite = TestSuite()
-        suite.add(WasRun("testMethod"))
-        suite.add(WasRun("testBrokenMethod"))
+        suite.add(WasRun("testMethod"), WasRun("testBrokenMethod"))
         suite.run(self.result)
         assert self.result.passedCount == 1
         assert self.result.failedCount == 1
@@ -31,10 +30,12 @@ class TestSuiteTest(TestCase):
         assert hasattr(DummyTestCase, "failedTest2")
         
         normalSuite = TestSuite()
-        normalSuite.add(DummyTestCase("passedTest1"))
-        normalSuite.add(DummyTestCase("passedTest2"))
-        normalSuite.add(DummyTestCase("failedTest1"))
-        normalSuite.add(DummyTestCase("failedTest2"))
+        normalSuite.add(
+            DummyTestCase("passedTest1"),
+            DummyTestCase("passedTest2"),
+            DummyTestCase("failedTest1"),
+            DummyTestCase("failedTest2")
+        )
         normalSuite.run(individualResult)
         
         suite = TestSuite.fromTestCase(DummyTestCase)
@@ -52,14 +53,16 @@ class TestSuiteTest(TestCase):
         individualResult = TestResult()
         
         normalSuite = TestSuite()
-        normalSuite.add(DummyTestCase("passedTest1"))
-        normalSuite.add(DummyTestCase("passedTest2"))
-        normalSuite.add(DummyTestCase("failedTest1"))
-        normalSuite.add(DummyTestCase("failedTest2"))
-        normalSuite.add(DummyTestCase("passedTest1"))
-        normalSuite.add(DummyTestCase("passedTest2"))
-        normalSuite.add(DummyTestCase("failedTest1"))
-        normalSuite.add(DummyTestCase("failedTest2"))
+        normalSuite.add(
+            DummyTestCase("passedTest1"),
+            DummyTestCase("passedTest2"),
+            DummyTestCase("failedTest1"),
+            DummyTestCase("failedTest2"),
+            DummyTestCase("passedTest1"),
+            DummyTestCase("passedTest2"),
+            DummyTestCase("failedTest1"),
+            DummyTestCase("failedTest2")
+        )
         normalSuite.run(individualResult)
         
         suite = TestSuite.fromTestCase(DummyTestCase, DummyTestCase)
@@ -90,16 +93,17 @@ class TestSuiteTest(TestCase):
     @Test
     def testFromPackage(self) -> None:
         from xunit.tests.testpackage import (
-            packagemodule, packagemodule2
+            packagemodule, packagemodule2, subpackage
         )
+        from xunit.tests.testpackage.subpackage import subpackagemodule
         import xunit.tests.testpackage as testpackage
-        suite = TestSuite.fromModule(packagemodule, packagemodule2)
+        suite = TestSuite.fromModule(packagemodule, packagemodule2, subpackagemodule)
         packagesuite = TestSuite.fromPackage(testpackage)
         result = TestResult()
         packagesuite.run(result)
         suite.run(self.result)
-        assert self.result.getAllPassed() == "x y" == result.getAllPassed()
-        assert self.result.getAllFailed() == "x1 y1" == result.getAllFailed()
+        assert self.result.getAllPassed() == "x y z" == result.getAllPassed()
+        assert self.result.getAllFailed() == "x1 y1 z1" == result.getAllFailed()
         
     @Test
     def testMerge(self) -> None:
