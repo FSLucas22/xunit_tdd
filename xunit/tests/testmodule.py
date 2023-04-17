@@ -1,5 +1,8 @@
 from xunit.src import *
 
 
+@TestClass
 class SomeTest(TestCase):
-    pass
+    @Test
+    def someTest(self) -> None:
+        pass
