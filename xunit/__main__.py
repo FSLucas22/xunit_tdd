@@ -19,7 +19,8 @@ def main() -> None:
         TestTest,
         TestErrors,
         TestColors,
-        TestCaptureException
+        TestCaptureException,
+        TestPackageManager
     )
     suite.run(result)
     print(summary.results(result))

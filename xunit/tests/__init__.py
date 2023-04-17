@@ -9,3 +9,4 @@ from xunit.tests.test_colors import TestColors as TestColors
 from xunit.tests.test_captureexception import (
      TestCaptureException as TestCaptureException
 )
+from xunit.tests.test_packagemanager import TestPackageManager as TestPackageManager
