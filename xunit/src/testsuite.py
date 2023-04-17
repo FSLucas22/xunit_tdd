@@ -27,8 +27,11 @@ class TestSuite:
         return suite
 
     @classmethod
-    def fromModule(cls, module: ModuleType) -> Self:
-        return cls.fromTestCase(*getTestClasses(module))
+    def fromModule(cls, *modules: ModuleType) -> Self:
+        classes = []
+        for module in modules:
+            classes += getTestClasses(module)
+        return cls.fromTestCase(*classes)
 
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
