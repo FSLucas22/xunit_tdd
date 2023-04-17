@@ -95,7 +95,8 @@ class TestSuiteTest(TestCase):
         import xunit.tests.testpackage as testpackage
         suite = TestSuite.fromModule(packagemodule, packagemodule2)
         packagesuite = TestSuite.fromPackage(testpackage)
-        result = packagesuite.run()
+        result = TestResult()
+        packagesuite.run(result)
         suite.run(self.result)
         assert self.result.getAllPassed() == "x y" == result.getAllPassed()
         assert self.result.getAllFailed() == "x1 y1" == result.getAllFailed()
