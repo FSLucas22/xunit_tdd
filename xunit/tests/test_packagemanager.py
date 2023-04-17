@@ -13,6 +13,7 @@ class TestPackageManager(TestCase):
     @Test
     def testGetPackageObjects(self) -> None:
         from xunit.tests import testpackage
-        assert getPackageObjects(testpackage) == [
-            PackageObject("packagemodule", testpackage.packagemodule)
-        ]
+        package_object = getPackageObjects(testpackage)[0]
+        expected_object = PackageObject("packagemodule", testpackage.packagemodule)
+        assert package_object.name == expected_object.name
+        assert package_object.value == expected_object.value

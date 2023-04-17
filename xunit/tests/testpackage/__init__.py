@@ -1,1 +1,1 @@
-from xunit.tests.testpackage import packagemodule
+from xunit.tests.testpackage import packagemodule as packagemodule
