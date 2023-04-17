@@ -25,5 +25,5 @@ def getPackageObjects(package: ModuleType) -> list[PackageObject]:
         name = module.name
         value = getattr(package, name)
         objects.append(PackageObject(name, value))
-    print(objects)
+        
     return objects
