@@ -92,10 +92,14 @@ class TestSuiteTest(TestCase):
         from xunit.tests.testpackage import (
             packagemodule, packagemodule2
         )
+        import xunit.tests.testpackage as testpackage
         suite = TestSuite.fromModule(packagemodule, packagemodule2)
+        packagesuite = TestSuite.fromPackage(testpackage)
+        result = packagesuite.run()
         suite.run(self.result)
-        assert self.result.getAllPassed() == "x y"
-        assert self.result.getAllFailed() == "x1 y1"
+        assert self.result.getAllPassed() == "x y" == result.getAllPassed()
+        assert self.result.getAllFailed() == "x1 y1" == result.getAllFailed()
+        
         
         
         
