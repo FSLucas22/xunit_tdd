@@ -7,9 +7,8 @@ import os
 def main() -> None:
     result = TestResult()
     summary = MixedTestSummary(
-        DetailedTestSummary(passed_formatter=green, failed_formatter=red,
-                            notCompleted_formatter=yellow),
         ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
+        PassedSummary(passed_formatter=green),
         SimpleTestSummary()
     )
     suite = TestSuite.fromTestCase(
