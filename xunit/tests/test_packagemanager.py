@@ -17,3 +17,4 @@ class TestPackageManager(TestCase):
         expected_object = PackageObject("packagemodule", testpackage.packagemodule)
         assert package_object.name == expected_object.name
         assert package_object.value == expected_object.value
+        assert len(getPackageObjects(testpackage)) == 1
