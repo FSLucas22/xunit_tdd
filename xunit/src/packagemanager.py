@@ -8,6 +8,7 @@ from os.path import dirname
 class PackageObject(NamedTuple):
     name: str
     value: ModuleType
+    is_package: bool = False
 
 
 class InvalidPathError(Exception):
