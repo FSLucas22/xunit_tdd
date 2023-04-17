@@ -15,6 +15,11 @@ class TestSuite:
     def add(self, test: TestCase) -> None:
         self.tests.append(test)
 
+    def merge(self, otherSuite: 'TestSuite') -> 'TestSuite':
+        merged = TestSuite()
+        merged.tests = self.tests + otherSuite.tests
+        return merged
+
     def run(self, result: TestResult) -> None:
         for test in self.tests:
             test.run(result)
