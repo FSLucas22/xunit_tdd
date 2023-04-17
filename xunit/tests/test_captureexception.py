@@ -4,6 +4,7 @@ from xunit.tests.testclasses import *
 
 @TestClass
 class TestCaptureException(TestCase):
+    
     @Test
     def testCaptureException(self) -> None:
         class SomeTestClass(TestCase):
