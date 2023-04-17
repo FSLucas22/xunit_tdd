@@ -1,6 +1,7 @@
 from typing import NamedTuple, cast
 from types import ModuleType
 import pkgutil
+import importlib
 from os.path import dirname
 
 
@@ -23,7 +24,7 @@ def getPackageObjects(package: ModuleType) -> list[PackageObject]:
     
     for module in modules:
         name = module.name
-        value = getattr(package, name)
+        value = importlib.import_module(package.__name__ +'.' + name)
         objects.append(PackageObject(name, value))
         
     return objects
