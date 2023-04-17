@@ -1,6 +1,7 @@
 from typing import Type, Self
 from xunit.src.testcase import TestCase
 from xunit.src.testresult import TestResult
+from xunit.src.packagemanager import getPackageObjects, PackageObject
 from types import ModuleType
 from inspect import getmembers, isfunction
 
@@ -32,6 +33,11 @@ class TestSuite:
         for module in modules:
             classes += getTestClasses(module)
         return cls.fromTestCase(*classes)
+
+    @classmethod
+    def fromPackage(cls, package: ModuleType) -> Self:
+        modules = [obj.value for obj in getPackageObjects(package)]
+        return cls.fromModule(*modules)
 
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
