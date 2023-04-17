@@ -71,5 +71,7 @@ class TestSuiteTest(TestCase):
     def testSuiteFromModule(self) -> None:
         import xunit.tests.testmodule as testmodule
         assert hasattr(testmodule, "SomeTest")
+        test: TestCase = testmodule.SomeTest("someTest")
+        
 
 
