@@ -1,6 +1,7 @@
 from typing import Type, Self
 from xunit.src.testcase import TestCase
 from xunit.src.testresult import TestResult
+from types import ModuleType
 
 
 class TestSuite:
@@ -23,3 +24,7 @@ class TestSuite:
             for testName in testCase.testNames.split():
                 suite.add(testCase(testName))
         return suite
+
+
+def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
+    return []
