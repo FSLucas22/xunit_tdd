@@ -1,5 +1,6 @@
 from xunit.src import *
 from xunit.tests import *
+import xunit.tests as tests
 import colorama
 import os
 
