@@ -10,5 +10,5 @@ class InvalidAttributeException(Exception):
 def expects(error_class: Type[Exception]) -> Any:
     try:
         yield
-    except Exception as e:
+    except error_class as e:
         pass
