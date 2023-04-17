@@ -26,6 +26,7 @@ def getPackageObjects(package: ModuleType) -> list[PackageObject]:
     for module in modules:
         name = module.name
         value = importlib.import_module(package.__name__ +'.' + name)
-        objects.append(PackageObject(name, value))
+        is_package = module.ispkg
+        objects.append(PackageObject(name, value, is_package))
         
     return objects
