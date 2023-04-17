@@ -101,7 +101,23 @@ class TestSuiteTest(TestCase):
         assert self.result.getAllPassed() == "x y" == result.getAllPassed()
         assert self.result.getAllFailed() == "x1 y1" == result.getAllFailed()
         
-        
+    @Test
+    def testMerge(self) -> None:
+        suite1 = TestSuite.fromTestCase(DummyTestCase)
+        suite2 = TestSuite.fromTestCase(DummyTestCase)
+        merged = suite1.merge(suite2)
+        result1 = TestResult()
+        result2 = TestResult()
+        mergedResult = TestResult()
+        suite1.run(result1)
+        suite2.run(result2)
+        merged.run(mergedResult)
+
+        assert result1.getAllPassed() == result2.getAllPassed() == "passedTest1 passedTest2"
+        assert result1.getAllFailed() == result2.getAllFailed() == "failedTest1 failedTest2"
+        assert result1.getAllPassed() + " " + result2.getAllPassed() == mergedResult.getAllPassed()
+        assert result1.getAllFailed() + " " + result2.getAllFailed() == mergedResult.getAllFailed()
+
         
         
 
