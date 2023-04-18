@@ -38,7 +38,7 @@ class TestPackageManager(TestCase):
         assert expected_object == package_objects[0]
 
     @Test
-    def getIgnoreFile(self) -> None:
+    def testGetIgnoreFileContent(self) -> None:
         from xunit.tests import testpackage
         from xunit.tests.testpackage import subpackage
         assert getIgnoreFileContent(testpackage) == []
