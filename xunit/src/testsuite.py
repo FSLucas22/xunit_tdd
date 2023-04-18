@@ -40,8 +40,13 @@ class TestSuite:
         return cls.fromTestCase(*classes)
 
     @classmethod
-    def fromPackage(cls, package: ModuleType) -> Self:
-        return cls.fromModule(*getModules(package))
+    def fromPackage(cls, package: ModuleType) -> 'TestSuite':
+        objs = getPackageObjects(package)
+        suite = TestSuite()
+        for obj in objs:
+            obj_suite = cls.fromPackage(obj.value) if obj.is_package else cls.fromModule(obj.value)
+            suite = suite.merge(obj_suite)
+        return suite
 
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
@@ -50,11 +55,6 @@ def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
         lambda value: hasattr(value, "_is_xunit_test_class") and \
         value._is_xunit_test_class and value.__module__ == module.__name__
     )]
-
-
-def getModules(package: ModuleType) -> list[ModuleType]:
-    modules = [obj.value for obj in getPackageObjects(package)]
-    return modules
 
 
 
