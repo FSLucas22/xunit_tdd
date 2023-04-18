@@ -32,12 +32,27 @@ class TestFromCommandLine(TestCase):
         assert "p\\x\\z\\module.py" == path_for_module
 
     @Test
-    def testCanConstructASuite(self) -> None:
+    def testCanConstructASuiteFromPackage(self) -> None:
         from xunit.tests import testpackage
         suite1 = TestSuite.fromPath(
             "testpackage", testpackage.__file__, is_package=True
         )
         suite2 = TestSuite.fromPackage(testpackage)
+        result1 = TestResult()
+        result2 = TestResult()
+        suite1.run(result1)
+        suite2.run(result2)
+        assert result1.getAllPassed() == result2.getAllPassed()
+        assert result1.getAllFailed() == result2.getAllFailed()
+        assert result1.getAllNotCompleted() == result2.getAllNotCompleted()
+
+    @Test
+    def testCanConstructASuiteFromModule(self) -> None:
+        from xunit.tests.testpackage.subpackage import subpackagemodule
+        suite1 = TestSuite.fromPath(
+            "subpackagemodule", subpackagemodule.__file__, is_package=False
+        )
+        suite2 = TestSuite.fromModule(subpackagemodule)
         result1 = TestResult()
         result2 = TestResult()
         suite1.run(result1)
