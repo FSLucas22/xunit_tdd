@@ -21,6 +21,7 @@ def getPackageObjects(package: ModuleType) -> list[PackageObject]:
     
     package_path = dirname(package.__file__)
     modules = pkgutil.iter_modules([package_path])
+    
     objects: list[PackageObject] = []
     
     for module in modules:
