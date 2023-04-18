@@ -115,24 +115,21 @@ class TestSuiteTest(TestCase):
     @Test
     def testIgnore(self) -> None:
         import xunit.tests.testpackage as testpackage
-        ignore = lambda obj, _: obj.name in ["packagemodule","subpackage"]
+        ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
         suite = TestSuite.fromPackage(testpackage, ignore=ignore)
         suite.run(self.result)
-        print(self.result.getAllPassed())
-        print(self.result.getAllFailed())
         assert "y" == self.result.getAllPassed()
         assert "y1" == self.result.getAllFailed()
 
     @Test
     def testIgnorePerpetuates(self) -> None:
         import xunit.tests.testpackage as testpackage
-        ignore = lambda obj, _: obj.name in ["packagemodule","subpackagemodule"]
+        ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
         suite = TestSuite.fromPackage(testpackage, ignore=ignore)
         suite.run(self.result)
-        print(self.result.getAllPassed())
-        print(self.result.getAllFailed())
         assert "y" == self.result.getAllPassed()
         assert "y1" == self.result.getAllFailed()
+        
         
     @Test
     def testMerge(self) -> None:
