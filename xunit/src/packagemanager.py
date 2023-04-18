@@ -78,6 +78,9 @@ def findModule(module_name: str, file_path: str) -> ModuleType:
     return module
 
 
+def getPath(name: str, directory_path: str, is_package: bool) -> str:
+    return directory_path + "\\" + name + "\\" + "__init__.py"
+
 
 
 
