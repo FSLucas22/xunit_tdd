@@ -55,8 +55,10 @@ class TestSuite:
 
     @classmethod
     def fromPath(cls, name: str, path: str, is_package: bool) -> 'TestSuite':
-        package = findModule(name, path)
-        return cls.fromPackage(package)
+        module = findModule(name, path)
+        if is_package:
+            return cls.fromPackage(module)
+        return cls.fromModule(module)
 
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
