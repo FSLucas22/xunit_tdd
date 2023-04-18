@@ -111,6 +111,15 @@ class TestSuiteTest(TestCase):
         assert "x" in package_passed and "y" in package_passed and "z" in package_passed
         assert "x1" in normal_failed and "y1" in normal_failed and "z1" in normal_failed
         assert "x1" in package_failed and "y1" in package_failed and "z1" in package_failed
+
+    @Test
+    def testIgnore(self) -> None:
+        import xunit.tests.testpackage as testpackage
+        ignore = "packagemodule\nsubpackagemodule"
+        suite = TestSuite.fromPackage(testpackage, ignore=ignore)
+        suite.run(self.result)
+        assert "y" == self.result.getAllPassed()
+        assert "y1" == self.result.getAllFailed()
         
     @Test
     def testMerge(self) -> None:
