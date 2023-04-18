@@ -52,7 +52,9 @@ def getIgnoreFileContent(package: ModuleType) -> list[str]:
     ignore_path = package_path / 'ignore.txt'
     try:
         with open(ignore_path, 'r') as file:
-            return file.readlines()
+            lines = [line.strip('\n') for line in file.readlines()]
+            print(lines)
+            return lines
     except FileNotFoundError as e:
         return []
 
