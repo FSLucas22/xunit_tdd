@@ -40,10 +40,13 @@ class TestSuite:
         return cls.fromTestCase(*classes)
 
     @classmethod
-    def fromPackage(cls, package: ModuleType) -> 'TestSuite':
+    def fromPackage(cls, package: ModuleType, ignore: str="") -> 'TestSuite':
         objs = getPackageObjects(package)
         suite = TestSuite()
+        to_ignore = ignore.split('\n')
         for obj in objs:
+            if obj.name in to_ignore:
+                continue
             obj_suite = cls.fromPackage(obj.value) if obj.is_package else cls.fromModule(obj.value)
             suite = suite.merge(obj_suite)
         return suite
