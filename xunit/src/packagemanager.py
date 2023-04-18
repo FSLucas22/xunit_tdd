@@ -1,4 +1,4 @@
-from typing import NamedTuple, TypeVar, Callable
+from typing import NamedTuple, Callable, Any
 from types import ModuleType
 import pkgutil
 import importlib
@@ -38,3 +38,14 @@ def getPackageObjects(package: ModuleType, ignore: Predicate = lambda obj: False
         objects.append(obj)
         
     return objects
+
+
+def getIgnoreFile(package: ModuleType) -> None | Any:
+    return None
+
+
+
+
+
+
+
