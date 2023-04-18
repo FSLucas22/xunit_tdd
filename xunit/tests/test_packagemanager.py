@@ -42,5 +42,6 @@ class TestPackageManager(TestCase):
         from xunit.tests import testpackage
         from xunit.tests.testpackage import subpackage
         assert getIgnoreFileContent(testpackage) == []
+        assert getIgnoreFileContent(subpackage) == ["subpackagemodule"]
         
         
