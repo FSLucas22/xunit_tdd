@@ -51,6 +51,10 @@ class TestSuite:
             suite = suite.merge(obj_suite)
         return suite
 
+    @classmethod
+    def fromPath(cls, path: str, is_package: bool) -> 'TestSuite':
+        return cls()
+
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
     return [cls for _, cls in getmembers(
