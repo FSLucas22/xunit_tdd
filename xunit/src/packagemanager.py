@@ -58,7 +58,9 @@ def getIgnoreFileContent(package: ModuleType) -> list[str]:
 
 
 def ignoreName(obj: PackageObject, pkg: ModuleType | None = None) -> bool:
-    return True
+    if pkg is None:
+        raise Exception
+    return obj.name in getIgnoreFileContent(pkg)
 
 
 
