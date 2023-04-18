@@ -1,4 +1,4 @@
-from typing import NamedTuple, cast
+from typing import NamedTuple, TypeVar, Callable
 from types import ModuleType
 import pkgutil
 import importlib
@@ -15,7 +15,11 @@ class InvalidPathError(Exception):
     pass
 
 
-def getPackageObjects(package: ModuleType) -> list[PackageObject]:
+Predicate = Callable[[PackageObject], bool]
+
+
+def getPackageObjects(package: ModuleType, ignore: Predicate = lambda obj: False
+                      ) -> list[PackageObject]:
     if not package.__file__:
         raise InvalidPathError("package must have a valid path")
     
@@ -28,6 +32,9 @@ def getPackageObjects(package: ModuleType) -> list[PackageObject]:
         name = module.name
         value = importlib.import_module(package.__name__ +'.' + name)
         is_package = module.ispkg
-        objects.append(PackageObject(name, value, is_package))
+        obj = PackageObject(name, value, is_package)
+        if ignore(obj):
+            continue
+        objects.append(obj)
         
     return objects
