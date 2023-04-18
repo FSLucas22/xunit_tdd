@@ -43,5 +43,14 @@ class TestPackageManager(TestCase):
         from xunit.tests.testpackage import subpackage
         assert getIgnoreFileContent(testpackage) == []
         assert getIgnoreFileContent(subpackage) == ["subpackagemodule"]
+
+    @Test
+    def testIgnoreName(self) -> None:
+        from xunit.tests.testpackage import subpackage
+        from xunit.tests.testpackage.subpackage import subpackagemodule
+        assert ignoreName(
+            PackageObject("subpackagemodule", subpackagemodule),
+            subpackage
+        )
         
         
