@@ -40,8 +40,8 @@ def getPackageObjects(package: ModuleType, ignore: Predicate = lambda obj: False
     return objects
 
 
-def getIgnoreFileContent(package: ModuleType) -> None | Any:
-    return None
+def getIgnoreFileContent(package: ModuleType) -> list[Any]:
+    return []
 
 
 

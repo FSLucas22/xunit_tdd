@@ -40,6 +40,7 @@ class TestPackageManager(TestCase):
     @Test
     def getIgnoreFile(self) -> None:
         from xunit.tests import testpackage
-        assert getIgnoreFileContent(testpackage) is None
+        from xunit.tests.testpackage import subpackage
+        assert getIgnoreFileContent(testpackage) == []
         
         
