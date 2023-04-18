@@ -23,3 +23,8 @@ class TestFromCommandLine(TestCase):
         assert result1.getAllPassed() == result2.getAllPassed()
         assert result1.getAllFailed() == result2.getAllFailed()
         assert result1.getAllNotCompleted() == result2.getAllNotCompleted()
+
+    @Test
+    def testCanCreateModulePath(self) -> None:
+        path_for_package = getPath("package", "p\\x\\z", is_package=True)
+        assert "p\\x\\z\\package\\.__init__.py" == path_for_package
