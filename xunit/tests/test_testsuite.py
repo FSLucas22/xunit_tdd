@@ -129,7 +129,16 @@ class TestSuiteTest(TestCase):
         suite.run(self.result)
         assert "y" == self.result.getAllPassed()
         assert "y1" == self.result.getAllFailed()
-        
+
+    @Test
+    def testCanIgnoreNames(self) -> None:
+        import xunit.tests.testpackage as testpackage
+        suite = TestSuite.fromPackage(testpackage, ignoreName)
+        suite.run(self.result)
+        passed = self.result.getAllPassed()
+        failed = self.result.getAllFailed()
+        assert "x" in passed and "y" in passed and "z" not in passed
+        assert "x1" in failed and "y1" in failed and "z1" not in failed
         
     @Test
     def testMerge(self) -> None:
