@@ -34,7 +34,9 @@ class TestFromCommandLine(TestCase):
     @Test
     def testCanConstructASuite(self) -> None:
         from xunit.tests import testpackage
-        suite1 = TestSuite.fromPath(testpackage.__file__, is_package=True)
+        suite1 = TestSuite.fromPath(
+            "testpackage", testpackage.__file__, is_package=True
+        )
         suite2 = TestSuite.fromPackage(testpackage)
         result1 = TestResult()
         result2 = TestResult()

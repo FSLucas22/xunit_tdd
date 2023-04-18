@@ -1,7 +1,9 @@
 from typing import Type, Self
 from xunit.src.testcase import TestCase
 from xunit.src.testresult import TestResult
-from xunit.src.packagemanager import getPackageObjects, PackageObject, Predicate
+from xunit.src.packagemanager import (
+    getPackageObjects, PackageObject, Predicate, findModule
+)
 from types import ModuleType
 from inspect import getmembers, isfunction
 
@@ -52,8 +54,9 @@ class TestSuite:
         return suite
 
     @classmethod
-    def fromPath(cls, path: str, is_package: bool) -> 'TestSuite':
-        return cls()
+    def fromPath(cls, name: str, path: str, is_package: bool) -> 'TestSuite':
+        package = findModule(name, path)
+        return cls.fromPackage(package)
 
 
 def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
