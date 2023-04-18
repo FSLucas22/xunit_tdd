@@ -1,5 +1,5 @@
 from xunit.src import *
-from xunit.tests import *
+from xunit import tests
 import colorama
 import os
 
@@ -11,17 +11,7 @@ def main() -> None:
         ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
         SimpleTestSummary()
     )
-    suite = TestSuite.fromTestCase(
-        TestCaseTest,
-        TestSummaryTest,
-        TestResultTest,
-        TestSuiteTest,
-        TestTest,
-        TestErrors,
-        TestColors,
-        TestCaptureException,
-        TestPackageManager
-    )
+    suite = TestSuite.fromPackage(tests, ignoreName)
     suite.run(result)
     print(summary.results(result))
     
