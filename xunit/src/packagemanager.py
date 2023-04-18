@@ -64,6 +64,9 @@ def ignoreName(obj: PackageObject, pkg: ModuleType | None = None) -> bool:
     return obj.name in getIgnoreFileContent(pkg)
 
 
+def findModule(path: str) -> ModuleType:
+    return importlib.import_module(path)
+
 
 
 
