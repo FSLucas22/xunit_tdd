@@ -31,7 +31,7 @@ def getPackageObjects(package: ModuleType, ignore: Predicate = lambda obj: False
     
     for module in modules:
         name = module.name
-        value = importlib.import_module(package.__name__ +'.' + name)
+        value = importlib.import_module(package.__name__ + '.' + name)
         is_package = module.ispkg
         obj = PackageObject(name, value, is_package)
         if ignore(obj):
