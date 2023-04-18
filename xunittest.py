@@ -3,4 +3,11 @@ import xunit
 
 @xunit.TestClass
 class Test(xunit.TestCase):
-    pass
+
+    @xunit.Test
+    def testMethod(self) -> None:
+        pass
+
+    @xunit.Test
+    def failedMethod(self) -> None:
+        raise Exception
