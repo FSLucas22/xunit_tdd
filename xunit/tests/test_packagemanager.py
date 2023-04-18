@@ -52,5 +52,11 @@ class TestPackageManager(TestCase):
             PackageObject("subpackagemodule", subpackagemodule),
             subpackage
         )
+        from xunit.tests import testpackage
+        from xunit.tests.testpackage import packagemodule
+        assert not ignoreName(
+            PackageObject("packagemodule", packagemodule),
+            testpackage
+        )
         
         
