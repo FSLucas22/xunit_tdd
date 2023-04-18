@@ -45,7 +45,9 @@ class TestSuite:
         objs = getPackageObjects(package, ignore)
         suite = TestSuite()
         for obj in objs:
-            obj_suite = cls.fromPackage(obj.value) if obj.is_package else cls.fromModule(obj.value)
+            obj_suite = cls.fromPackage(
+                obj.value, ignore
+                ) if obj.is_package else cls.fromModule(obj.value)
             suite = suite.merge(obj_suite)
         return suite
 
