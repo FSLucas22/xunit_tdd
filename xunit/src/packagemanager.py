@@ -67,8 +67,6 @@ def ignoreName(obj: PackageObject, pkg: ModuleType | None = None) -> bool:
 
 
 def findModule(module_name: str, file_path: str) -> ModuleType:
-    print(module_name)
-    print(file_path)
     spec = importlib.util.spec_from_file_location(module_name, file_path)
     if spec is None or spec.loader is None:
         raise ModuleNotFoundError("Module not found.")
