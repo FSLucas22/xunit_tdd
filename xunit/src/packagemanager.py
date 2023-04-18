@@ -2,8 +2,11 @@ from typing import NamedTuple, Callable, Protocol
 from types import ModuleType
 import pkgutil
 import importlib
+import importlib.util
 from pathlib import Path
+import os
 from os.path import dirname
+import sys
 
 
 class PackageObject(NamedTuple):
@@ -14,7 +17,6 @@ class PackageObject(NamedTuple):
 
 class InvalidPathError(Exception):
     pass
-
 
 
 class Predicate(Protocol):
@@ -64,8 +66,16 @@ def ignoreName(obj: PackageObject, pkg: ModuleType | None = None) -> bool:
     return obj.name in getIgnoreFileContent(pkg)
 
 
-def findModule(path: str) -> ModuleType:
-    return importlib.import_module(path)
+def findModule(module_name: str, file_path: str) -> ModuleType:
+    print(module_name)
+    print(file_path)
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    if spec is None or spec.loader is None:
+        raise ModuleNotFoundError("Module not found.")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
 
 
 
