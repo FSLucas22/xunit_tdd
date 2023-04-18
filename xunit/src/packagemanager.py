@@ -2,6 +2,7 @@ from typing import NamedTuple, Callable, Any
 from types import ModuleType
 import pkgutil
 import importlib
+from pathlib import Path
 from os.path import dirname
 
 
@@ -41,7 +42,15 @@ def getPackageObjects(package: ModuleType, ignore: Predicate = lambda obj: False
 
 
 def getIgnoreFileContent(package: ModuleType) -> list[Any]:
-    return []
+    if not package.__file__:
+        raise InvalidPathError("package must have a valid path")
+    package_path = Path(dirname(package.__file__))
+    ignore_path = package_path / 'ignore.txt'
+    try:
+        with open(ignore_path, 'r') as file:
+            return file.readlines()
+    except FileNotFoundError as e:
+        return []
 
 
 
