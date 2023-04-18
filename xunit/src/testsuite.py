@@ -1,7 +1,7 @@
 from typing import Type, Self
 from xunit.src.testcase import TestCase
 from xunit.src.testresult import TestResult
-from xunit.src.packagemanager import getPackageObjects, PackageObject
+from xunit.src.packagemanager import getPackageObjects, PackageObject, Predicate
 from types import ModuleType
 from inspect import getmembers, isfunction
 
@@ -40,13 +40,11 @@ class TestSuite:
         return cls.fromTestCase(*classes)
 
     @classmethod
-    def fromPackage(cls, package: ModuleType, ignore: str="") -> 'TestSuite':
-        objs = getPackageObjects(package)
+    def fromPackage(cls, package: ModuleType,
+                    ignore: Predicate = lambda _,__: False) -> 'TestSuite':
+        objs = getPackageObjects(package, ignore)
         suite = TestSuite()
-        to_ignore = ignore.split('\n')
         for obj in objs:
-            if obj.name in to_ignore:
-                continue
             obj_suite = cls.fromPackage(obj.value) if obj.is_package else cls.fromModule(obj.value)
             suite = suite.merge(obj_suite)
         return suite

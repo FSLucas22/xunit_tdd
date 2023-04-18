@@ -115,11 +115,9 @@ class TestSuiteTest(TestCase):
     @Test
     def testIgnore(self) -> None:
         import xunit.tests.testpackage as testpackage
-        ignore = "packagemodule\nsubpackage"
+        ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
         suite = TestSuite.fromPackage(testpackage, ignore=ignore)
         suite.run(self.result)
-        print(self.result.getAllPassed())
-        print(self.result.getAllFailed())
         assert "y" == self.result.getAllPassed()
         assert "y1" == self.result.getAllFailed()
         
