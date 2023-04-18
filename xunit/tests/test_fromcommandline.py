@@ -1,5 +1,6 @@
 from xunit.src import *
 from os.path import dirname
+import sys
 
 
 @TestClass
@@ -32,7 +33,7 @@ class TestFromCommandLine(TestCase):
         assert "p\\x\\z\\module.py" == path_for_module
 
     @Test
-    def testCanConstructASuiteFromPackage(self) -> None:
+    def testCanConstructASuiteFromPackagePath(self) -> None:
         from xunit.tests import testpackage
         suite1 = TestSuite.fromPath(
             "testpackage", testpackage.__file__, is_package=True
@@ -47,7 +48,7 @@ class TestFromCommandLine(TestCase):
         assert result1.getAllNotCompleted() == result2.getAllNotCompleted()
 
     @Test
-    def testCanConstructASuiteFromModule(self) -> None:
+    def testCanConstructASuiteFromModulePath(self) -> None:
         from xunit.tests.testpackage.subpackage import subpackagemodule
         suite1 = TestSuite.fromPath(
             "subpackagemodule", subpackagemodule.__file__, is_package=False
