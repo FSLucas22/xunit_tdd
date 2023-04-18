@@ -79,8 +79,10 @@ def findModule(module_name: str, file_path: str) -> ModuleType:
 
 
 def getPath(name: str, directory_path: str, is_package: bool) -> str:
-    return directory_path + "\\" + name + "\\" + "__init__.py"
-
+    path = directory_path + "\\" + name
+    if is_package:
+        path += "\\" + "__init__.py"
+    return path
 
 
 
