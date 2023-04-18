@@ -53,7 +53,6 @@ def getIgnoreFileContent(package: ModuleType) -> list[str]:
     try:
         with open(ignore_path, 'r') as file:
             lines = [line.strip('\n') for line in file.readlines()]
-            print(lines)
             return lines
     except FileNotFoundError as e:
         return []
