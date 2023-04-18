@@ -18,12 +18,12 @@ class InvalidPathError(Exception):
 
 
 class Predicate(Protocol):
-    def __call__(self, obj: PackageObject, pkg: ModuleType | None = None, /) -> bool:
+    def __call__(self, obj: PackageObject, pkg: ModuleType, /) -> bool:
         pass
 
 
 def getPackageObjects(package: ModuleType,
-                      ignore: Predicate = lambda obj, pkg=None: False
+                      ignore: Predicate = lambda obj, pkg: False
                       ) -> list[PackageObject]:
     if not package.__file__:
         raise InvalidPathError("package must have a valid path")
@@ -38,7 +38,7 @@ def getPackageObjects(package: ModuleType,
         value = importlib.import_module(package.__name__ + '.' + name)
         is_package = module.ispkg
         obj = PackageObject(name, value, is_package)
-        if ignore(obj):
+        if ignore(obj, package):
             continue
         objects.append(obj)
         

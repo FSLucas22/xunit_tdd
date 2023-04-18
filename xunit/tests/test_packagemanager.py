@@ -32,7 +32,7 @@ class TestPackageManager(TestCase):
         expected_object = PackageObject("packagemodule2", packagemodule2)
         package_objects = getPackageObjects(
             testpackage,
-            ignore=lambda obj, _=None: obj.name in ["packagemodule","subpackage"]
+            ignore=lambda obj, _: obj.name in ["packagemodule","subpackage"]
         )
         assert len(package_objects) == 1
         assert expected_object == package_objects[0]
