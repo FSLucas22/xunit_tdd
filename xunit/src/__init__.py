@@ -14,7 +14,7 @@ from types import ModuleType
 class TestRunner:
     capture_output: Callable[[str], None]
     
-    def __init__(self, capture_output: Callable[[str], None]) -> None:
+    def __init__(self, capture_output: Callable[[str], None] = print) -> None:
         self.capture_output = capture_output
 
     def _run(self, suite: TestSuite) -> None:
