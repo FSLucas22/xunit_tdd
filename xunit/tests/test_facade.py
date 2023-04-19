@@ -30,7 +30,7 @@ class TestFacade(TestCase):
     @Test
     def testFacadeWithModule(self) -> None:
         xunit.run(
-            subject=DummyTestCase,
+            subject=testmodule,
             type="module",
             capture_output=self.print
         )

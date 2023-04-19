@@ -16,13 +16,20 @@ def run(
     type: str,
     capture_output: Callable[[str], None]
     ) -> None:
-    subject = cast(Type[TestCase], subject)
+
     result = TestResult()
     summary = MixedTestSummary(
         PassedSummary(passed_formatter=green),
         ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
         SimpleTestSummary()
     )
-    suite = TestSuite.fromTestCase(subject)
+    
+    if type == "class":
+        subject = cast(Type[TestCase], subject)
+        suite = TestSuite.fromTestCase(subject)
+    else:
+        subject = cast(ModuleType, subject)
+        suite = TestSuite.fromModule(subject)
+        
     suite.run(result)
     capture_output(summary.results(result))
