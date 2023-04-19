@@ -6,7 +6,7 @@ from xunit.tests.testclasses import *
 class TestCaptureException(TestCase):
     
     @Test
-    def testCaptureException(self) -> None:
+    def test_capture_exception(self) -> None:
         @TestClass
         class SomeTestClass(TestCase):
             @Test
@@ -29,7 +29,7 @@ class TestCaptureException(TestCase):
         assert result.failed == "testDifferentError testNoError"
 
     @Test
-    def testRaisesExpectationError(self) -> None:
+    def test_raises_expectation_error(self) -> None:
         with expects(ExpectationError):
             with expects(Exception):
                 pass
