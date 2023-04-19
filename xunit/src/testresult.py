@@ -30,15 +30,16 @@ class TestResult:
 
     @property
     def run_count(self) -> int:
-        return self._passed.register_count() + self._failed.register_count() 
+        return self._passed.register_count() + \
+               len(self._failed_errors) 
 
     @property
     def failed_count(self) -> int:
-        return self._failed.register_count()
+        return len(self._failed_errors)
 
     @property
     def not_completed_count(self) -> int:
-        return self._not_completed.register_count()
+        return len(self._not_completed_errors)
 
     @property
     def passed_count(self) -> int:
