@@ -54,10 +54,11 @@ class TestSuite:
         return suite
 
     @classmethod
-    def fromPath(cls, name: str, path: str, is_package: bool) -> 'TestSuite':
+    def fromPath(cls, name: str, path: str, is_package: bool,
+                 ignore: Predicate=lambda _,__: False) -> 'TestSuite':
         module = findModule(name, path)
         if is_package:
-            return cls.fromPackage(module)
+            return cls.fromPackage(module, ignore)
         return cls.fromModule(module)
 
 

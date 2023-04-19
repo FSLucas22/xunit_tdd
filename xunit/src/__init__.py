@@ -33,11 +33,15 @@ class TestRunner:
     def runForModule(self, module: ModuleType) -> None:
         self._run(TestSuite.fromModule(module))
 
-    def runForPackage(self, package: ModuleType) -> None:
-        self._run(TestSuite.fromPackage(package))
+    def runForPackage(
+        self, package: ModuleType, ignore: Predicate=lambda _,__: False
+        ) -> None:
+        self._run(TestSuite.fromPackage(package, ignore))
 
     def runForModulePath(self, path: str) -> None:
         self._run(TestSuite.fromPath("test_module", path, False))
 
-    def runForPackagePath(self, path: str) -> None:
-        self._run(TestSuite.fromPath("test_package", path, True))
+    def runForPackagePath(
+        self, path: str, ignore: Predicate=lambda _,__: False
+        ) -> None:
+        self._run(TestSuite.fromPath("test_package", path, True, ignore))
