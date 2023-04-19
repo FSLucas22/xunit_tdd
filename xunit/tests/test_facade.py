@@ -1,5 +1,4 @@
 from xunit.src import *
-import xunit.src as xunit
 from xunit.tests.testclasses import DummyTestCase
 from xunit.tests import testmodule
 from xunit.tests.testclasses import MockPrint
@@ -33,7 +32,9 @@ class TestFacade(TestCase):
 
     @Test
     def testFacadeWithPackage(self) -> None:
-        self.runner.runForPackage(testpackage)
+        self.runner.runForPackage(
+            testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
+        )
         assert self.print.passed_value == self.expectedValueForPackage()
 
     @Test
@@ -43,7 +44,9 @@ class TestFacade(TestCase):
 
     @Test
     def testFacadeWithPackagePath(self) -> None:
-        self.runner.runForPackagePath(testpackage.__file__)
+        self.runner.runForPackagePath(
+            testpackage.__file__, ignore=lambda obj, _: obj.name != "packagemodule"
+        )
         assert self.print.passed_value == self.expectedValueForPackage()
 
     def expectedValueForClass(self) -> str:
@@ -75,6 +78,8 @@ class TestFacade(TestCase):
         ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
         SimpleTestSummary()
         )
-        suite = TestSuite.fromPackage(testpackage)
+        suite = TestSuite.fromPackage(
+            testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
+        )
         suite.run(result)
         return summary.results(result)
