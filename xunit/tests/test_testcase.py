@@ -1,7 +1,6 @@
 from xunit.src import *
 from xunit.src.testerrorinfo import TestErrorInfo
 from xunit.tests.testclasses import *
-from typing import cast
 
 
 @TestClass
@@ -14,12 +13,12 @@ class TestCaseTest(TestCase):
         self.test = WasRun("testMethod")
 
     @Test
-    def testTemplateMethod(self) -> None:
+    def test_template_method(self) -> None:
         self.test.run(self.result)
         assert self.test.log == "setUp testMethod tearDown"
 
     @Test
-    def testResult(self) -> None:
+    def test_result(self) -> None:
         self.test.run(self.result)
         assert 1 == self.result.passed_count
         assert 0 == self.result.failed_count
@@ -35,7 +34,7 @@ class TestCaseTest(TestCase):
         assert "testBrokenMethod" == self.result.failed
 
     @Test
-    def testFailedInSetUp(self) -> None:
+    def test_failed_in_set_up(self) -> None:
         test = FailedSetUp("testMethod")
         test.run(self.result)
         assert "tearDown" in test.log
@@ -44,20 +43,20 @@ class TestCaseTest(TestCase):
         assert "testMethod" == self.result.not_completed
 
     @Test
-    def testNotCompletedWhenNotFound(self) -> None:
+    def test_not_completed_when_not_found(self) -> None:
         test = WasRun("notImplementedTest")
         test.run(self.result)
         assert self.result.not_completed_count == 1
         assert "notImplementedTest" == self.result.not_completed
 
     @Test 
-    def testFailedResultCallsTearDown(self) -> None:
+    def test_failed_result_calls_tear_down(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
         assert "tearDown" in test.log
 
     @Test
-    def testFailedResultPassesException(self) -> None:
+    def test_failed_result_passes_exception(self) -> None:
         error = Exception()
 
         mock_class = MockTestCase("testMethod", error)
@@ -70,7 +69,7 @@ class TestCaseTest(TestCase):
         assert expected_info == error_info
 
     @Test
-    def testnotCompletedResultPassesException(self) -> None:
+    def test_not_completed_result_passes_exception(self) -> None:
         error = Exception()
         mock_class = MockBrokenTestCase("testMethod", error)
         mock_class.run(self.result)
