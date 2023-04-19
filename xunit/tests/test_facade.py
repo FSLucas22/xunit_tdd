@@ -36,6 +36,11 @@ class TestFacade(TestCase):
         self.runner.runForPackage(testpackage)
         assert self.print.passed_value == self.expectedValueForPackage()
 
+    @Test
+    def testFacadeWithModulePath(self) -> None:
+        self.runner.runForModulePath(testmodule.__file__)
+        assert self.print.passed_value == self.expectedValueForModule()
+
     def expectedValueForClass(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
