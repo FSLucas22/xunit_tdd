@@ -6,10 +6,16 @@ class InvalidAttributeException(Exception):
     pass
 
 
+class ExpectationError(Exception):
+    pass
+
+
 @contextmanager
 def expects(error_class: Type[Exception]) -> Iterator[None]:
     try:
         yield
     except error_class as e:
         return
-    raise Exception
+    raise ExpectationError(
+        f"Did not raised {error_class.__name__}"
+    )
