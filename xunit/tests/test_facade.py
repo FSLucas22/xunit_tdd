@@ -44,7 +44,7 @@ class TestFacade(TestCase):
             type="package",
             capture_output=self.print
         )
-        assert self.print.passed_value == self.expectedValueForModule()
+        assert self.print.passed_value == self.expectedValueForPackage()
 
     def expectedValueForClass(self) -> str:
         result = TestResult()

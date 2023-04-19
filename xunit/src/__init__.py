@@ -27,9 +27,12 @@ def run(
     if type == "class":
         subject = cast(Type[TestCase], subject)
         suite = TestSuite.fromTestCase(subject)
-    else:
+    if type == "module":
         subject = cast(ModuleType, subject)
         suite = TestSuite.fromModule(subject)
+    if type == "package":
+        subject = cast(ModuleType, subject)
+        suite = TestSuite.fromPackage(subject)
         
     suite.run(result)
     capture_output(summary.results(result))
