@@ -74,7 +74,11 @@ class MockBrokenTestCase(TestCase):
         pass
 
 
-
+class MockPrint:
+    passed_value: str = ""
+    
+    def __call__(self, result: str) -> None:
+        pass
 
 
 
