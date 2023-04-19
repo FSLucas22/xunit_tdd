@@ -28,3 +28,10 @@ class TestCaptureException(TestCase):
         assert result.passed == "testError"
         assert result.failed == "testDifferentError testNoError"
 
+    @Test
+    def testRaisesExpectationError(self) -> None:
+        with expects(ExpectationError):
+            with expects(Exception):
+                pass
+
+        
