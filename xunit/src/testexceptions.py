@@ -11,4 +11,5 @@ def expects(error_class: Type[Exception]) -> Iterator[None]:
     try:
         yield
     except error_class as e:
-        pass
+        return
+    raise Exception
