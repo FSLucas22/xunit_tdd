@@ -15,11 +15,11 @@ class TestSuiteTest(TestCase):
         suite = TestSuite()
         suite.add(WasRun("testMethod"), WasRun("testBrokenMethod"))
         suite.run(self.result)
-        assert self.result.passedCount == 1
-        assert self.result.failedCount == 1
-        assert self.result.notCompletedCount == 0
-        assert "testMethod testBrokenMethod" == self.result.getAllStarted()
-        assert "testMethod" == self.result.getAllPassed()
+        assert self.result.passed_count == 1
+        assert self.result.failed_count == 1
+        assert self.result.not_completed_count == 0
+        assert "testMethod testBrokenMethod" == self.result.started
+        assert "testMethod" == self.result.passed
 
     @Test
     def testSuiteFromTestCase(self) -> None:
@@ -41,8 +41,8 @@ class TestSuiteTest(TestCase):
         suite = TestSuite.fromTestCase(DummyTestCase)
         suite.run(self.result)
         
-        assert self.result.getAllPassed() == individualResult.getAllPassed() == "passedTest1 passedTest2"
-        assert self.result.getAllFailed() == individualResult.getAllFailed() == "failedTest1 failedTest2"
+        assert self.result.passed == individualResult.passed == "passedTest1 passedTest2"
+        assert self.result.failed == individualResult.failed == "failedTest1 failedTest2"
 
     @Test
     def testNamesFromTests(self) -> None:
@@ -68,8 +68,8 @@ class TestSuiteTest(TestCase):
         suite = TestSuite.fromTestCase(DummyTestCase, DummyTestCase)
         suite.run(self.result)
         
-        assert self.result.getAllPassed() == individualResult.getAllPassed() == "passedTest1 passedTest2 passedTest1 passedTest2"
-        assert self.result.getAllFailed() == individualResult.getAllFailed() == "failedTest1 failedTest2 failedTest1 failedTest2"
+        assert self.result.passed == individualResult.passed == "passedTest1 passedTest2 passedTest1 passedTest2"
+        assert self.result.failed == individualResult.failed == "failedTest1 failedTest2 failedTest1 failedTest2"
 
     @Test
     def testTestModule(self) -> None:
@@ -79,16 +79,16 @@ class TestSuiteTest(TestCase):
             testmodule.SomeOtherTest
         )
         suite.run(self.result)
-        assert self.result.getAllPassed() == "someTest"
-        assert self.result.getAllFailed() == "someOtherTest"
+        assert self.result.passed == "someTest"
+        assert self.result.failed == "someOtherTest"
 
     @Test
     def testFromModule(self) -> None:
         import xunit.tests.testmodule as testmodule
         suite = TestSuite.fromModule(testmodule, testmodule)
         suite.run(self.result)
-        assert self.result.getAllPassed() == "someTest someTest"
-        assert self.result.getAllFailed() == "someOtherTest someOtherTest"
+        assert self.result.passed == "someTest someTest"
+        assert self.result.failed == "someOtherTest someOtherTest"
 
     @Test
     def testFromPackage(self) -> None:
@@ -102,10 +102,10 @@ class TestSuiteTest(TestCase):
         result = TestResult()
         packagesuite.run(result)
         suite.run(self.result)
-        normal_passed = self.result.getAllPassed()
-        normal_failed = self.result.getAllFailed()
-        package_passed = result.getAllPassed()
-        package_failed = result.getAllFailed()
+        normal_passed = self.result.passed
+        normal_failed = self.result.failed
+        package_passed = result.passed
+        package_failed = result.failed
         
         assert "x" in normal_passed and "y" in normal_passed and "z" in normal_passed
         assert "x" in package_passed and "y" in package_passed and "z" in package_passed
@@ -118,8 +118,8 @@ class TestSuiteTest(TestCase):
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
         suite = TestSuite.fromPackage(testpackage, ignore=ignore)
         suite.run(self.result)
-        assert "y" == self.result.getAllPassed()
-        assert "y1" == self.result.getAllFailed()
+        assert "y" == self.result.passed
+        assert "y1" == self.result.failed
 
     @Test
     def testIgnorePerpetuates(self) -> None:
@@ -127,16 +127,16 @@ class TestSuiteTest(TestCase):
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
         suite = TestSuite.fromPackage(testpackage, ignore=ignore)
         suite.run(self.result)
-        assert "y" == self.result.getAllPassed()
-        assert "y1" == self.result.getAllFailed()
+        assert "y" == self.result.passed
+        assert "y1" == self.result.failed
 
     @Test
     def testCanIgnoreNames(self) -> None:
         import xunit.tests.testpackage as testpackage
         suite = TestSuite.fromPackage(testpackage, ignoreName)
         suite.run(self.result)
-        passed = self.result.getAllPassed()
-        failed = self.result.getAllFailed()
+        passed = self.result.passed
+        failed = self.result.failed
         assert "x" in passed and "y" in passed and "z" not in passed
         assert "x1" in failed and "y1" in failed and "z1" not in failed
         
@@ -152,10 +152,10 @@ class TestSuiteTest(TestCase):
         suite2.run(result2)
         merged.run(mergedResult)
 
-        assert result1.getAllPassed() == result2.getAllPassed() == "passedTest1 passedTest2"
-        assert result1.getAllFailed() == result2.getAllFailed() == "failedTest1 failedTest2"
-        assert result1.getAllPassed() + " " + result2.getAllPassed() == mergedResult.getAllPassed()
-        assert result1.getAllFailed() + " " + result2.getAllFailed() == mergedResult.getAllFailed()
+        assert result1.passed == result2.passed == "passedTest1 passedTest2"
+        assert result1.failed == result2.failed == "failedTest1 failedTest2"
+        assert result1.passed + " " + result2.passed == mergedResult.passed
+        assert result1.failed + " " + result2.failed == mergedResult.failed
 
         
     @Test
@@ -169,9 +169,9 @@ class TestSuiteTest(TestCase):
         result2 = TestResult()
         suite1.run(result1)
         suite2.run(result2)
-        assert result1.getAllPassed() == result2.getAllPassed()
-        assert result1.getAllFailed() == result2.getAllFailed()
-        assert result1.getAllNotCompleted() == result2.getAllNotCompleted()
+        assert result1.passed == result2.passed
+        assert result1.failed == result2.failed
+        assert result1.not_completed == result2.not_completed
 
     @Test
     def testCanConstructASuiteFromModulePath(self) -> None:
@@ -184,8 +184,8 @@ class TestSuiteTest(TestCase):
         result2 = TestResult()
         suite1.run(result1)
         suite2.run(result2)
-        assert result1.getAllPassed() == result2.getAllPassed()
-        assert result1.getAllFailed() == result2.getAllFailed()
-        assert result1.getAllNotCompleted() == result2.getAllNotCompleted()        
+        assert result1.passed == result2.passed
+        assert result1.failed == result2.failed
+        assert result1.not_completed == result2.not_completed        
 
 

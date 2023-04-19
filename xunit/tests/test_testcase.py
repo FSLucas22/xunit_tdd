@@ -20,34 +20,34 @@ class TestCaseTest(TestCase):
     @Test
     def testResult(self) -> None:
         self.test.run(self.result)
-        assert 1 == self.result.passedCount
-        assert 0 == self.result.failedCount
-        assert 0 == self.result.notCompletedCount
-        assert "testMethod" == self.result.getAllPassed()
+        assert 1 == self.result.passed_count
+        assert 0 == self.result.failed_count
+        assert 0 == self.result.not_completed_count
+        assert "testMethod" == self.result.passed
 
     @Test
     def testFailedResult(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
-        assert 1 == self.result.failedCount
-        assert 0 == self.result.notCompletedCount
-        assert "testBrokenMethod" == self.result.getAllFailed()
+        assert 1 == self.result.failed_count
+        assert 0 == self.result.not_completed_count
+        assert "testBrokenMethod" == self.result.failed
 
     @Test
     def testFailedInSetUp(self) -> None:
         test = FailedSetUp("testMethod")
         test.run(self.result)
         assert "tearDown" in test.log
-        assert self.result.failedCount == 0
-        assert self.result.notCompletedCount == 1
-        assert "testMethod" == self.result.getAllNotCompleted()
+        assert self.result.failed_count == 0
+        assert self.result.not_completed_count == 1
+        assert "testMethod" == self.result.not_completed
 
     @Test
     def testNotCompletedWhenNotFound(self) -> None:
         test = WasRun("notImplementedTest")
         test.run(self.result)
-        assert self.result.notCompletedCount == 1
-        assert "notImplementedTest" == self.result.getAllNotCompleted()
+        assert self.result.not_completed_count == 1
+        assert "notImplementedTest" == self.result.not_completed
 
     @Test 
     def testFailedResultCallsTearDown(self) -> None:
@@ -65,7 +65,7 @@ class TestCaseTest(TestCase):
         mock_class.run(self.result, MockTestErrorInfo)
         assert mock_class.exception_raised == error
         
-        error_info = cast(MockTestErrorInfo, self.result.failedErrors[0])
+        error_info = cast(MockTestErrorInfo, self.result._failed_errors[0])
         assert error == error_info.exception_passed
 
     @Test
@@ -75,5 +75,5 @@ class TestCaseTest(TestCase):
         mock_class.run(self.result, MockTestErrorInfo)
         assert mock_class.exception_raised == error
 
-        error_info = cast(MockTestErrorInfo, self.result.notCompletedErrors[0])
+        error_info = cast(MockTestErrorInfo, self.result._not_completed_errors[0])
         assert error == error_info.exception_passed

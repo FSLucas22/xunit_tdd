@@ -29,10 +29,10 @@ class TestTest(TestCase):
         ))
         self.test_cls("test_method").run(result_after_decorator)
         self.test_cls("broken_method").run(result_after_decorator)
-        assert result_before_decorator.getAllPassed() ==\
-               result_after_decorator.getAllPassed()
-        assert result_before_decorator.getAllFailed() ==\
-               result_after_decorator.getAllFailed()
+        assert result_before_decorator.passed ==\
+               result_after_decorator.passed
+        assert result_before_decorator.failed ==\
+               result_after_decorator.failed
         
     @Test
     def test_decorator_returns_flag(self) -> None:
@@ -55,8 +55,8 @@ class TestTest(TestCase):
         suite = TestSuite.fromTestCase(UnnamedTestClass)
         result = TestResult()
         suite.run(result)
-        assert result.getAllPassed() == "test_method"
-        assert result.getAllFailed() == "broken_method"
+        assert result.passed == "test_method"
+        assert result.failed == "broken_method"
 
     @Test
     def test_is_equal_when_fails_in_set_up(self) -> None:
@@ -87,9 +87,9 @@ class TestTest(TestCase):
         suite = TestSuite.fromTestCase(BrokenUnnamedTestClass, UnnamedTestClass)
         result = TestResult()
         suite.run(result)
-        assert result.passedCount == 1
-        assert result.failedCount == 1
-        assert result.notCompletedCount == 2
+        assert result.passed_count == 1
+        assert result.failed_count == 1
+        assert result.not_completed_count == 2
         
 
     @Test

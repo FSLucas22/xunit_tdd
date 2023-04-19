@@ -14,32 +14,32 @@ class TestResultTest(TestCase):
 
     @Test
     def testCompletedTests(self) -> None:
-        assert self.result.getAllStarted() == ""
-        self.result.testFailed("someTest", self.error_info)
-        assert self.result.getAllStarted() == "someTest"
-        assert self.result.getAllFailed() == "someTest"
+        assert self.result.started == ""
+        self.result._test_failed("someTest", self.error_info)
+        assert self.result.started == "someTest"
+        assert self.result.failed == "someTest"
 
     @Test
     def testCompletedMultipleTests(self) -> None:
-        self.result.testFailed("someTest", self.error_info)
-        self.result.testFailed("someOtherTest", self.error_info)
-        assert self.result.getAllFailed() == "someTest someOtherTest"
+        self.result._test_failed("someTest", self.error_info)
+        self.result._test_failed("someOtherTest", self.error_info)
+        assert self.result.failed == "someTest someOtherTest"
 
     @Test
     def testNotCompletedTests(self) -> None:
-        assert self.result.getAllNotCompleted() == ""
-        self.result.testNotCompleted("someBrokenTest", self.error_info)
-        assert self.result.getAllNotCompleted() == "someBrokenTest"
-        assert self.result.getAllFailed() == self.result.getAllStarted() == ""
-        self.result.testNotCompleted("someOtherBrokenTest", self.error_info)
-        assert self.result.getAllNotCompleted() == "someBrokenTest someOtherBrokenTest"
+        assert self.result.not_completed == ""
+        self.result._test_not_completed("someBrokenTest", self.error_info)
+        assert self.result.not_completed == "someBrokenTest"
+        assert self.result.failed == self.result.started == ""
+        self.result._test_not_completed("someOtherBrokenTest", self.error_info)
+        assert self.result.not_completed == "someBrokenTest someOtherBrokenTest"
 
     @Test
     def testPassedTests(self) -> None:
-        assert self.result.getAllPassed() == ""
-        self.result.testPassed("someTest")
-        self.result.testPassed("someOtherTest")
-        assert self.result.getAllPassed() == "someTest someOtherTest"
+        assert self.result.passed == ""
+        self.result._test_passed("someTest")
+        self.result._test_passed("someOtherTest")
+        assert self.result.passed == "someTest someOtherTest"
 
     @Test
     def testRunnedEqualsPassedPlusFailed(self) -> None:
@@ -49,23 +49,23 @@ class TestResultTest(TestCase):
         suite.add(FailedSetUp("testMethod"))
         suite.run(self.result)
         
-        assert self.result.passedCount == 1
-        assert self.result.failedCount == 1
-        assert self.result.runCount == self.result.passedCount + self.result.failedCount
-        assert self.result.getAllStarted() == 'testMethod testBrokenMethod'
+        assert self.result.passed_count == 1
+        assert self.result.failed_count == 1
+        assert self.result.run_count == self.result.passed_count + self.result.failed_count
+        assert self.result.started == 'testMethod testBrokenMethod'
 
     @Test
     def testFailedErrors(self) -> None:
-        assert self.result.failedErrors == []
-        self.result.testFailed("someTest", self.error_info)
-        assert self.result.failedErrors == [self.error_info]
+        assert self.result._failed_errors == []
+        self.result._test_failed("someTest", self.error_info)
+        assert self.result._failed_errors == [self.error_info]
 
     @Test
     def testNotCompletedErrors(self) -> None:
-        assert self.result.notCompletedErrors == []
-        self.result.testNotCompleted("someTest", self.error_info)
-        assert self.result.failedErrors == []
-        assert self.result.notCompletedErrors == [self.error_info]
+        assert self.result._not_completed_errors == []
+        self.result._test_not_completed("someTest", self.error_info)
+        assert self.result._failed_errors == []
+        assert self.result._not_completed_errors == [self.error_info]
 
 
 

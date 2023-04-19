@@ -9,5 +9,5 @@ class Log:
             self.executed += " "
         self.executed += name
 
-    def registerCount(self) -> int:
+    def register_count(self) -> int:
         return len(self.executed.split())

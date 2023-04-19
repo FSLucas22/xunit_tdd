@@ -19,6 +19,6 @@ class TestCaptureException(TestCase):
                     raise Exception
         result = TestResult()
         TestSuite.fromTestCase(SomeTestClass).run(result)
-        assert result.getAllPassed() == "testError"
-        assert result.getAllFailed() == "testDifferentError"
+        assert result.passed == "testError"
+        assert result.failed == "testDifferentError"
 

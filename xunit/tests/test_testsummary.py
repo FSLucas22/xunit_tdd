@@ -16,16 +16,16 @@ class TestSummaryTest(TestCase):
     @Test
     def testSummary(self) -> None:
         summary = SimpleTestSummary()
-        self.result.testPassed("someTest")
-        self.result.testNotCompleted("someTest", self.error_info)
+        self.result._test_passed("someTest")
+        self.result._test_not_completed("someTest", self.error_info)
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
     @Test
     def testDetailedSummary(self) -> None:
         summary = DetailedTestSummary()
-        self.result.testPassed("someOtherTest")
-        self.result.testFailed("someTest", self.error_info)
-        self.result.testNotCompleted("someBrokenTest", self.error_info)
+        self.result._test_passed("someOtherTest")
+        self.result._test_failed("someTest", self.error_info)
+        self.result._test_not_completed("someBrokenTest", self.error_info)
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     @Test
@@ -34,8 +34,8 @@ class TestSummaryTest(TestCase):
             DetailedTestSummary(), SimpleTestSummary()
         ]
         summary = MixedTestSummary(*summariesToMix)
-        self.result.testPassed("someTest")
-        self.result.testNotCompleted("someTest", self.error_info)
+        self.result._test_passed("someTest")
+        self.result._test_not_completed("someTest", self.error_info)
         summary_result = summary.results(self.result)
         individual_results = [s.results(self.result) for s in summariesToMix]
         assert summary_result == '\n'.join(individual_results)
@@ -47,7 +47,7 @@ class TestSummaryTest(TestCase):
         test2 = MockTestCase("testMethod2", Exception())
         test.run(self.result)
         test2.run(self.result)
-        error_info = self.result.failedErrors
+        error_info = self.result._failed_errors
         assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].error_info}\ntestMethod2 - Failed\n{error_info[1].error_info}"
 
     @Test
@@ -57,8 +57,8 @@ class TestSummaryTest(TestCase):
         test2 = MockBrokenTestCase("testMethod", Exception())
         test.run(self.result)
         test2.run(self.result)
-        failed_info = self.result.failedErrors[0]
-        notCompleted_info = self.result.notCompletedErrors[0]
+        failed_info = self.result._failed_errors[0]
+        notCompleted_info = self.result._not_completed_errors[0]
         assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.error_info}\n"\
                                                f"testMethod - Not completed\n{notCompleted_info.error_info}"
 
@@ -68,9 +68,9 @@ class TestSummaryTest(TestCase):
         passed_formatter = lambda messege: "{P}" + messege
         notCompleted_formatter = lambda messege: "{NC}" + messege
         summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, notCompleted_formatter=notCompleted_formatter)
-        self.result.testPassed("passedTest")
-        self.result.testFailed("failedTest", self.error_info)
-        self.result.testNotCompleted("notCompletedTest", self.error_info)
+        self.result._test_passed("passedTest")
+        self.result._test_failed("failedTest", self.error_info)
+        self.result._test_not_completed("notCompletedTest", self.error_info)
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}notCompletedTest - Not completed"
 
     @Test
@@ -82,7 +82,7 @@ class TestSummaryTest(TestCase):
         test2 = MockBrokenTestCase("testMethod", Exception())
         test.run(self.result)
         test2.run(self.result)
-        failed_info = self.result.failedErrors[0]
-        notCompleted_info = self.result.notCompletedErrors[0]
+        failed_info = self.result._failed_errors[0]
+        notCompleted_info = self.result._not_completed_errors[0]
         assert summary.results(self.result) == f"[F]testMethod2 - Failed\n{failed_info.error_info}\n"\
                                                f"[NC]testMethod - Not completed\n{notCompleted_info.error_info}"

@@ -30,13 +30,14 @@ class Summary(ABC):
     
 class SimpleTestSummary:
     def results(self, result: TestResult) -> str:
-        return f"{result.runCount} run, {result.failedCount} failed, {result.notCompletedCount} not completed"
+        return f"{result.run_count} run, {result.failed_count} failed, "\
+               f"{result.not_completed_count} not completed"
 
 
 class PassedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
-        for test in result.getAllPassed().split():
+        for test in result.passed.split():
             messege = self.passed_formatter(test + ' - Passed')
             results.append(messege)
         return '\n'.join(results)
@@ -45,7 +46,7 @@ class PassedSummary(Summary):
 class FailedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
-        for test in result.getAllFailed().split():
+        for test in result.failed.split():
             messege = self.failed_formatter(test + ' - Failed')
             results.append(messege)
         return '\n'.join(results)
@@ -54,7 +55,7 @@ class FailedSummary(Summary):
 class NotCompletedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
-        for test in result.getAllNotCompleted().split():
+        for test in result.not_completed.split():
             messege = self.notCompleted_formatter(test + ' - Not completed')
             results.append(messege)
         return '\n'.join(results)
@@ -84,12 +85,12 @@ class MixedTestSummary:
 class ErrorInfoSummary(Summary):
     def results(self, result: TestResult) -> str:
         errors = []
-        for error_info in result.failedErrors:
+        for error_info in result._failed_errors:
             messege = self.failed_formatter(
                 f"{error_info.test_name} - Failed\n{error_info.error_info}"
             )
             errors.append(messege)
-        for error_info in result.notCompletedErrors:
+        for error_info in result._not_completed_errors:
             messege = self.notCompleted_formatter(
                 f"{error_info.test_name} - Not completed\n{error_info.error_info}"
             )

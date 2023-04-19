@@ -1,61 +1,69 @@
 from xunit.src.log import Log
 from xunit.src.testerrorinfo import TestErrorInfo
 
+
 class TestResult:
-    failed: Log
-    passed: Log
-    notCompleted: Log
-    failedErrors: list[TestErrorInfo]
-    notCompletedErrors: list[TestErrorInfo]
+    _failed: Log
+    _passed: Log
+    _not_completed: Log
+    _failed_errors: list[TestErrorInfo]
+    _not_completed_errors: list[TestErrorInfo]
     
     def __init__(self) -> None:
-        self.failed = Log()
-        self.notCompleted = Log()
-        self.passed = Log()
-        self.failedErrors = []
-        self.notCompletedErrors = []
+        self._failed = Log()
+        self._not_completed = Log()
+        self._passed = Log()
+        self._failed_errors = []
+        self._not_completed_errors = []
         
-    def testNotCompleted(self, test_name: str,
+    def _test_not_completed(self, test_name: str,
                          error_info: TestErrorInfo) -> None:
-        self.notCompleted.register(test_name)
-        self.notCompletedErrors.append(error_info)
+        self._not_completed.register(test_name)
+        self._not_completed_errors.append(error_info)
 
-    def testPassed(self, test_name: str) -> None:
-        self.passed.register(test_name)
+    def _test_passed(self, test_name: str) -> None:
+        self._passed.register(test_name)
 
-    def testFailed(self, test_name: str, error_info: TestErrorInfo) -> None:
-        self.failed.register(test_name)
-        self.failedErrors.append(error_info)
-
-    @property
-    def runCount(self) -> int:
-        return self.passed.registerCount() + self.failed.registerCount() 
+    def _test_failed(self, test_name: str, error_info: TestErrorInfo) -> None:
+        self._failed.register(test_name)
+        self._failed_errors.append(error_info)
 
     @property
-    def failedCount(self) -> int:
-        return self.failed.registerCount()
+    def run_count(self) -> int:
+        return self._passed.register_count() + self._failed.register_count() 
 
     @property
-    def notCompletedCount(self) -> int:
-        return self.notCompleted.registerCount()
+    def failed_count(self) -> int:
+        return self._failed.register_count()
 
     @property
-    def passedCount(self) -> int:
-        return self.passed.registerCount()
+    def not_completed_count(self) -> int:
+        return self._not_completed.register_count()
 
-    def getAllStarted(self) -> str:
+    @property
+    def passed_count(self) -> int:
+        return self._passed.register_count()
+
+    @property
+    def started(self) -> str:
         started = Log()
-        for passed in self.getAllPassed().split():
+        for passed in self.passed.split():
             started.register(passed)
-        for failed in self.getAllFailed().split():
+        for failed in self.failed.split():
             started.register(failed)
         return started.executed
 
-    def getAllFailed(self) -> str:
-        return self.failed.executed
+    @property
+    def failed(self) -> str:
+        errors = Log()
+        for error in self._failed_errors:
+            errors.register(error.test_name)
+        return errors.executed
 
-    def getAllPassed(self) -> str:
-        return self.passed.executed
+    @property
+    def passed(self) -> str:
+        return self._passed.executed
 
-    def getAllNotCompleted(self) -> str:
-        return self.notCompleted.executed
+    @property
+    def not_completed(self) -> str:
+        return self._not_completed.executed

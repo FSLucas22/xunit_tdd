@@ -75,9 +75,9 @@ class TestPackageManager(TestCase):
         suite2 = TestSuite.fromPackage(module)
         suite1.run(result1)
         suite2.run(result2)
-        assert result1.getAllPassed() == result2.getAllPassed()
-        assert result1.getAllFailed() == result2.getAllFailed()
-        assert result1.getAllNotCompleted() == result2.getAllNotCompleted()
+        assert result1.passed == result2.passed
+        assert result1.failed == result2.failed
+        assert result1.not_completed == result2.not_completed
 
     @Test
     def testCanCreateModulePath(self) -> None:
