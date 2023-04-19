@@ -5,7 +5,7 @@ from xunit.src.testsuite import TestSuite as TestSuite
 from xunit.src import testdecorator
 from xunit.src.testexceptions import *
 from xunit.src import testcolors
-from xunit.src.packagemanager import *
+import xunit.src.packagemanager  as pm
 from typing import Type, Callable, cast
 from types import ModuleType
 
@@ -38,7 +38,7 @@ class TestRunner:
         self._run(TestSuite.from_module(module))
 
     def runForPackage(
-        self, package: ModuleType, ignore: Predicate=ignoreName
+        self, package: ModuleType, ignore: pm.Predicate=pm.ignoreName
         ) -> None:
         self._run(TestSuite.from_package(package, ignore))
 
@@ -46,6 +46,6 @@ class TestRunner:
         self._run(TestSuite.from_path("test_module", path, False))
 
     def runForPackagePath(
-        self, path: str, ignore: Predicate=ignoreName
+        self, path: str, ignore: pm.Predicate=pm.ignoreName
         ) -> None:
         self._run(TestSuite.from_path("test_package", path, True, ignore))

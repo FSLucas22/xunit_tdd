@@ -9,16 +9,13 @@ from pathlib import Path
 import os
 from os.path import dirname
 import sys
+from xunit.src.testexceptions import InvalidPathError
 
 
 class PackageObject(NamedTuple):
     name: str
     value: ModuleType
     is_package: bool = False
-
-
-class InvalidPathError(Exception):
-    pass
 
 
 class Predicate(Protocol):

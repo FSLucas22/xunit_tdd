@@ -10,6 +10,10 @@ class ExpectationError(Exception):
     pass
 
 
+class InvalidPathError(Exception):
+    pass
+
+
 @contextmanager
 def expects(error_class: Type[Exception]) -> Iterator[None]:
     try:

@@ -1,4 +1,5 @@
 from xunit.src import *
+from xunit.src.packagemanager import *
 
 
 @TestClass

@@ -1,5 +1,6 @@
 from xunit.src import *
 from xunit.tests.testclasses import *
+from xunit.src.packagemanager import ignoreName
 from importlib import import_module
 
 
