@@ -26,7 +26,7 @@ class TestCaseTest(TestCase):
         assert "testMethod" == self.result.passed
 
     @Test
-    def testFailedResult(self) -> None:
+    def test_failed_result(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
         assert 1 == self.result.failed_count
