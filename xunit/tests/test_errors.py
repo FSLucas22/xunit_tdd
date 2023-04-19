@@ -37,4 +37,8 @@ class TestErrors(TestCase):
             info = TestErrorInfo.fromException(e, "testMethod")
             assert info.test_name == "testMethod"
 
+    @Test
+    def testEquality(self) -> None:
+        assert TestErrorInfo("x", "y") == TestErrorInfo("x", "y")
+
 
