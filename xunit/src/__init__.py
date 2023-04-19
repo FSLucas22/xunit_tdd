@@ -24,10 +24,8 @@ class TestRunner:
     def _run(self, suite: TestSuite) -> None:
         result = TestResult()
         summary = MixedTestSummary(
-            PassedSummary(passed_formatter=color.green),
-            ErrorInfoSummary(
-                failed_formatter=color.red,
-                notCompleted_formatter=color.yellow),
+            PassedSummary(),
+            ErrorInfoSummary(),
             SimpleTestSummary()
         )
         suite.run(result)

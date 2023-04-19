@@ -55,7 +55,7 @@ class TestFacade(TestCase):
         PassedSummary(passed_formatter=color.green),
         ErrorInfoSummary(
             failed_formatter=color.red,
-            notCompleted_formatter=color.yellow
+            not_completed_formatter=color.yellow
         ),
         SimpleTestSummary()
         )
@@ -69,7 +69,7 @@ class TestFacade(TestCase):
         PassedSummary(passed_formatter=color.green),
         ErrorInfoSummary(
             failed_formatter=color.red,
-            notCompleted_formatter=color.yellow
+            not_completed_formatter=color.yellow
         ),
         SimpleTestSummary()
         )
@@ -83,7 +83,7 @@ class TestFacade(TestCase):
         PassedSummary(passed_formatter=color.green),
         ErrorInfoSummary(
             failed_formatter=color.red,
-            notCompleted_formatter=color.yellow
+            not_completed_formatter=color.yellow
         ),
         SimpleTestSummary()
         )
