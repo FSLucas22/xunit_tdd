@@ -1,5 +1,8 @@
-from typing import NamedTuple, Callable, Protocol
+from typing import NamedTuple, Callable, Protocol, Type
+from xunit.src.testcase import TestCase
 from types import ModuleType
+from inspect import getmembers
+
 import pkgutil
 import importlib
 import importlib.util
@@ -82,6 +85,13 @@ def getPath(name: str, directory_path: str, is_package: bool) -> str:
         path += "\\" + "__init__.py"
     return path
 
+
+def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
+    return [cls for _, cls in getmembers(
+        module,
+        lambda value: hasattr(value, "_is_xunit_test_class") and \
+        value._is_xunit_test_class and value.__module__ == module.__name__
+    )]
 
 
 

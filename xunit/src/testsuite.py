@@ -2,10 +2,9 @@ from typing import Type, Self
 from xunit.src.testcase import TestCase
 from xunit.src.testresult import TestResult
 from xunit.src.packagemanager import (
-    getPackageObjects, PackageObject, Predicate, findModule
+    getPackageObjects, PackageObject, Predicate, findModule, getTestClasses
 )
 from types import ModuleType
-from inspect import getmembers, isfunction
 
 
 class TestSuite:
@@ -60,14 +59,6 @@ class TestSuite:
         if is_package:
             return cls.fromPackage(module, ignore)
         return cls.fromModule(module)
-
-
-def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
-    return [cls for _, cls in getmembers(
-        module,
-        lambda value: hasattr(value, "_is_xunit_test_class") and \
-        value._is_xunit_test_class and value.__module__ == module.__name__
-    )]
 
 
 
