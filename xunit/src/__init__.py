@@ -38,7 +38,7 @@ class TestRunner:
         self._run(TestSuite.from_module(module))
 
     def runForPackage(
-        self, package: ModuleType, ignore: pm.Predicate=pm.ignoreName
+        self, package: ModuleType, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
         self._run(TestSuite.from_package(package, ignore))
 
@@ -46,6 +46,6 @@ class TestRunner:
         self._run(TestSuite.from_path("test_module", path, False))
 
     def runForPackagePath(
-        self, path: str, ignore: pm.Predicate=pm.ignoreName
+        self, path: str, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
         self._run(TestSuite.from_path("test_package", path, True, ignore))

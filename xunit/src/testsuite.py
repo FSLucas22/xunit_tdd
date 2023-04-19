@@ -1,9 +1,7 @@
 from typing import Type, Self
 from xunit.src.testcase import TestCase
 from xunit.src.testresult import TestResult
-from xunit.src.packagemanager import (
-    getPackageObjects, PackageObject, Predicate, findModule, getTestClasses
-)
+import xunit.src.packagemanager as pm
 from types import ModuleType
 
 
@@ -36,13 +34,13 @@ class TestSuite:
     def from_module(cls, *modules: ModuleType) -> Self:
         classes = []
         for module in modules:
-            classes += getTestClasses(module)
+            classes += pm.get_test_classes(module)
         return cls.from_test_case(*classes)
 
     @classmethod
     def from_package(cls, package: ModuleType,
-                    ignore: Predicate = lambda _,__: False) -> 'TestSuite':
-        objs = getPackageObjects(package, ignore)
+                    ignore: pm.Predicate = lambda _,__: False) -> 'TestSuite':
+        objs = pm.get_package_objects(package, ignore)
         suite = TestSuite()
         for obj in objs:
             obj_suite = cls.from_package(
@@ -53,8 +51,8 @@ class TestSuite:
 
     @classmethod
     def from_path(cls, name: str, path: str, is_package: bool,
-                 ignore: Predicate=lambda _,__: False) -> 'TestSuite':
-        module = findModule(name, path)
+                 ignore: pm.Predicate=lambda _,__: False) -> 'TestSuite':
+        module = pm.find_module(name, path)
         if is_package:
             return cls.from_package(module, ignore)
         return cls.from_module(module)

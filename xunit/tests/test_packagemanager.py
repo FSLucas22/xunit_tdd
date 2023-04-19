@@ -12,12 +12,12 @@ class TestPackageManager(TestCase):
         assert PackageObject("packagemodule", packagemodule) == obj
 
     @Test
-    def testGetPackageObjects(self) -> None:
+    def testget_package_objects(self) -> None:
         from xunit.tests import testpackage
         from xunit.tests.testpackage import (
             packagemodule, packagemodule2, subpackage
         )
-        package_objects = getPackageObjects(testpackage)
+        package_objects = get_package_objects(testpackage)
         expected_object1 = PackageObject("packagemodule", packagemodule)
         expected_object2 = PackageObject("packagemodule2", packagemodule2)
         expected_object3 = PackageObject("subpackage", subpackage, True)
@@ -27,11 +27,11 @@ class TestPackageManager(TestCase):
         assert len(package_objects) == 3
 
     @Test
-    def testGetPackageObjectsIgnore(self) -> None:
+    def testget_package_objectsIgnore(self) -> None:
         from xunit.tests import testpackage
         from xunit.tests.testpackage import packagemodule2
         expected_object = PackageObject("packagemodule2", packagemodule2)
-        package_objects = getPackageObjects(
+        package_objects = get_package_objects(
             testpackage,
             ignore=lambda obj, _: obj.name in ["packagemodule","subpackage"]
         )
@@ -39,32 +39,32 @@ class TestPackageManager(TestCase):
         assert expected_object == package_objects[0]
 
     @Test
-    def testGetIgnoreFileContent(self) -> None:
+    def testget_ignore_file_content(self) -> None:
         from xunit.tests import testpackage
         from xunit.tests.testpackage import subpackage
-        assert getIgnoreFileContent(testpackage) == []
-        assert getIgnoreFileContent(subpackage) == ["subpackagemodule",
+        assert get_ignore_file_content(testpackage) == []
+        assert get_ignore_file_content(subpackage) == ["subpackagemodule",
                                                     "subpackagemodule2"]
 
     @Test
-    def testIgnoreName(self) -> None:
+    def testignore_name(self) -> None:
         from xunit.tests.testpackage import subpackage
         from xunit.tests.testpackage.subpackage import subpackagemodule
-        assert ignoreName(
+        assert ignore_name(
             PackageObject("subpackagemodule", subpackagemodule),
             subpackage
         )
         from xunit.tests import testpackage
         from xunit.tests.testpackage import packagemodule
-        assert not ignoreName(
+        assert not ignore_name(
             PackageObject("packagemodule", packagemodule),
             testpackage
         )
 
     @Test
-    def testFindModuleByPath(self) -> None:
+    def testfind_moduleByPath(self) -> None:
         from xunit.tests import testpackage
-        module = findModule(
+        module = find_module(
             testpackage.__name__, testpackage.__file__
         )
         assert module.__name__ == testpackage.__name__
@@ -82,8 +82,8 @@ class TestPackageManager(TestCase):
 
     @Test
     def testCanCreateModulePath(self) -> None:
-        path_for_package = getPath("package", "p\\x\\z", is_package=True)
-        path_for_module = getPath("module.py", "p\\x\\z", is_package=False)
+        path_for_package = get_path("package", "p\\x\\z", is_package=True)
+        path_for_module = get_path("module.py", "p\\x\\z", is_package=False)
         assert "p\\x\\z\\package\\__init__.py" == path_for_package
         assert "p\\x\\z\\module.py" == path_for_module
         

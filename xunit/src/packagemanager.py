@@ -23,7 +23,7 @@ class Predicate(Protocol):
         pass
 
 
-def getPackageObjects(package: ModuleType,
+def get_package_objects(package: ModuleType,
                       ignore: Predicate = lambda obj, pkg: False
                       ) -> list[PackageObject]:
     if not package.__file__:
@@ -46,7 +46,7 @@ def getPackageObjects(package: ModuleType,
     return objects
 
 
-def getIgnoreFileContent(package: ModuleType) -> list[str]:
+def get_ignore_file_content(package: ModuleType) -> list[str]:
     if not package.__file__:
         raise InvalidPathError("package must have a valid path")
     package_path = Path(dirname(package.__file__))
@@ -59,13 +59,13 @@ def getIgnoreFileContent(package: ModuleType) -> list[str]:
         return []
 
 
-def ignoreName(obj: PackageObject, pkg: ModuleType | None = None) -> bool:
+def ignore_name(obj: PackageObject, pkg: ModuleType | None = None) -> bool:
     if pkg is None:
         raise Exception
-    return obj.name in getIgnoreFileContent(pkg)
+    return obj.name in get_ignore_file_content(pkg)
 
 
-def findModule(module_name: str, file_path: str) -> ModuleType:
+def find_module(module_name: str, file_path: str) -> ModuleType:
     spec = importlib.util.spec_from_file_location(module_name, file_path)
     if spec is None or spec.loader is None:
         raise ModuleNotFoundError("Module not found.")
@@ -75,14 +75,14 @@ def findModule(module_name: str, file_path: str) -> ModuleType:
     return module
 
 
-def getPath(name: str, directory_path: str, is_package: bool) -> str:
+def get_path(name: str, directory_path: str, is_package: bool) -> str:
     path = directory_path + "\\" + name
     if is_package:
         path += "\\" + "__init__.py"
     return path
 
 
-def getTestClasses(module: ModuleType) -> list[Type[TestCase]]:
+def get_test_classes(module: ModuleType) -> list[Type[TestCase]]:
     return [cls for _, cls in getmembers(
         module,
         lambda value: hasattr(value, "_is_xunit_test_class") and \

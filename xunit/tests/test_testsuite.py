@@ -1,6 +1,6 @@
 from xunit.src import *
 from xunit.tests.testclasses import *
-from xunit.src.packagemanager import ignoreName
+from xunit.src.packagemanager import ignore_name
 from importlib import import_module
 
 
@@ -134,7 +134,7 @@ class TestSuiteTest(TestCase):
     @Test
     def testCanIgnoreNames(self) -> None:
         import xunit.tests.testpackage as testpackage
-        suite = TestSuite.from_package(testpackage, ignoreName)
+        suite = TestSuite.from_package(testpackage, ignore_name)
         suite.run(self.result)
         passed = self.result.passed
         failed = self.result.failed
