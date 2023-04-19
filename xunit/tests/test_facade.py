@@ -3,6 +3,7 @@ import xunit.src as xunit
 from xunit.tests.testclasses import DummyTestCase
 from xunit.tests import testmodule
 from xunit.tests.testclasses import MockPrint
+from xunit.tests import testpackage
 
 
 @TestClass
@@ -36,6 +37,15 @@ class TestFacade(TestCase):
         )
         assert self.print.passed_value == self.expectedValueForModule()
 
+    @Test
+    def testFacadeWithPackage(self) -> None:
+        xunit.run(
+            subject=testpackage,
+            type="package",
+            capture_output=self.print
+        )
+        assert self.print.passed_value == self.expectedValueForModule()
+
     def expectedValueForClass(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
@@ -55,5 +65,16 @@ class TestFacade(TestCase):
         SimpleTestSummary()
         )
         suite = TestSuite.fromModule(testmodule)
+        suite.run(result)
+        return summary.results(result)
+
+    def expectedValueForPackage(self) -> str:
+        result = TestResult()
+        summary = MixedTestSummary(
+        PassedSummary(passed_formatter=green),
+        ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
+        SimpleTestSummary()
+        )
+        suite = TestSuite.fromPackage(testpackage)
         suite.run(result)
         return summary.results(result)
