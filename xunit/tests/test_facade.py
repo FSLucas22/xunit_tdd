@@ -16,40 +16,40 @@ class TestFacade(TestCase):
         self.runner = TestRunner(self.print)
 
     @Test
-    def testMock(self) -> None:
+    def test_mock(self) -> None:
         self.print("Test")
         assert self.print.passed_value == "Test"
 
     @Test
-    def testFacadeWithTestClass(self) -> None:
+    def test_facade_with_test_class(self) -> None:
         self.runner.run_for_class(DummyTestCase)
-        assert self.print.passed_value == self.expectedValueForClass()
+        assert self.print.passed_value == self.expected_value_for_class()
 
     @Test
-    def testFacadeWithModule(self) -> None:
+    def test_facade_with_module(self) -> None:
         self.runner.run_for_module(testmodule)
-        assert self.print.passed_value == self.expectedValueForModule()
+        assert self.print.passed_value == self.expected_value_for_module()
 
     @Test
-    def testFacadeWithPackage(self) -> None:
+    def test_facade_with_package(self) -> None:
         self.runner.run_for_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
         )
-        assert self.print.passed_value == self.expectedValueForPackage()
+        assert self.print.passed_value == self.expected_value_for_package()
 
     @Test
-    def testFacadeWithModulePath(self) -> None:
+    def test_facade_with_module_path(self) -> None:
         self.runner.run_for_module_path(testmodule.__file__)
-        assert self.print.passed_value == self.expectedValueForModule()
+        assert self.print.passed_value == self.expected_value_for_module()
 
     @Test
-    def testFacadeWithPackagePath(self) -> None:
+    def test_facade_with_package_path(self) -> None:
         self.runner.run_for_package_path(
             testpackage.__file__, ignore=lambda obj, _: obj.name != "packagemodule"
         )
-        assert self.print.passed_value == self.expectedValueForPackage()
+        assert self.print.passed_value == self.expected_value_for_package()
 
-    def expectedValueForClass(self) -> str:
+    def expected_value_for_class(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
         PassedSummary(passed_formatter=color.green),
@@ -63,7 +63,7 @@ class TestFacade(TestCase):
         suite.run(result)
         return summary.results(result)
 
-    def expectedValueForModule(self) -> str:
+    def expected_value_for_module(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
         PassedSummary(passed_formatter=color.green),
@@ -77,7 +77,7 @@ class TestFacade(TestCase):
         suite.run(result)
         return summary.results(result)
 
-    def expectedValueForPackage(self) -> str:
+    def expected_value_for_package(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
         PassedSummary(passed_formatter=color.green),
