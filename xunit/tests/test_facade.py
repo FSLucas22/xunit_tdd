@@ -22,29 +22,29 @@ class TestFacade(TestCase):
 
     @Test
     def testFacadeWithTestClass(self) -> None:
-        self.runner.runForClass(DummyTestCase)
+        self.runner.run_for_class(DummyTestCase)
         assert self.print.passed_value == self.expectedValueForClass()
 
     @Test
     def testFacadeWithModule(self) -> None:
-        self.runner.runForModule(testmodule)
+        self.runner.run_for_module(testmodule)
         assert self.print.passed_value == self.expectedValueForModule()
 
     @Test
     def testFacadeWithPackage(self) -> None:
-        self.runner.runForPackage(
+        self.runner.run_for_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
         )
         assert self.print.passed_value == self.expectedValueForPackage()
 
     @Test
     def testFacadeWithModulePath(self) -> None:
-        self.runner.runForModulePath(testmodule.__file__)
+        self.runner.run_for_module_path(testmodule.__file__)
         assert self.print.passed_value == self.expectedValueForModule()
 
     @Test
     def testFacadeWithPackagePath(self) -> None:
-        self.runner.runForPackagePath(
+        self.runner.run_for_package_path(
             testpackage.__file__, ignore=lambda obj, _: obj.name != "packagemodule"
         )
         assert self.print.passed_value == self.expectedValueForPackage()

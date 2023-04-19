@@ -6,7 +6,7 @@ from xunit.src import testdecorator
 from xunit.src.testexceptions import *
 from xunit.src import testcolors
 import xunit.src.packagemanager  as pm
-from typing import Type, Callable, cast
+from typing import Type, Callable
 from types import ModuleType
 
 
@@ -31,21 +31,21 @@ class TestRunner:
         suite.run(result)
         self.capture_output(summary.results(result))
 
-    def runForClass(self, cls: Type[TestCase]) -> None:
+    def run_for_class(self, cls: Type[TestCase]) -> None:
         self._run(TestSuite.from_test_case(cls))
 
-    def runForModule(self, module: ModuleType) -> None:
+    def run_for_module(self, module: ModuleType) -> None:
         self._run(TestSuite.from_module(module))
 
-    def runForPackage(
+    def run_for_package(
         self, package: ModuleType, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
         self._run(TestSuite.from_package(package, ignore))
 
-    def runForModulePath(self, path: str) -> None:
+    def run_for_module_path(self, path: str) -> None:
         self._run(TestSuite.from_path("test_module", path, False))
 
-    def runForPackagePath(
+    def run_for_package_path(
         self, path: str, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
         self._run(TestSuite.from_path("test_package", path, True, ignore))

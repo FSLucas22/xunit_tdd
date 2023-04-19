@@ -7,6 +7,6 @@ import os
 if __name__ == "__main__":
     if os.name == "nt":
         colorama.init()
-    TestRunner().runForPackage(tests)
+    TestRunner().run_for_package(tests)
     if os.name == "nt":
         colorama.deinit()
