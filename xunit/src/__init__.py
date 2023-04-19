@@ -35,20 +35,3 @@ class TestRunner:
 
     def runForPackage(self, package: ModuleType) -> None:
         self._run(TestSuite.fromPackage(package))
-        
-
-def run(
-    subject: Type[TestCase] | ModuleType | str,
-    type: str,
-    capture_output: Callable[[str], None]
-    ) -> None:
-    runner = TestRunner(capture_output)
-    if type == "class":
-        subject = cast(Type[TestCase], subject)
-        runner.runForClass(subject)
-    if type == "module":
-        subject = cast(ModuleType, subject)
-        runner.runForModule(subject)
-    if type == "package":
-        subject = cast(ModuleType, subject)
-        runner.runForPackage(subject)
