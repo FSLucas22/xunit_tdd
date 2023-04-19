@@ -6,13 +6,13 @@ from xunit.src.packagemanager import *
 class TestPackageManager(TestCase):
 
     @Test
-    def testPackageObjects(self) -> None:
+    def test_package_objects(self) -> None:
         from xunit.tests.testpackage import packagemodule
         obj = PackageObject("packagemodule", packagemodule)
         assert PackageObject("packagemodule", packagemodule) == obj
 
     @Test
-    def testget_package_objects(self) -> None:
+    def test_get_package_objects(self) -> None:
         from xunit.tests import testpackage
         from xunit.tests.testpackage import (
             packagemodule, packagemodule2, subpackage
@@ -27,7 +27,7 @@ class TestPackageManager(TestCase):
         assert len(package_objects) == 3
 
     @Test
-    def testget_package_objectsIgnore(self) -> None:
+    def test_get_package_objects_ignore(self) -> None:
         from xunit.tests import testpackage
         from xunit.tests.testpackage import packagemodule2
         expected_object = PackageObject("packagemodule2", packagemodule2)
@@ -39,7 +39,7 @@ class TestPackageManager(TestCase):
         assert expected_object == package_objects[0]
 
     @Test
-    def testget_ignore_file_content(self) -> None:
+    def test_get_ignore_file_content(self) -> None:
         from xunit.tests import testpackage
         from xunit.tests.testpackage import subpackage
         assert get_ignore_file_content(testpackage) == []
@@ -47,7 +47,7 @@ class TestPackageManager(TestCase):
                                                     "subpackagemodule2"]
 
     @Test
-    def testignore_name(self) -> None:
+    def test_ignore_name(self) -> None:
         from xunit.tests.testpackage import subpackage
         from xunit.tests.testpackage.subpackage import subpackagemodule
         assert ignore_name(
@@ -62,7 +62,7 @@ class TestPackageManager(TestCase):
         )
 
     @Test
-    def testfind_moduleByPath(self) -> None:
+    def test_find_module_by_path(self) -> None:
         from xunit.tests import testpackage
         module = find_module(
             testpackage.__name__, testpackage.__file__
@@ -81,7 +81,7 @@ class TestPackageManager(TestCase):
         assert result1.not_completed == result2.not_completed
 
     @Test
-    def testCanCreateModulePath(self) -> None:
+    def test_can_create_module_path(self) -> None:
         path_for_package = get_path("package", "p\\x\\z", is_package=True)
         path_for_module = get_path("module.py", "p\\x\\z", is_package=False)
         assert "p\\x\\z\\package\\__init__.py" == path_for_package
