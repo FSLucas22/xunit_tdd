@@ -7,10 +7,10 @@ class TestTest(TestCase):
     
     def setUp(self) -> None:
         class UnnamedTestClass(TestCase):
-            def testMethod(self) -> None:
+            def test_method(self) -> None:
                 pass
 
-            def brokenMethod(self) -> None:
+            def broken_method(self) -> None:
                 raise Exception
             
         self.test_cls = UnnamedTestClass
@@ -19,16 +19,16 @@ class TestTest(TestCase):
     def test_decorator_dont_change_test(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
-        self.test_cls("testMethod").run(result_before_decorator)
-        self.test_cls("brokenMethod").run(result_before_decorator)
-        setattr(self.test_cls, "testMethod", Test(
-            getattr(self.test_cls, "testMethod")
+        self.test_cls("test_method").run(result_before_decorator)
+        self.test_cls("broken_method").run(result_before_decorator)
+        setattr(self.test_cls, "test_method", Test(
+            getattr(self.test_cls, "test_method")
         ))
-        setattr(self.test_cls, "brokenMethod", Test(
-            getattr(self.test_cls, "brokenMethod")
+        setattr(self.test_cls, "broken_method", Test(
+            getattr(self.test_cls, "broken_method")
         ))
-        self.test_cls("testMethod").run(result_after_decorator)
-        self.test_cls("brokenMethod").run(result_after_decorator)
+        self.test_cls("test_method").run(result_after_decorator)
+        self.test_cls("broken_method").run(result_after_decorator)
         assert result_before_decorator.getAllPassed() ==\
                result_after_decorator.getAllPassed()
         assert result_before_decorator.getAllFailed() ==\
@@ -36,7 +36,7 @@ class TestTest(TestCase):
         
     @Test
     def test_decorator_returns_flag(self) -> None:
-        test_method = Test(getattr(self.test_cls, "testMethod"))
+        test_method = Test(getattr(self.test_cls, "test_method"))
         attr = getattr(test_method, "_is_test_method")
         assert attr
         
@@ -45,18 +45,18 @@ class TestTest(TestCase):
         @TestClass
         class UnnamedTestClass(TestCase):
             @Test
-            def testMethod(self) -> None:
+            def test_method(self) -> None:
                 pass
 
             @Test
-            def brokenMethod(self) -> None:
+            def broken_method(self) -> None:
                 raise Exception
 
         suite = TestSuite.fromTestCase(UnnamedTestClass)
         result = TestResult()
         suite.run(result)
-        assert result.getAllPassed() == "testMethod"
-        assert result.getAllFailed() == "brokenMethod"
+        assert result.getAllPassed() == "test_method"
+        assert result.getAllFailed() == "broken_method"
 
     @Test
     def test_is_equal_when_fails_in_set_up(self) -> None:
@@ -66,22 +66,22 @@ class TestTest(TestCase):
                 raise Exception
             
             @Test
-            def testMethod(self) -> None:
+            def test_method(self) -> None:
                 pass
 
             @Test
-            def brokenMethod(self) -> None:
+            def broken_method(self) -> None:
                 raise Exception
 
         @TestClass
         class UnnamedTestClass(TestCase):
             
             @Test
-            def testMethod1(self) -> None:
+            def test_method1(self) -> None:
                 pass
 
             @Test
-            def brokenMethod1(self) -> None:
+            def broken_method1(self) -> None:
                 raise Exception
 
         suite = TestSuite.fromTestCase(BrokenUnnamedTestClass, UnnamedTestClass)
@@ -98,14 +98,14 @@ class TestTest(TestCase):
         class SomeTestClass(TestCase):
             
             @Test
-            def testMethod(self) -> None:
+            def test_method(self) -> None:
                 pass
 
             @Test
-            def anotherTestMethod(self) -> None:
+            def another_test_method(self) -> None:
                 pass
 
-        assert SomeTestClass.testNames == "testMethod anotherTestMethod"
+        assert SomeTestClass.testNames == "test_method another_test_method"
         assert SomeTestClass._is_xunit_test_class == True
 
     @Test
@@ -113,13 +113,13 @@ class TestTest(TestCase):
         try:
             @TestClass
             class SomeTestClass(TestCase):
-                testNames = "anotherTestMethod"
+                testNames = "another_test_method"
                 
                 @Test
-                def testMethod(self) -> None:
+                def test_method(self) -> None:
                     pass
 
-                def anotherTestMethod(self) -> None:
+                def another_test_method(self) -> None:
                     pass
       
         except InvalidAttributeException as e:
