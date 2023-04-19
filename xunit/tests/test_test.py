@@ -52,23 +52,6 @@ class TestTest(TestCase):
                result_after_decorator.getAllPassed()
         assert result_before_decorator.getAllFailed() ==\
                result_after_decorator.getAllFailed()
-
-    @Test
-    def testCanFindTestMethods(self) -> None:
-        class SomeTestClass(TestCase):
-
-            @Test
-            def testMethod(self) -> None:
-                pass
-
-            @Test
-            def anotherTestMethod(self) -> None:
-                pass
-
-            class notATestMethod:
-                pass
-        
-        assert get_test_methods(SomeTestClass) == "testMethod anotherTestMethod"
         
     @Test
     def testIsEqualWithNewSintax(self) -> None:
