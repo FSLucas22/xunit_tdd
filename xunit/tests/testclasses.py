@@ -5,11 +5,11 @@ from xunit.src.testerrorinfo import TestErrorInfo
 class WasRun(TestCase):
     log: str = ""
     testNames = "testMethod testBrokenMethod"
-    def setUp(self) -> None:
-        self.log = "setUp"
+    def setup(self) -> None:
+        self.log = "setup"
 
-    def tearDown(self) -> None:
-        self.log += " tearDown"
+    def teardown(self) -> None:
+        self.log += " teardown"
 
     def testMethod(self) -> None:
        self.log += " testMethod"
@@ -19,7 +19,7 @@ class WasRun(TestCase):
 
 
 class FailedSetUp(WasRun):
-    def setUp(self) -> None:
+    def setup(self) -> None:
         raise Exception
 
 
@@ -60,7 +60,7 @@ class MockBrokenTestCase(TestCase):
         self.exception_raised = exception
         super().__init__(name)
 
-    def setUp(self) -> None:
+    def setup(self) -> None:
         raise self.exception_raised
     
     def testMethod(self) -> None:

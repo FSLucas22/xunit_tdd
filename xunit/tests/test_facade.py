@@ -11,7 +11,7 @@ class TestFacade(TestCase):
     print: MockPrint
     runner: TestRunner
 
-    def setUp(self) -> None:
+    def setup(self) -> None:
         self.print = MockPrint()
         self.runner = TestRunner(self.print)
 

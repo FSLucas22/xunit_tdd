@@ -8,14 +8,14 @@ class TestCaseTest(TestCase):
     test: WasRun
     result: TestResult
     
-    def setUp(self) -> None:
+    def setup(self) -> None:
         self.result = TestResult()
         self.test = WasRun("testMethod")
 
     @Test
     def test_template_method(self) -> None:
         self.test.run(self.result)
-        assert self.test.log == "setUp testMethod tearDown"
+        assert self.test.log == "setup testMethod teardown"
 
     @Test
     def test_result(self) -> None:
@@ -37,7 +37,7 @@ class TestCaseTest(TestCase):
     def test_failed_in_set_up(self) -> None:
         test = FailedSetUp("testMethod")
         test.run(self.result)
-        assert "tearDown" in test.log
+        assert "teardown" in test.log
         assert self.result.failed_count == 0
         assert self.result.not_completed_count == 1
         assert "testMethod" == self.result.not_completed
@@ -53,7 +53,7 @@ class TestCaseTest(TestCase):
     def test_failed_result_calls_tear_down(self) -> None:
         test = WasRun("testBrokenMethod")
         test.run(self.result)
-        assert "tearDown" in test.log
+        assert "teardown" in test.log
 
     @Test
     def test_failed_result_passes_exception(self) -> None:

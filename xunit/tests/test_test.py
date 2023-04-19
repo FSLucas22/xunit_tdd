@@ -5,7 +5,7 @@ from typing import Type, NewType
 class TestTest(TestCase):
     test_cls: Type[TestCase]
     
-    def setUp(self) -> None:
+    def setup(self) -> None:
         class UnnamedTestClass(TestCase):
             def test_method(self) -> None:
                 pass
@@ -62,7 +62,7 @@ class TestTest(TestCase):
     def test_is_equal_when_fails_in_set_up(self) -> None:
         @TestClass
         class BrokenUnnamedTestClass(TestCase):
-            def setUp(self) -> None:
+            def setup(self) -> None:
                 raise Exception
             
             @Test

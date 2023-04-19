@@ -8,7 +8,7 @@ class TestResultTest(TestCase):
     result: TestResult
     error_info: TestErrorInfo
     
-    def setUp(self) -> None:
+    def setup(self) -> None:
         self.result = TestResult()
         self.error_info = TestErrorInfo("", "")
 

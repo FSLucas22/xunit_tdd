@@ -11,22 +11,22 @@ class TestCase:
     def __init__(self, name: str):
         self.name = name
 
-    def setUp(self) -> None:
+    def setup(self) -> None:
         pass
 
-    def tearDown(self) -> None:
+    def teardown(self) -> None:
         pass
 
     def run(self, result: TestResult,
             error_info_factory: ErrorInfoFactory = TestErrorInfo.from_exception
             ) -> None:
         try:
-            self.setUp()
+            self.setup()
             method = getattr(self, self.name)
         except Exception as e:
             error_info = error_info_factory(e, self.name)
             result._test_not_completed(error_info)
-            self.tearDown()
+            self.teardown()
             return
         try:
             method()
@@ -34,4 +34,4 @@ class TestCase:
         except Exception as e:
             error_info = error_info_factory(e, self.name)
             result._test_failed(error_info)
-        self.tearDown()
+        self.teardown()

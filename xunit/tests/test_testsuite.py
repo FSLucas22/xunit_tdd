@@ -8,7 +8,7 @@ from importlib import import_module
 class TestSuiteTest(TestCase):
     result: TestResult
     
-    def setUp(self) -> None:
+    def setup(self) -> None:
         self.result = TestResult()
 
     @Test
