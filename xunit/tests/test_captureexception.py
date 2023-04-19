@@ -24,7 +24,7 @@ class TestCaptureException(TestCase):
                     pass
                 
         result = TestResult()
-        TestSuite.fromTestCase(SomeTestClass).run(result)
+        TestSuite.from_test_case(SomeTestClass).run(result)
         assert result.passed == "testError"
         assert result.failed == "testDifferentError testNoError"
 

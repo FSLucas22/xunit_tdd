@@ -2,7 +2,6 @@ from typing import NamedTuple, Callable, Protocol, Type
 from xunit.src.testcase import TestCase
 from types import ModuleType
 from inspect import getmembers
-
 import pkgutil
 import importlib
 import importlib.util

@@ -59,7 +59,7 @@ class TestFacade(TestCase):
         ),
         SimpleTestSummary()
         )
-        suite = TestSuite.fromTestCase(DummyTestCase)
+        suite = TestSuite.from_test_case(DummyTestCase)
         suite.run(result)
         return summary.results(result)
 
@@ -73,7 +73,7 @@ class TestFacade(TestCase):
         ),
         SimpleTestSummary()
         )
-        suite = TestSuite.fromModule(testmodule)
+        suite = TestSuite.from_module(testmodule)
         suite.run(result)
         return summary.results(result)
 
@@ -87,7 +87,7 @@ class TestFacade(TestCase):
         ),
         SimpleTestSummary()
         )
-        suite = TestSuite.fromPackage(
+        suite = TestSuite.from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
         )
         suite.run(result)

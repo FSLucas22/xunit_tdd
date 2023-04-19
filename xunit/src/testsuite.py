@@ -15,9 +15,9 @@ class TestSuite:
     def add(self, *tests: TestCase) -> None:
         self._tests += list(tests)
 
-    def merge(self, otherSuite: 'TestSuite') -> 'TestSuite':
+    def merge(self, other_suite: 'TestSuite') -> 'TestSuite':
         merged = TestSuite()
-        merged._tests = self._tests + otherSuite._tests
+        merged._tests = self._tests + other_suite._tests
         return merged
 
     def run(self, result: TestResult) -> None:
@@ -25,39 +25,39 @@ class TestSuite:
             test.run(result)
 
     @classmethod
-    def fromTestCase(cls, *tests: Type[TestCase]) -> Self:
+    def from_test_case(cls, *tests: Type[TestCase]) -> Self:
         suite = cls()
-        for testCase in tests:
-            for testName in testCase.testNames.split():
-                suite.add(testCase(testName))
+        for test_case in tests:
+            for testName in test_case.testNames.split():
+                suite.add(test_case(testName))
         return suite
 
     @classmethod
-    def fromModule(cls, *modules: ModuleType) -> Self:
+    def from_module(cls, *modules: ModuleType) -> Self:
         classes = []
         for module in modules:
             classes += getTestClasses(module)
-        return cls.fromTestCase(*classes)
+        return cls.from_test_case(*classes)
 
     @classmethod
-    def fromPackage(cls, package: ModuleType,
+    def from_package(cls, package: ModuleType,
                     ignore: Predicate = lambda _,__: False) -> 'TestSuite':
         objs = getPackageObjects(package, ignore)
         suite = TestSuite()
         for obj in objs:
-            obj_suite = cls.fromPackage(
+            obj_suite = cls.from_package(
                 obj.value, ignore
-                ) if obj.is_package else cls.fromModule(obj.value)
+                ) if obj.is_package else cls.from_module(obj.value)
             suite = suite.merge(obj_suite)
         return suite
 
     @classmethod
-    def fromPath(cls, name: str, path: str, is_package: bool,
+    def from_path(cls, name: str, path: str, is_package: bool,
                  ignore: Predicate=lambda _,__: False) -> 'TestSuite':
         module = findModule(name, path)
         if is_package:
-            return cls.fromPackage(module, ignore)
-        return cls.fromModule(module)
+            return cls.from_package(module, ignore)
+        return cls.from_module(module)
 
 
 

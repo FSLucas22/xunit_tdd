@@ -34,20 +34,20 @@ class TestRunner:
         self.capture_output(summary.results(result))
 
     def runForClass(self, cls: Type[TestCase]) -> None:
-        self._run(TestSuite.fromTestCase(cls))
+        self._run(TestSuite.from_test_case(cls))
 
     def runForModule(self, module: ModuleType) -> None:
-        self._run(TestSuite.fromModule(module))
+        self._run(TestSuite.from_module(module))
 
     def runForPackage(
         self, package: ModuleType, ignore: Predicate=ignoreName
         ) -> None:
-        self._run(TestSuite.fromPackage(package, ignore))
+        self._run(TestSuite.from_package(package, ignore))
 
     def runForModulePath(self, path: str) -> None:
-        self._run(TestSuite.fromPath("test_module", path, False))
+        self._run(TestSuite.from_path("test_module", path, False))
 
     def runForPackagePath(
         self, path: str, ignore: Predicate=ignoreName
         ) -> None:
-        self._run(TestSuite.fromPath("test_package", path, True, ignore))
+        self._run(TestSuite.from_path("test_package", path, True, ignore))

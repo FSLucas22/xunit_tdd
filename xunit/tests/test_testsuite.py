@@ -22,7 +22,7 @@ class TestSuiteTest(TestCase):
         assert "testMethod" == self.result.passed
 
     @Test
-    def testSuiteFromTestCase(self) -> None:
+    def testSuitefrom_test_case(self) -> None:
         individualResult = TestResult()
         assert hasattr(DummyTestCase, "passedTest1")
         assert hasattr(DummyTestCase, "passedTest2")
@@ -38,7 +38,7 @@ class TestSuiteTest(TestCase):
         )
         normalSuite.run(individualResult)
         
-        suite = TestSuite.fromTestCase(DummyTestCase)
+        suite = TestSuite.from_test_case(DummyTestCase)
         suite.run(self.result)
         
         assert self.result.passed == individualResult.passed == "passedTest1 passedTest2"
@@ -65,7 +65,7 @@ class TestSuiteTest(TestCase):
         )
         normalSuite.run(individualResult)
         
-        suite = TestSuite.fromTestCase(DummyTestCase, DummyTestCase)
+        suite = TestSuite.from_test_case(DummyTestCase, DummyTestCase)
         suite.run(self.result)
         
         assert self.result.passed == individualResult.passed == "passedTest1 passedTest2 passedTest1 passedTest2"
@@ -74,7 +74,7 @@ class TestSuiteTest(TestCase):
     @Test
     def testTestModule(self) -> None:
         import xunit.tests.testmodule as testmodule
-        suite = TestSuite.fromTestCase(
+        suite = TestSuite.from_test_case(
             testmodule.SomeTest,
             testmodule.SomeOtherTest
         )
@@ -83,22 +83,22 @@ class TestSuiteTest(TestCase):
         assert self.result.failed == "someOtherTest"
 
     @Test
-    def testFromModule(self) -> None:
+    def testfrom_module(self) -> None:
         import xunit.tests.testmodule as testmodule
-        suite = TestSuite.fromModule(testmodule, testmodule)
+        suite = TestSuite.from_module(testmodule, testmodule)
         suite.run(self.result)
         assert self.result.passed == "someTest someTest"
         assert self.result.failed == "someOtherTest someOtherTest"
 
     @Test
-    def testFromPackage(self) -> None:
+    def testfrom_package(self) -> None:
         from xunit.tests.testpackage import (
             packagemodule, packagemodule2, subpackage
         )
         from xunit.tests.testpackage.subpackage import subpackagemodule
         import xunit.tests.testpackage as testpackage
-        suite = TestSuite.fromModule(packagemodule, packagemodule2, subpackagemodule)
-        packagesuite = TestSuite.fromPackage(testpackage)
+        suite = TestSuite.from_module(packagemodule, packagemodule2, subpackagemodule)
+        packagesuite = TestSuite.from_package(testpackage)
         result = TestResult()
         packagesuite.run(result)
         suite.run(self.result)
@@ -116,7 +116,7 @@ class TestSuiteTest(TestCase):
     def testIgnore(self) -> None:
         import xunit.tests.testpackage as testpackage
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
-        suite = TestSuite.fromPackage(testpackage, ignore=ignore)
+        suite = TestSuite.from_package(testpackage, ignore=ignore)
         suite.run(self.result)
         assert "y" == self.result.passed
         assert "y1" == self.result.failed
@@ -125,7 +125,7 @@ class TestSuiteTest(TestCase):
     def testIgnorePerpetuates(self) -> None:
         import xunit.tests.testpackage as testpackage
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
-        suite = TestSuite.fromPackage(testpackage, ignore=ignore)
+        suite = TestSuite.from_package(testpackage, ignore=ignore)
         suite.run(self.result)
         assert "y" == self.result.passed
         assert "y1" == self.result.failed
@@ -133,7 +133,7 @@ class TestSuiteTest(TestCase):
     @Test
     def testCanIgnoreNames(self) -> None:
         import xunit.tests.testpackage as testpackage
-        suite = TestSuite.fromPackage(testpackage, ignoreName)
+        suite = TestSuite.from_package(testpackage, ignoreName)
         suite.run(self.result)
         passed = self.result.passed
         failed = self.result.failed
@@ -142,8 +142,8 @@ class TestSuiteTest(TestCase):
         
     @Test
     def testMerge(self) -> None:
-        suite1 = TestSuite.fromTestCase(DummyTestCase)
-        suite2 = TestSuite.fromTestCase(DummyTestCase)
+        suite1 = TestSuite.from_test_case(DummyTestCase)
+        suite2 = TestSuite.from_test_case(DummyTestCase)
         merged = suite1.merge(suite2)
         result1 = TestResult()
         result2 = TestResult()
@@ -159,12 +159,12 @@ class TestSuiteTest(TestCase):
 
         
     @Test
-    def testCanConstructASuiteFromPackagePath(self) -> None:
+    def testCanConstructASuitefrom_packagePath(self) -> None:
         from xunit.tests import testpackage
-        suite1 = TestSuite.fromPath(
+        suite1 = TestSuite.from_path(
             "testpackage", testpackage.__file__, is_package=True
         )
-        suite2 = TestSuite.fromPackage(testpackage)
+        suite2 = TestSuite.from_package(testpackage)
         result1 = TestResult()
         result2 = TestResult()
         suite1.run(result1)
@@ -174,12 +174,12 @@ class TestSuiteTest(TestCase):
         assert result1.not_completed == result2.not_completed
 
     @Test
-    def testCanConstructASuiteFromModulePath(self) -> None:
+    def testCanConstructASuitefrom_modulePath(self) -> None:
         from xunit.tests.testpackage.subpackage import subpackagemodule
-        suite1 = TestSuite.fromPath(
+        suite1 = TestSuite.from_path(
             "subpackagemodule", subpackagemodule.__file__, is_package=False
         )
-        suite2 = TestSuite.fromModule(subpackagemodule)
+        suite2 = TestSuite.from_module(subpackagemodule)
         result1 = TestResult()
         result2 = TestResult()
         suite1.run(result1)

@@ -71,8 +71,8 @@ class TestPackageManager(TestCase):
 
         result1 = TestResult()
         result2 = TestResult()
-        suite1 = TestSuite.fromPackage(testpackage)
-        suite2 = TestSuite.fromPackage(module)
+        suite1 = TestSuite.from_package(testpackage)
+        suite2 = TestSuite.from_package(module)
         suite1.run(result1)
         suite2.run(result2)
         assert result1.passed == result2.passed

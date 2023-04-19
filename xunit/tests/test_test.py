@@ -52,7 +52,7 @@ class TestTest(TestCase):
             def broken_method(self) -> None:
                 raise Exception
 
-        suite = TestSuite.fromTestCase(UnnamedTestClass)
+        suite = TestSuite.from_test_case(UnnamedTestClass)
         result = TestResult()
         suite.run(result)
         assert result.passed == "test_method"
@@ -84,7 +84,8 @@ class TestTest(TestCase):
             def broken_method1(self) -> None:
                 raise Exception
 
-        suite = TestSuite.fromTestCase(BrokenUnnamedTestClass, UnnamedTestClass)
+        suite = TestSuite.from_test_case(
+            BrokenUnnamedTestClass, UnnamedTestClass)
         result = TestResult()
         suite.run(result)
         assert result.passed_count == 1
