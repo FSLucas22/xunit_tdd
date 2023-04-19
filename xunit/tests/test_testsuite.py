@@ -24,26 +24,26 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_suite_from_test_case(self) -> None:
-        individualResult = TestResult()
+        individual_result = TestResult()
         assert hasattr(DummyTestCase, "passedTest1")
         assert hasattr(DummyTestCase, "passedTest2")
         assert hasattr(DummyTestCase, "failedTest1")
         assert hasattr(DummyTestCase, "failedTest2")
         
-        normalSuite = TestSuite()
-        normalSuite.add(
+        normal_suite = TestSuite()
+        normal_suite.add(
             DummyTestCase("passedTest1"),
             DummyTestCase("passedTest2"),
             DummyTestCase("failedTest1"),
             DummyTestCase("failedTest2")
         )
-        normalSuite.run(individualResult)
+        normal_suite.run(individual_result)
         
         suite = TestSuite.from_test_case(DummyTestCase)
         suite.run(self.result)
         
-        assert self.result.passed == individualResult.passed == "passedTest1 passedTest2"
-        assert self.result.failed == individualResult.failed == "failedTest1 failedTest2"
+        assert self.result.passed == individual_result.passed == "passedTest1 passedTest2"
+        assert self.result.failed == individual_result.failed == "failedTest1 failedTest2"
 
     @Test
     def test_names_from_tests(self) -> None:
@@ -51,10 +51,10 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_suite_from_multiple_test_cases(self) -> None:
-        individualResult = TestResult()
+        individual_result = TestResult()
         
-        normalSuite = TestSuite()
-        normalSuite.add(
+        normal_suite = TestSuite()
+        normal_suite.add(
             DummyTestCase("passedTest1"),
             DummyTestCase("passedTest2"),
             DummyTestCase("failedTest1"),
@@ -64,13 +64,15 @@ class TestSuiteTest(TestCase):
             DummyTestCase("failedTest1"),
             DummyTestCase("failedTest2")
         )
-        normalSuite.run(individualResult)
+        normal_suite.run(individual_result)
         
         suite = TestSuite.from_test_case(DummyTestCase, DummyTestCase)
         suite.run(self.result)
         
-        assert self.result.passed == individualResult.passed == "passedTest1 passedTest2 passedTest1 passedTest2"
-        assert self.result.failed == individualResult.failed == "failedTest1 failedTest2 failedTest1 failedTest2"
+        assert self.result.passed == individual_result.passed == "passedTest1 passedTest2" \
+                                                               " passedTest1 passedTest2"
+        assert self.result.failed == individual_result.failed == "failedTest1 failedTest2" \
+                                                               " failedTest1 failedTest2"
 
     @Test
     def test_test_module(self) -> None:
@@ -148,15 +150,15 @@ class TestSuiteTest(TestCase):
         merged = suite1.merge(suite2)
         result1 = TestResult()
         result2 = TestResult()
-        mergedResult = TestResult()
+        merged_result = TestResult()
         suite1.run(result1)
         suite2.run(result2)
-        merged.run(mergedResult)
+        merged.run(merged_result)
 
         assert result1.passed == result2.passed == "passedTest1 passedTest2"
         assert result1.failed == result2.failed == "failedTest1 failedTest2"
-        assert result1.passed + " " + result2.passed == mergedResult.passed
-        assert result1.failed + " " + result2.failed == mergedResult.failed
+        assert result1.passed + " " + result2.passed == merged_result.passed
+        assert result1.failed + " " + result2.failed == merged_result.failed
 
         
     @Test
