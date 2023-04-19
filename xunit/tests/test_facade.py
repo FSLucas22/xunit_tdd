@@ -10,9 +10,11 @@ from xunit.tests import testpackage
 class TestFacade(TestCase):
 
     print: MockPrint
+    runner: TestRunner
 
     def setUp(self) -> None:
         self.print = MockPrint()
+        self.runner = TestRunner(self.print)
 
     @Test
     def testMock(self) -> None:
@@ -21,29 +23,17 @@ class TestFacade(TestCase):
 
     @Test
     def testFacadeWithTestClass(self) -> None:
-        xunit.run(
-            subject=DummyTestCase,
-            type="class",
-            capture_output=self.print
-        )
+        self.runner.runForClass(DummyTestCase)
         assert self.print.passed_value == self.expectedValueForClass()
 
     @Test
     def testFacadeWithModule(self) -> None:
-        xunit.run(
-            subject=testmodule,
-            type="module",
-            capture_output=self.print
-        )
+        self.runner.runForModule(testmodule)
         assert self.print.passed_value == self.expectedValueForModule()
 
     @Test
     def testFacadeWithPackage(self) -> None:
-        xunit.run(
-            subject=testpackage,
-            type="package",
-            capture_output=self.print
-        )
+        self.runner.runForPackage(testpackage)
         assert self.print.passed_value == self.expectedValueForPackage()
 
     def expectedValueForClass(self) -> str:

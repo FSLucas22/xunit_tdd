@@ -7,12 +7,8 @@ from xunit.src.testexceptions import *
 from xunit.src.testerrorinfo import *
 from xunit.src.testcolors import *
 from xunit.src.packagemanager import *
-from typing import Type, Callable, cast, ParamSpec
+from typing import Type, Callable, cast
 from types import ModuleType
-from abc import ABC, abstractmethod
-
-
-S = ParamSpec('S')
 
 
 class TestRunner:
