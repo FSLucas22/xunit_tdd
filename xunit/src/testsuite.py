@@ -8,21 +8,20 @@ from types import ModuleType
 
 
 class TestSuite:
-    tests: list[TestCase]
-
+    
     def __init__(self) -> None:
-        self.tests = []
+        self._tests: list[TestCase] = []
         
     def add(self, *tests: TestCase) -> None:
-        self.tests += list(tests)
+        self._tests += list(tests)
 
     def merge(self, otherSuite: 'TestSuite') -> 'TestSuite':
         merged = TestSuite()
-        merged.tests = self.tests + otherSuite.tests
+        merged._tests = self._tests + otherSuite._tests
         return merged
 
     def run(self, result: TestResult) -> None:
-        for test in self.tests:
+        for test in self._tests:
             test.run(result)
 
     @classmethod
