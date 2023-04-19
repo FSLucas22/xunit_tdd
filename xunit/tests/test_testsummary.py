@@ -26,7 +26,8 @@ class TestSummaryTest(TestCase):
         self.result._test_passed("someOtherTest")
         self.result._test_failed("someTest",
                                  TestErrorInfo(Exception(), 1, "", "someTest"))
-        self.result._test_not_completed("someBrokenTest", self.error_info)
+        self.result._test_not_completed("someBrokenTest",
+                                        TestErrorInfo(Exception(), 1, "", "someBrokenTest"))
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     @Test
@@ -72,7 +73,8 @@ class TestSummaryTest(TestCase):
         self.result._test_passed("passedTest")
         self.result._test_failed("failedTest",
                                  TestErrorInfo(Exception(), 1, "", "failedTest"))
-        self.result._test_not_completed("notCompletedTest", self.error_info)
+        self.result._test_not_completed("notCompletedTest",
+                                        TestErrorInfo(Exception(), 1, "", "notCompletedTest"))
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}notCompletedTest - Not completed"
 
     @Test

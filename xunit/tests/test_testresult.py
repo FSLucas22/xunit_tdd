@@ -31,10 +31,12 @@ class TestResultTest(TestCase):
     @Test
     def testNotCompletedTests(self) -> None:
         assert self.result.not_completed == ""
-        self.result._test_not_completed("someBrokenTest", self.error_info)
+        self.result._test_not_completed("someBrokenTest",
+                                        TestErrorInfo(Exception(), 1, "", "someBrokenTest"))
         assert self.result.not_completed == "someBrokenTest"
         assert self.result.failed == self.result.started == ""
-        self.result._test_not_completed("someOtherBrokenTest", self.error_info)
+        self.result._test_not_completed("someOtherBrokenTest",
+                                        TestErrorInfo(Exception(), 1, "", "someOtherBrokenTest"))
         assert self.result.not_completed == "someBrokenTest someOtherBrokenTest"
 
     @Test
