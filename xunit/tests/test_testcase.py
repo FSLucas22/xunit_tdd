@@ -1,4 +1,5 @@
 from xunit.src import *
+from xunit.src.testerrorinfo import TestErrorInfo
 from xunit.tests.testclasses import *
 from typing import cast
 
@@ -58,15 +59,16 @@ class TestCaseTest(TestCase):
     @Test
     def testFailedResultPassesException(self) -> None:
         error = Exception()
-        mock_info = MockTestErrorInfo(error)
-        assert mock_info.exception_passed == error
 
         mock_class = MockTestCase("testMethod", error)
-        mock_class.run(self.result, MockTestErrorInfo)
+        mock_class.run(self.result)
         assert mock_class.exception_raised == error
-        
+        expected_info = TestErrorInfo.fromException(
+            error, test_name="testMethod"
+        )
         error_info = cast(MockTestErrorInfo, self.result._failed_errors[0])
-        assert error == error_info.exception_passed
+        assert expected_info.test_name == error_info.test_name
+        assert expected_info.error_info == error_info.error_info
 
     @Test
     def testnotCompletedResultPassesException(self) -> None:
