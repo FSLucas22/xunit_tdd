@@ -13,20 +13,20 @@ class TestResultTest(TestCase):
         self.error_info = TestErrorInfo("", "")
 
     @Test
-    def testCompletedTests(self) -> None:
+    def test_completed_tests(self) -> None:
         assert self.result.started == ""
         self.result._test_failed(TestErrorInfo("", "someTest"))
         assert self.result.started == "someTest"
         assert self.result.failed == "someTest"
 
     @Test
-    def testCompletedMultipleTests(self) -> None:
+    def test_completed_multiple_tests(self) -> None:
         self.result._test_failed(TestErrorInfo("", "someTest"))
         self.result._test_failed(TestErrorInfo("", "someOtherTest"))
         assert self.result.failed == "someTest someOtherTest"
 
     @Test
-    def testNotCompletedTests(self) -> None:
+    def test_not_completed_tests(self) -> None:
         assert self.result.not_completed == ""
         self.result._test_not_completed(TestErrorInfo("", "someBrokenTest"))
         assert self.result.not_completed == "someBrokenTest"
@@ -35,14 +35,14 @@ class TestResultTest(TestCase):
         assert self.result.not_completed == "someBrokenTest someOtherBrokenTest"
 
     @Test
-    def testPassedTests(self) -> None:
+    def test_passed_tests(self) -> None:
         assert self.result.passed == ""
         self.result._test_passed("someTest")
         self.result._test_passed("someOtherTest")
         assert self.result.passed == "someTest someOtherTest"
 
     @Test
-    def testRunnedEqualsPassedPlusFailed(self) -> None:
+    def test_runned_equals_passed_plus_failed(self) -> None:
         suite = TestSuite()
         suite.add(WasRun("testMethod"))
         suite.add(WasRun("testBrokenMethod"))
@@ -55,13 +55,13 @@ class TestResultTest(TestCase):
         assert self.result.started == 'testMethod testBrokenMethod'
 
     @Test
-    def testFailedErrors(self) -> None:
+    def test_failed_errors(self) -> None:
         assert self.result._failed_errors == []
         self.result._test_failed(self.error_info)
         assert self.result._failed_errors == [self.error_info]
 
     @Test
-    def testNotCompletedErrors(self) -> None:
+    def test_not_completed_errors(self) -> None:
         assert self.result._not_completed_errors == []
         self.result._test_not_completed(self.error_info)
         assert self.result._failed_errors == []
