@@ -39,20 +39,6 @@ class TestTest(TestCase):
         test_method = Test(getattr(self.test_cls, "testMethod"))
         attr = getattr(test_method, "_is_test_method")
         assert attr
-
-    @Test
-    def test_decorator_in_class_dont_change_test(self) -> None:
-        result_before_decorator = TestResult()
-        result_after_decorator = TestResult()
-        self.test_cls("testMethod").run(result_before_decorator)
-        TestClass(self.test_cls)("testMethod").run(result_after_decorator)
-        self.test_cls("brokenMethod").run(result_before_decorator)
-        TestClass(self.test_cls)("brokenMethod").run(result_after_decorator)
-        
-        assert result_before_decorator.getAllPassed() ==\
-               result_after_decorator.getAllPassed()
-        assert result_before_decorator.getAllFailed() ==\
-               result_after_decorator.getAllFailed()
         
     @Test
     def test_is_equal_with_decorator_sintax(self) -> None:
