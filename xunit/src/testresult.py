@@ -18,14 +18,12 @@ class TestResult:
         
     def _test_not_completed(self, test_name: str,
                          error_info: TestErrorInfo) -> None:
-        self._not_completed.register(test_name)
         self._not_completed_errors.append(error_info)
 
     def _test_passed(self, test_name: str) -> None:
         self._passed.register(test_name)
 
     def _test_failed(self, test_name: str, error_info: TestErrorInfo) -> None:
-        self._failed.register(test_name)
         self._failed_errors.append(error_info)
 
     @property
