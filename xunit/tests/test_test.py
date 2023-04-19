@@ -16,7 +16,7 @@ class TestTest(TestCase):
         self.test_cls = UnnamedTestClass
     
     @Test    
-    def testDecoratorDontChangeTest(self) -> None:
+    def test_decorator_dont_change_test(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
         self.test_cls("testMethod").run(result_before_decorator)
@@ -35,12 +35,13 @@ class TestTest(TestCase):
                result_after_decorator.getAllFailed()
         
     @Test
-    def testDecoratorReturnsFlag(self) -> None:
+    def test_decorator_returns_flag(self) -> None:
         test_method = Test(getattr(self.test_cls, "testMethod"))
         attr = getattr(test_method, "_is_test_method")
         assert attr
-   
-    def testDecoratorInClassDontChangeTest(self) -> None:
+
+    @Test
+    def test_decorator_in_class_dont_change_test(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
         self.test_cls("testMethod").run(result_before_decorator)
@@ -54,7 +55,7 @@ class TestTest(TestCase):
                result_after_decorator.getAllFailed()
         
     @Test
-    def testIsEqualWithNewSintax(self) -> None:
+    def test_is_equal_with_decorator_sintax(self) -> None:
         @TestClass
         class UnnamedTestClass(TestCase):
             @Test
@@ -72,7 +73,7 @@ class TestTest(TestCase):
         assert result.getAllFailed() == "brokenMethod"
 
     @Test
-    def testIsEqualWhenFailsInSetUp(self) -> None:
+    def test_is_equal_when_fails_in_set_up(self) -> None:
         @TestClass
         class BrokenUnnamedTestClass(TestCase):
             def setUp(self) -> None:
@@ -106,7 +107,7 @@ class TestTest(TestCase):
         
 
     @Test
-    def testAttributesAddedByDecorator(self) -> None:
+    def test_attributes_added_by_decorator(self) -> None:
         @TestClass
         class SomeTestClass(TestCase):
             
@@ -122,7 +123,7 @@ class TestTest(TestCase):
         assert SomeTestClass._is_xunit_test_class == True
 
     @Test
-    def testCannotHaveNamesWhenDecorated(self) -> None:
+    def test_cannot_have_names_when_decorated(self) -> None:
         try:
             @TestClass
             class SomeTestClass(TestCase):
