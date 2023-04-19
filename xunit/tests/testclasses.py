@@ -39,14 +39,6 @@ class DummyTestCase(TestCase):
         raise Exception
 
 
-class MockTestErrorInfo(TestErrorInfo):
-    exception_passed: Exception
-
-    def __init__(self, exception_passed: Exception, test_name: str | None = None
-                 ) -> None:
-        self.exception_passed = exception_passed
-
-
 class MockTestCase(TestCase):
     exception_raised: Exception
 
