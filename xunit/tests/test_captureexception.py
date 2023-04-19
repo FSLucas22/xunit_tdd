@@ -17,8 +17,14 @@ class TestCaptureException(TestCase):
             def testDifferentError(self) -> None:
                 with expects(InvalidAttributeException):
                     raise Exception
+
+            @Test
+            def testNoError(self) -> None:
+                with expects(InvalidAttributeException):
+                    pass
+                
         result = TestResult()
         TestSuite.fromTestCase(SomeTestClass).run(result)
         assert result.passed == "testError"
-        assert result.failed == "testDifferentError"
+        assert result.failed == "testDifferentError testNoError"
 
