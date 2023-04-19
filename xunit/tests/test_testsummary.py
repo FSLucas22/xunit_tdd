@@ -24,7 +24,8 @@ class TestSummaryTest(TestCase):
     def testDetailedSummary(self) -> None:
         summary = DetailedTestSummary()
         self.result._test_passed("someOtherTest")
-        self.result._test_failed("someTest", self.error_info)
+        self.result._test_failed("someTest",
+                                 TestErrorInfo(Exception(), 1, "", "someTest"))
         self.result._test_not_completed("someBrokenTest", self.error_info)
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
@@ -69,7 +70,8 @@ class TestSummaryTest(TestCase):
         notCompleted_formatter = lambda messege: "{NC}" + messege
         summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, notCompleted_formatter=notCompleted_formatter)
         self.result._test_passed("passedTest")
-        self.result._test_failed("failedTest", self.error_info)
+        self.result._test_failed("failedTest",
+                                 TestErrorInfo(Exception(), 1, "", "failedTest"))
         self.result._test_not_completed("notCompletedTest", self.error_info)
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}notCompletedTest - Not completed"
 

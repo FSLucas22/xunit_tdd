@@ -15,14 +15,17 @@ class TestResultTest(TestCase):
     @Test
     def testCompletedTests(self) -> None:
         assert self.result.started == ""
-        self.result._test_failed("someTest", self.error_info)
+        self.result._test_failed("someTest",
+                                 TestErrorInfo(Exception(), 1, "", "someTest"))
         assert self.result.started == "someTest"
         assert self.result.failed == "someTest"
 
     @Test
     def testCompletedMultipleTests(self) -> None:
-        self.result._test_failed("someTest", self.error_info)
-        self.result._test_failed("someOtherTest", self.error_info)
+        self.result._test_failed("someTest",
+                                 TestErrorInfo(Exception(), 1, "", "someTest"))
+        self.result._test_failed("someOtherTest",
+                                 TestErrorInfo(Exception(), 1, "", "someOtherTest"))
         assert self.result.failed == "someTest someOtherTest"
 
     @Test
