@@ -38,3 +38,6 @@ class TestRunner:
 
     def runForModulePath(self, path: str) -> None:
         self._run(TestSuite.fromPath("test_module", path, False))
+
+    def runForPackagePath(self, path: str) -> None:
+        self._run(TestSuite.fromPath("test_package", path, True))

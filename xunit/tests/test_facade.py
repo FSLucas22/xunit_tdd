@@ -44,7 +44,7 @@ class TestFacade(TestCase):
     @Test
     def testFacadeWithPackagePath(self) -> None:
         self.runner.runForPackagePath(testpackage.__file__)
-        assert self.print.passed_value == self.expectedValueForModule()
+        assert self.print.passed_value == self.expectedValueForPackage()
 
     def expectedValueForClass(self) -> str:
         result = TestResult()
