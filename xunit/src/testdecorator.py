@@ -7,7 +7,7 @@ T = TypeVar('T', bound=TestCase)
 P = ParamSpec('P')
 
 
-def getTestMethods(test_cls: Type[T]) -> str:
+def get_test_methods(test_cls: Type[T]) -> str:
     names = []
     for name, value in test_cls.__dict__.items():
         if hasattr(value, '_is_test_method') and value._is_test_method:
@@ -26,6 +26,6 @@ def TestClass(test_cls: Type[T]) -> Type[T]:
             "Class decorated with @TestClass cannot contain 'testName' attribute"
         )
     
-    test_cls.testNames = getTestMethods(test_cls)
+    test_cls.testNames = get_test_methods(test_cls)
     test_cls._is_xunit_test_class = True
     return test_cls

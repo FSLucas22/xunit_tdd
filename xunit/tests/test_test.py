@@ -68,7 +68,7 @@ class TestTest(TestCase):
             class notATestMethod:
                 pass
         
-        assert getTestMethods(SomeTestClass) == "testMethod anotherTestMethod"
+        assert get_test_methods(SomeTestClass) == "testMethod anotherTestMethod"
         
     @Test
     def testIsEqualWithNewSintax(self) -> None:
