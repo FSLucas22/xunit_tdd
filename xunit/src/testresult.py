@@ -66,4 +66,7 @@ class TestResult:
 
     @property
     def not_completed(self) -> str:
-        return self._not_completed.executed
+        errors = Log()
+        for error in self._not_completed_errors:
+            errors.register(error.test_name)
+        return errors.executed
