@@ -8,8 +8,6 @@ class TestResult:
     _not_completed_errors: list[TestErrorInfo]
     
     def __init__(self) -> None:
-        self._failed = Log()
-        self._not_completed = Log()
         self._passed = Log()
         self._failed_errors = []
         self._not_completed_errors = []
