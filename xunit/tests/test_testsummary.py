@@ -22,7 +22,9 @@ class TestSummaryTest(TestCase):
 
     @Test
     def testDetailedSummary(self) -> None:
-        summary = DetailedTestSummary()
+        identity = lambda messege: messege
+        summary = DetailedTestSummary(
+            passed_formatter=identity, failed_formatter=identity, notCompleted_formatter=identity)
         self.result._test_passed("someOtherTest")
         self.result._test_failed(TestErrorInfo("", "someTest"))
         self.result._test_not_completed(TestErrorInfo("", "someBrokenTest"))
@@ -42,7 +44,9 @@ class TestSummaryTest(TestCase):
 
     @Test
     def testErrorInfoSummaryForFailedTest(self) -> None:
-        summary = ErrorInfoSummary()
+        identity = lambda messege: messege
+        summary = ErrorInfoSummary(
+            passed_formatter=identity, failed_formatter=identity, notCompleted_formatter=identity)
         test = MockTestCase("testMethod", Exception())
         test2 = MockTestCase("testMethod2", Exception())
         test.run(self.result)
@@ -52,7 +56,9 @@ class TestSummaryTest(TestCase):
 
     @Test
     def testErrorInfoSummaryForNotCompletedTest(self) -> None:
-        summary = ErrorInfoSummary()
+        identity = lambda messege: messege
+        summary = ErrorInfoSummary(
+            passed_formatter=identity, failed_formatter=identity, notCompleted_formatter=identity)
         test = MockTestCase("testMethod2", Exception())
         test2 = MockBrokenTestCase("testMethod", Exception())
         test.run(self.result)

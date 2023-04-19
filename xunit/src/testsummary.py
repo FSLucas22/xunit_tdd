@@ -1,5 +1,6 @@
 from typing import Protocol, Callable
 from xunit.src.testresult import TestResult
+import xunit.src.testcolors as color
 from abc import ABC, abstractmethod
 
 
@@ -16,9 +17,9 @@ class Summary(ABC):
     failed_formatter: formatter
     notCompleted_formatter: formatter
     
-    def __init__(self, passed_formatter: formatter = lambda messege: messege,
-                       failed_formatter: formatter = lambda messege: messege,
-                       notCompleted_formatter: formatter = lambda messege: messege):
+    def __init__(self, passed_formatter: formatter = color.green,
+                       failed_formatter: formatter = color.red,
+                       notCompleted_formatter: formatter = color.yellow):
         self.passed_formatter = passed_formatter
         self.failed_formatter = failed_formatter
         self.notCompleted_formatter = notCompleted_formatter
