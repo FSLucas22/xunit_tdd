@@ -5,15 +5,7 @@ import os
 
 
 def main() -> None:
-    result = TestResult()
-    summary = MixedTestSummary(
-        PassedSummary(passed_formatter=green),
-        ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
-        SimpleTestSummary()
-    )
-    suite = TestSuite.fromPackage(tests, ignoreName)
-    suite.run(result)
-    print(summary.results(result))
+    TestRunner().runForPackage(tests)
     
 
 if __name__ == "__main__":
