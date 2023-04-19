@@ -1,7 +1,7 @@
 from xunit.src.testcase import *
 from xunit.src.testresult import *
 from xunit.src.testsummary import *
-from xunit.src.testsuite import *
+from xunit.src.testsuite import TestSuite as TestSuite
 from xunit.src import testdecorator
 from xunit.src.testexceptions import *
 from xunit.src import testcolors
