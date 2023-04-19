@@ -1,4 +1,5 @@
 from xunit.src import *
+from xunit.src.testerrorinfo import TestErrorInfo
 import traceback
 
 
@@ -10,9 +11,9 @@ class TestErrors(TestCase):
         try:
             raise InvalidAttributeException
         except Exception as e:
-            info = TestErrorInfo(e, line_number=11, error_info="Test",
+            info = TestErrorInfo(e, line_number=12, error_info="Test",
                                  test_name="testErrorInfo")
-            assert info.line_number == 11
+            assert info.line_number == 12
             assert info.exception_type == InvalidAttributeException
             assert info.path == __file__
             assert info.error_info == "Test"
@@ -25,7 +26,7 @@ class TestErrors(TestCase):
         except Exception as e:
             error_info = traceback.extract_tb(e.__traceback__)[-1]
             info = TestErrorInfo.fromException(e)
-            assert info.line_number == 24
+            assert info.line_number == 25
             assert info.exception_type == InvalidAttributeException
             assert info.path == __file__
             assert info.error_info == ''.join(

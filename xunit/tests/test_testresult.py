@@ -1,4 +1,5 @@
 from xunit.src import *
+from xunit.src.testerrorinfo import TestErrorInfo
 from xunit.tests.testclasses import *
 
 

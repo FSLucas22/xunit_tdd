@@ -1,4 +1,5 @@
-from xunit.src import TestCase, TestErrorInfo
+from xunit.src import TestCase
+from xunit.src.testerrorinfo import TestErrorInfo
 
 
 class WasRun(TestCase):

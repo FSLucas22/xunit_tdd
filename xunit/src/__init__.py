@@ -4,7 +4,6 @@ from xunit.src.testsummary import *
 from xunit.src.testsuite import *
 from xunit.src import testdecorator
 from xunit.src.testexceptions import *
-from xunit.src.testerrorinfo import *
 from xunit.src import testcolors
 from xunit.src.packagemanager import *
 from typing import Type, Callable, cast
