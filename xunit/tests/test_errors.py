@@ -7,7 +7,7 @@ import traceback
 class TestErrors(TestCase):
 
     @Test
-    def testErrorInfo(self) -> None:
+    def test_error_info(self) -> None:
         try:
             raise InvalidAttributeException
         except Exception as e:
@@ -18,7 +18,7 @@ class TestErrors(TestCase):
             assert info.test_name == "testErrorInfo"
 
     @Test
-    def testFromException(self) -> None:
+    def test_from_exception(self) -> None:
         try:
             raise InvalidAttributeException("Test")
         except Exception as e:
@@ -27,10 +27,10 @@ class TestErrors(TestCase):
             assert info.error_info == ''.join(
             traceback.format_exception(type(e), e, e.__traceback__)
             )
-            assert info.test_name == "testFromException"
+            assert info.test_name == "test_from_exception"
 
     @Test
-    def testFromExceptionWithTestName(self) -> None:
+    def test_from_exception_with_test_name(self) -> None:
         try:
             raise InvalidAttributeException("Test")
         except Exception as e:
@@ -38,7 +38,7 @@ class TestErrors(TestCase):
             assert info.test_name == "testMethod"
 
     @Test
-    def testEquality(self) -> None:
+    def test_equality(self) -> None:
         assert TestErrorInfo("x", "y") == TestErrorInfo("x", "y")
 
 
