@@ -7,7 +7,7 @@ class TestErrorInfo(NamedTuple):
     test_name: str
 
     @staticmethod
-    def fromException(error: Exception, test_name: str | None = None
+    def from_exception(error: Exception, test_name: str | None = None
                       ) -> 'TestErrorInfo':
         name = traceback.extract_tb(error.__traceback__)[-1][2]
         error_info = ''.join(

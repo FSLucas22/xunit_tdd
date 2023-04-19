@@ -23,7 +23,7 @@ class TestErrors(TestCase):
             raise InvalidAttributeException("Test")
         except Exception as e:
             error_info = traceback.extract_tb(e.__traceback__)[-1]
-            info = TestErrorInfo.fromException(e)
+            info = TestErrorInfo.from_exception(e)
             assert info.error_info == ''.join(
             traceback.format_exception(type(e), e, e.__traceback__)
             )
@@ -34,7 +34,7 @@ class TestErrors(TestCase):
         try:
             raise InvalidAttributeException("Test")
         except Exception as e:
-            info = TestErrorInfo.fromException(e, "testMethod")
+            info = TestErrorInfo.from_exception(e, "testMethod")
             assert info.test_name == "testMethod"
 
     @Test

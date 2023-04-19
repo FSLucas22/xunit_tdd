@@ -18,7 +18,7 @@ class TestCase:
         pass
 
     def run(self, result: TestResult,
-            error_info_factory: ErrorInfoFactory = TestErrorInfo.fromException
+            error_info_factory: ErrorInfoFactory = TestErrorInfo.from_exception
             ) -> None:
         try:
             self.setUp()

@@ -63,7 +63,7 @@ class TestCaseTest(TestCase):
         mock_class = MockTestCase("testMethod", error)
         mock_class.run(self.result)
         assert mock_class.exception_raised == error
-        expected_info = TestErrorInfo.fromException(
+        expected_info = TestErrorInfo.from_exception(
             error, test_name="testMethod"
         )
         error_info = self.result._failed_errors[0]
@@ -75,7 +75,7 @@ class TestCaseTest(TestCase):
         mock_class = MockBrokenTestCase("testMethod", error)
         mock_class.run(self.result)
         assert mock_class.exception_raised == error
-        expected_info = TestErrorInfo.fromException(
+        expected_info = TestErrorInfo.from_exception(
             error, test_name="testMethod"
         )
         error_info = self.result._not_completed_errors[0]
