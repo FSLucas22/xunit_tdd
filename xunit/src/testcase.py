@@ -25,7 +25,7 @@ class TestCase:
             method = getattr(self, self.name)
         except Exception as e:
             error_info = error_info_factory(e, self.name)
-            result._test_not_completed(self.name, error_info)
+            result._test_not_completed(error_info)
             self.tearDown()
             return
         try:
@@ -33,5 +33,5 @@ class TestCase:
             result._test_passed(self.name)
         except Exception as e:
             error_info = error_info_factory(e, self.name)
-            result._test_failed(self.name, error_info)
+            result._test_failed(error_info)
         self.tearDown()
