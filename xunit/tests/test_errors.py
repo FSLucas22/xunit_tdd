@@ -11,8 +11,9 @@ class TestErrors(TestCase):
         try:
             raise InvalidAttributeException
         except Exception as e:
-            info = TestErrorInfo(e, line_number=12, error_info="Test",
-                                 test_name="testErrorInfo")
+            info = TestErrorInfo(
+                error_info="Test", test_name="testErrorInfo"
+            )
             assert info.error_info == "Test"
             assert info.test_name == "testErrorInfo"
 
