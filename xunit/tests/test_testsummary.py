@@ -14,14 +14,14 @@ class TestSummaryTest(TestCase):
         self.error_info = TestErrorInfo("", "")
 
     @Test
-    def testSummary(self) -> None:
+    def test_summary(self) -> None:
         summary = SimpleTestSummary()
         self.result._test_passed("someTest")
         self.result._test_not_completed(self.error_info)
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
     @Test
-    def testDetailedSummary(self) -> None:
+    def test_detailed_summary(self) -> None:
         identity = lambda messege: messege
         summary = DetailedTestSummary(
             passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
@@ -31,7 +31,7 @@ class TestSummaryTest(TestCase):
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     @Test
-    def testMixedSummary(self) -> None:
+    def test_mixed_summary(self) -> None:
         summariesToMix: list[TestSummary] = [
             DetailedTestSummary(), SimpleTestSummary()
         ]
@@ -43,7 +43,7 @@ class TestSummaryTest(TestCase):
         assert summary_result == '\n'.join(individual_results)
 
     @Test
-    def testErrorInfoSummaryForFailedTest(self) -> None:
+    def test_error_info_summary_for_failed_test(self) -> None:
         identity = lambda messege: messege
         summary = ErrorInfoSummary(
             passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
@@ -55,7 +55,7 @@ class TestSummaryTest(TestCase):
         assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].error_info}\ntestMethod2 - Failed\n{error_info[1].error_info}"
 
     @Test
-    def testErrorInfoSummaryFornot_completedTest(self) -> None:
+    def test_error_info_summary_for_not_completed_test(self) -> None:
         identity = lambda messege: messege
         summary = ErrorInfoSummary(
             passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
@@ -69,7 +69,7 @@ class TestSummaryTest(TestCase):
                                                f"testMethod - Not completed\n{not_completed_info.error_info}"
 
     @Test
-    def testFormatMesseges(self) -> None:
+    def test_format_messeges(self) -> None:
         failed_formatter = lambda messege: "{F}" + messege
         passed_formatter = lambda messege: "{P}" + messege
         not_completed_formatter = lambda messege: "{NC}" + messege
@@ -80,7 +80,7 @@ class TestSummaryTest(TestCase):
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}not_completedTest - Not completed"
 
     @Test
-    def testErrorInfoSummaryFormatter(self) -> None:
+    def test_error_info_summary_formatter(self) -> None:
         failed_formatter = lambda messege: "[F]" + messege
         not_completed_formatter = lambda messege: "[NC]" + messege
         summary = ErrorInfoSummary(failed_formatter=failed_formatter, not_completed_formatter=not_completed_formatter)
