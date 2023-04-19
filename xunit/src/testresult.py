@@ -3,9 +3,7 @@ from xunit.src.testerrorinfo import TestErrorInfo
 
 
 class TestResult:
-    _failed: Log
     _passed: Log
-    _not_completed: Log
     _failed_errors: list[TestErrorInfo]
     _not_completed_errors: list[TestErrorInfo]
     
