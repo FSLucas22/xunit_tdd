@@ -5,10 +5,13 @@ from xunit.src.testsuite import *
 from xunit.src.testdecorator import *
 from xunit.src.testexceptions import *
 from xunit.src.testerrorinfo import *
-from xunit.src.testcolors import *
+from xunit.src import testcolors
 from xunit.src.packagemanager import *
 from typing import Type, Callable, cast
 from types import ModuleType
+
+
+color = testcolors
 
 
 class TestRunner:
@@ -20,8 +23,10 @@ class TestRunner:
     def _run(self, suite: TestSuite) -> None:
         result = TestResult()
         summary = MixedTestSummary(
-            PassedSummary(passed_formatter=green),
-            ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
+            PassedSummary(passed_formatter=color.green),
+            ErrorInfoSummary(
+                failed_formatter=color.red,
+                notCompleted_formatter=color.yellow),
             SimpleTestSummary()
         )
         suite.run(result)

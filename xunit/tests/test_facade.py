@@ -52,8 +52,11 @@ class TestFacade(TestCase):
     def expectedValueForClass(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-        PassedSummary(passed_formatter=green),
-        ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
+        PassedSummary(passed_formatter=color.green),
+        ErrorInfoSummary(
+            failed_formatter=color.red,
+            notCompleted_formatter=color.yellow
+        ),
         SimpleTestSummary()
         )
         suite = TestSuite.fromTestCase(DummyTestCase)
@@ -63,8 +66,11 @@ class TestFacade(TestCase):
     def expectedValueForModule(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-        PassedSummary(passed_formatter=green),
-        ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
+        PassedSummary(passed_formatter=color.green),
+        ErrorInfoSummary(
+            failed_formatter=color.red,
+            notCompleted_formatter=color.yellow
+        ),
         SimpleTestSummary()
         )
         suite = TestSuite.fromModule(testmodule)
@@ -74,8 +80,11 @@ class TestFacade(TestCase):
     def expectedValueForPackage(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-        PassedSummary(passed_formatter=green),
-        ErrorInfoSummary(failed_formatter=red, notCompleted_formatter=yellow),
+        PassedSummary(passed_formatter=color.green),
+        ErrorInfoSummary(
+            failed_formatter=color.red,
+            notCompleted_formatter=color.yellow
+        ),
         SimpleTestSummary()
         )
         suite = TestSuite.fromPackage(
