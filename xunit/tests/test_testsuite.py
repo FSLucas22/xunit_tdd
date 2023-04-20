@@ -47,7 +47,7 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_names_from_tests(self) -> None:
-        assert DummyTestCase.testNames == "passedTest1 passedTest2 failedTest1 failedTest2"
+        assert DummyTestCase.xunit_test_names == "passedTest1 passedTest2 failedTest1 failedTest2"
 
     @Test
     def test_suite_from_multiple_test_cases(self) -> None:

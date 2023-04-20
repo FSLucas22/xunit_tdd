@@ -24,7 +24,7 @@ class FailedSetUp(WasRun):
 
 
 class DummyTestCase(TestCase):
-    testNames = "passedTest1 passedTest2 failedTest1 failedTest2"
+    xunit_test_names = "passedTest1 passedTest2 failedTest1 failedTest2"
     
     def passedTest1(self) -> None:
         pass

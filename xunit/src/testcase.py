@@ -5,7 +5,7 @@ from typing import Callable
 
 class TestCase:
     name: str
-    testNames: str
+    xunit_test_names: str
     _is_xunit_test_class: bool
     
     def __init__(self, name: str):

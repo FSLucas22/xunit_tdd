@@ -26,8 +26,8 @@ class TestSuite:
     def from_test_case(cls, *tests: Type[TestCase]) -> Self:
         suite = cls()
         for test_case in tests:
-            for testName in test_case.testNames.split():
-                suite.add(test_case(testName))
+            for testname in test_case.xunit_test_names.split():
+                suite.add(test_case(testname))
         return suite
 
     @classmethod

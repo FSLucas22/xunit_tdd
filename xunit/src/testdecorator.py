@@ -26,6 +26,6 @@ def TestClass(test_cls: Type[T]) -> Type[T]:
             "Class decorated with @TestClass cannot contain 'testName' attribute"
         )
     
-    test_cls.testNames = get_test_methods(test_cls)
+    test_cls.xunit_test_names = get_test_methods(test_cls)
     test_cls._is_xunit_test_class = True
     return test_cls

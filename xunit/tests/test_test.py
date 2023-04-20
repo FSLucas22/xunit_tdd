@@ -106,7 +106,7 @@ class TestTest(TestCase):
             def another_test_method(self) -> None:
                 pass
 
-        assert SomeTestClass.testNames == "test_method another_test_method"
+        assert SomeTestClass.xunit_test_names == "test_method another_test_method"
         assert SomeTestClass._is_xunit_test_class == True
 
     @Test
