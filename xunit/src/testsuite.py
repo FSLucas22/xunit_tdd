@@ -13,8 +13,8 @@ class TestSuite:
     def add(self, *tests: TestCase) -> None:
         self._tests += list(tests)
 
-    def merge(self, other_suite: 'TestSuite') -> 'TestSuite':
-        merged = TestSuite()
+    def merge(self, other_suite: 'TestSuite') -> Self:
+        merged = type(self)()
         merged._tests = self._tests + other_suite._tests
         return merged
 
@@ -39,9 +39,9 @@ class TestSuite:
 
     @classmethod
     def from_package(cls, package: ModuleType,
-                    ignore: pm.Predicate = lambda _,__: False) -> 'TestSuite':
+                    ignore: pm.Predicate = lambda _,__: False) -> Self:
         objs = pm.get_package_objects(package, ignore)
-        suite = TestSuite()
+        suite = cls()
         for obj in objs:
             obj_suite = cls.from_package(
                 obj.value, ignore
@@ -51,7 +51,7 @@ class TestSuite:
 
     @classmethod
     def from_path(cls, name: str, path: str, is_package: bool,
-                 ignore: pm.Predicate=lambda _,__: False) -> 'TestSuite':
+                 ignore: pm.Predicate=lambda _,__: False) -> Self:
         module = pm.find_module(name, path)
         if is_package:
             return cls.from_package(module, ignore)
