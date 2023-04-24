@@ -5,30 +5,30 @@ from xunit.src.status import TestStatus
 
 class TestResult:
     _passed: Log
-    _failed_errors: list[TestErrorInfo]
-    _not_completed_errors: list[TestErrorInfo]
+    _failed_errors: list[TestStatus]
+    _not_completed_errors: list[TestStatus]
     
     def __init__(self) -> None:
         self._passed = Log()
         self._failed_errors = []
         self._not_completed_errors = []
         
-    def _test_not_completed(self, error_info: TestErrorInfo) -> None:
+    def _test_not_completed(self, error_info: TestStatus) -> None:
         self._not_completed_errors.append(error_info)
 
     def _test_passed(self, test_name: str) -> None:
         self._passed.register(test_name)
 
-    def _test_failed(self, error_info: TestErrorInfo) -> None:
+    def _test_failed(self, error_info: TestStatus) -> None:
         self._failed_errors.append(error_info)
 
     def save_status(self, status: TestStatus) -> None:
         if status.result == "Passed":
             self._test_passed(status.name)
         if status.result == "Failed":
-            self._test_failed(TestErrorInfo("", status.name))
+            self._test_failed(status)
         if status.result == "Not completed":
-            self._test_not_completed(TestErrorInfo("", status.name))
+            self._test_not_completed(status)
 
     @property
     def run_count(self) -> int:
@@ -60,7 +60,7 @@ class TestResult:
     def failed(self) -> str:
         errors = Log()
         for error in self._failed_errors:
-            errors.register(error.test_name)
+            errors.register(error.name)
         return errors.executed
 
     @property
@@ -71,5 +71,5 @@ class TestResult:
     def not_completed(self) -> str:
         errors = Log()
         for error in self._not_completed_errors:
-            errors.register(error.test_name)
+            errors.register(error.name)
         return errors.executed

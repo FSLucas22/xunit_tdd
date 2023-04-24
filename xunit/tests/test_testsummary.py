@@ -52,7 +52,7 @@ class TestSummaryTest(TestCase):
         test.run(self.result)
         test2.run(self.result)
         error_info = self.result._failed_errors
-        assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].error_info}\ntestMethod2 - Failed\n{error_info[1].error_info}"
+        assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].info}\ntestMethod2 - Failed\n{error_info[1].info}"
 
     @Test
     def test_error_info_summary_for_not_completed_test(self) -> None:
@@ -65,8 +65,8 @@ class TestSummaryTest(TestCase):
         test2.run(self.result)
         failed_info = self.result._failed_errors[0]
         not_completed_info = self.result._not_completed_errors[0]
-        assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.error_info}\n"\
-                                               f"testMethod - Not completed\n{not_completed_info.error_info}"
+        assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.info}\n"\
+                                               f"testMethod - Not completed\n{not_completed_info.info}"
 
     @Test
     def test_format_messeges(self) -> None:
@@ -90,5 +90,5 @@ class TestSummaryTest(TestCase):
         test2.run(self.result)
         failed_info = self.result._failed_errors[0]
         not_completed_info = self.result._not_completed_errors[0]
-        assert summary.results(self.result) == f"[F]testMethod2 - Failed\n{failed_info.error_info}\n"\
-                                               f"[NC]testMethod - Not completed\n{not_completed_info.error_info}"
+        assert summary.results(self.result) == f"[F]testMethod2 - Failed\n{failed_info.info}\n"\
+                                               f"[NC]testMethod - Not completed\n{not_completed_info.info}"

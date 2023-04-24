@@ -88,12 +88,12 @@ class ErrorInfoSummary(Summary):
         errors = []
         for error_info in result._failed_errors:
             messege = self.failed_formatter(
-                f"{error_info.test_name} - Failed\n{error_info.error_info}"
+                f"{error_info.name} - Failed\n{error_info.info}"
             )
             errors.append(messege)
         for error_info in result._not_completed_errors:
             messege = self.not_completed_formatter(
-                f"{error_info.test_name} - Not completed\n{error_info.error_info}"
+                f"{error_info.name} - Not completed\n{error_info.info}"
             )
             errors.append(messege)
         return '\n'.join(errors)
