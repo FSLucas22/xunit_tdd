@@ -1,10 +1,9 @@
 import traceback
 from typing import Type, Protocol, NamedTuple
+from xunit.src.status import TestStatus
 
 
-class TestErrorInfo(NamedTuple):
-    error_info: str
-    test_name: str
+class TestErrorInfo(TestStatus):
 
     @staticmethod
     def from_exception(error: Exception, test_name: str | None = None
@@ -14,7 +13,7 @@ class TestErrorInfo(NamedTuple):
             traceback.format_exception(type(error), error, error.__traceback__)
         )
         test_name = test_name or name
-        return TestErrorInfo(error_info, test_name)
+        return TestErrorInfo(test_name, "Failed", error_info)
 
 
 class ErrorInfoFactory(Protocol):
