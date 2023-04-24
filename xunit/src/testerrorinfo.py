@@ -5,6 +5,14 @@ from xunit.src.status import TestStatus
 
 class TestErrorInfo(TestStatus):
 
+    @property
+    def test_name(self) -> str:
+        return self.name
+
+    @property
+    def error_info(self) -> str:
+        return self.info
+
     @staticmethod
     def from_exception(error: Exception, test_name: str | None = None
                       ) -> 'TestErrorInfo':
