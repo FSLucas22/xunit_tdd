@@ -11,28 +11,28 @@ class TestResultTest(TestCase):
     
     def setup(self) -> None:
         self.result = TestResult()
-        self.error_info = TestErrorInfo("", "")
+        self.error_info = TestErrorInfo("","", "")
 
     @Test
     def test_completed_tests(self) -> None:
         assert self.result.started == ""
-        self.result._test_failed(TestErrorInfo("", "someTest"))
+        self.result._test_failed(TestErrorInfo("someTest", "", ""))
         assert self.result.started == "someTest"
         assert self.result.failed == "someTest"
 
     @Test
     def test_completed_multiple_tests(self) -> None:
-        self.result._test_failed(TestErrorInfo("", "someTest"))
-        self.result._test_failed(TestErrorInfo("", "someOtherTest"))
+        self.result._test_failed(TestErrorInfo("someTest", "", ""))
+        self.result._test_failed(TestErrorInfo("someOtherTest", "", ""))
         assert self.result.failed == "someTest someOtherTest"
 
     @Test
     def test_not_completed_tests(self) -> None:
         assert self.result.not_completed == ""
-        self.result._test_not_completed(TestErrorInfo("", "someBrokenTest"))
+        self.result._test_not_completed(TestErrorInfo("someBrokenTest", "", ""))
         assert self.result.not_completed == "someBrokenTest"
         assert self.result.failed == self.result.started == ""
-        self.result._test_not_completed(TestErrorInfo("", "someOtherBrokenTest"))
+        self.result._test_not_completed(TestErrorInfo("someOtherBrokenTest", "", ""))
         assert self.result.not_completed == "someBrokenTest someOtherBrokenTest"
 
     @Test

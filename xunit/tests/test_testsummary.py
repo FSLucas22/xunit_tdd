@@ -11,7 +11,7 @@ class TestSummaryTest(TestCase):
     
     def setup(self) -> None:
         self.result = TestResult()
-        self.error_info = TestErrorInfo("", "")
+        self.error_info = TestErrorInfo("", "", "")
 
     @Test
     def test_summary(self) -> None:
@@ -26,8 +26,8 @@ class TestSummaryTest(TestCase):
         summary = DetailedTestSummary(
             passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
         self.result._test_passed("someOtherTest")
-        self.result._test_failed(TestErrorInfo("", "someTest"))
-        self.result._test_not_completed(TestErrorInfo("", "someBrokenTest"))
+        self.result._test_failed(TestErrorInfo("someTest", "", ""))
+        self.result._test_not_completed(TestErrorInfo("someBrokenTest", "", ""))
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     @Test
@@ -75,8 +75,8 @@ class TestSummaryTest(TestCase):
         not_completed_formatter = lambda messege: "{NC}" + messege
         summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, not_completed_formatter=not_completed_formatter)
         self.result._test_passed("passedTest")
-        self.result._test_failed(TestErrorInfo("", "failedTest"))
-        self.result._test_not_completed(TestErrorInfo("", "not_completedTest"))
+        self.result._test_failed(TestErrorInfo("failedTest", "", ""))
+        self.result._test_not_completed(TestErrorInfo("not_completedTest", "", ""))
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}not_completedTest - Not completed"
 
     @Test
