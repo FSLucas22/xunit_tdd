@@ -23,7 +23,12 @@ class TestResult:
         self._failed_errors.append(error_info)
 
     def save_status(self, status: TestStatus) -> None:
-        pass
+        if status.result == "Passed":
+            self._test_passed(status.name)
+        if status.result == "Failed":
+            self._test_failed(TestErrorInfo("", status.name))
+        if status.result == "Not completed":
+            self._test_not_completed(TestErrorInfo("", status.name))
 
     @property
     def run_count(self) -> int:
