@@ -4,4 +4,6 @@ class TestStatus:
     info: str
 
     def __init__(self, name: str, result: str, info: str) -> None:
-        pass
+        self.name = name
+        self.result = result
+        self.info = info
