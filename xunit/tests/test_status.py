@@ -11,3 +11,9 @@ class TestTestStatus(TestCase):
         assert status.name == "someTest"
         assert status.result == "passed"
         assert status.info == "-"
+
+    @Test
+    def testEquality(self) -> None:
+        status1 = TestStatus("someTest", "passed", "-")
+        status2 = TestStatus("someTest", "passed", "-")
+        assert status1 == status2
