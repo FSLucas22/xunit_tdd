@@ -1,5 +1,6 @@
 from xunit.src.log import Log
 from xunit.src.testerrorinfo import TestErrorInfo
+from xunit.src.status import TestStatus
 
 
 class TestResult:
@@ -20,6 +21,9 @@ class TestResult:
 
     def _test_failed(self, error_info: TestErrorInfo) -> None:
         self._failed_errors.append(error_info)
+
+    def save_status(self, status: TestStatus) -> None:
+        pass
 
     @property
     def run_count(self) -> int:
