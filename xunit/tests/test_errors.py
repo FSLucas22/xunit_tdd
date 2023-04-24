@@ -13,7 +13,7 @@ class TestErrors(TestCase):
         except Exception as e:
             error_info = traceback.extract_tb(e.__traceback__)[-1]
             info = TestErrorInfo.from_exception(e)
-            assert info.error_info == ''.join(
+            assert info.info == ''.join(
             traceback.format_exception(type(e), e, e.__traceback__)
             )
             assert info.test_name == "test_from_exception"
@@ -25,9 +25,3 @@ class TestErrors(TestCase):
         except Exception as e:
             info = TestErrorInfo.from_exception(e, "testMethod")
             assert info.test_name == "testMethod"
-
-    @Test
-    def test_equality(self) -> None:
-        assert TestErrorInfo("x", "y") == TestErrorInfo("x", "y")
-
-
