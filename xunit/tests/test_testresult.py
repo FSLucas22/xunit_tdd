@@ -1,4 +1,5 @@
 from xunit.src import *
+from xunit.src.status import TestStatus
 from xunit.src.testerrorinfo import TestErrorInfo
 from xunit.tests.testclasses import *
 
@@ -66,6 +67,17 @@ class TestResultTest(TestCase):
         self.result._test_not_completed(self.error_info)
         assert self.result._failed_errors == []
         assert self.result._not_completed_errors == [self.error_info]
+
+    @Test
+    def test_save_status(self) -> None:
+        self.result.save_status(TestStatus("someTest", "Passed", "-"))
+        self.result.save_status(TestStatus("someOtherTest", "Failed", "-"))
+        self.result.save_status(TestStatus("brokenTest", "Not completed", "-"))
+        assert self.result.passed == "someTest"
+        assert self.result.failed == "someOtherTest"
+        assert self.result.not_completed == "brokenTest"
+        
+        
 
 
 
