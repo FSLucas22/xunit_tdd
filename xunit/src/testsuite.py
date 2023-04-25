@@ -26,7 +26,7 @@ class TestSuite:
         
         return merged
 
-    def run(self, result: TestResult) -> None:
+    def run(self, result: TestResult = TestResult()) -> None:
         for test in self._tests:
             test.run(result)
 
