@@ -75,10 +75,13 @@ class MockPrint:
 
 
 class DummyObserver:
-    received: TestStatus
+    received: list[TestStatus]
+
+    def __init__(self) -> None:
+        self.received = []
     
     def __call__(self, status: TestStatus) -> None:
-        self.received = status
+        self.received.append(status)
 
 
 
