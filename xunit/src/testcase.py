@@ -34,21 +34,22 @@ class TestCase:
     def run(self, result: TestResult,
             status_factory: StatusFactory = TestStatus.from_exception
             ) -> None:
+        self.unregister(result.save_status)
+        self.register(result.save_status)
         try:
             self.setup()
             method = getattr(self, self.name)
         except Exception as e:
             info = status_factory(e, self.name, "Not completed")
-            result._test_not_completed(info)
             self.notify(info)
+            self.unregister(result.save_status)
             self.teardown()
             return
         try:
             method()
-            result._test_passed(self.name)
             info = TestStatus(self.name, "Passed", "-")
         except Exception as e:
             info = status_factory(e, self.name, "Failed")
-            result._test_failed(info)
         self.notify(info)
+        self.unregister(result.save_status)
         self.teardown()
