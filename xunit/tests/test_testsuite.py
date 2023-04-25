@@ -1,4 +1,6 @@
 from xunit.src import *
+from xunit.src.status import TestStatus
+from xunit.src.observer import Subject
 from xunit.tests.testclasses import *
 from xunit.src.packagemanager import ignore_name
 from importlib import import_module
@@ -188,6 +190,19 @@ class TestSuiteTest(TestCase):
         suite2.run(result2)
         assert result1.passed == result2.passed
         assert result1.failed == result2.failed
-        assert result1.not_completed == result2.not_completed        
+        assert result1.not_completed == result2.not_completed
 
+    @Test
+    def test_testsuite_is_subject(self) -> None:
+        subject: Subject = TestSuite() 
+        observer1 = DummyObserver()
+        observer2 = DummyObserver()
+        status = TestStatus("x", "y", "z")
+        subject.register(observer1, observer2)
+        subject.notify(status)
+        assert observer1.received == observer2.received == [status]
+        subject.unregister(observer1)
+        subject.notify(status)
+        assert observer1.received == [status]
+        assert observer2.received == [status, status]
 
