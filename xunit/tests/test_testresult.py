@@ -1,38 +1,37 @@
 from xunit.src import *
 from xunit.src.status import TestStatus
-from xunit.src.testerrorinfo import TestErrorInfo
 from xunit.tests.testclasses import *
 
 
 @TestClass
 class TestResultTest(TestCase):
     result: TestResult
-    error_info: TestErrorInfo
+    error_info: TestStatus
     
     def setup(self) -> None:
         self.result = TestResult()
-        self.error_info = TestErrorInfo("","", "")
+        self.error_info = TestStatus("","", "")
 
     @Test
     def test_completed_tests(self) -> None:
         assert self.result.started == ""
-        self.result._test_failed(TestErrorInfo("someTest", "", ""))
+        self.result._test_failed(TestStatus("someTest", "", ""))
         assert self.result.started == "someTest"
         assert self.result.failed == "someTest"
 
     @Test
     def test_completed_multiple_tests(self) -> None:
-        self.result._test_failed(TestErrorInfo("someTest", "", ""))
-        self.result._test_failed(TestErrorInfo("someOtherTest", "", ""))
+        self.result._test_failed(TestStatus("someTest", "", ""))
+        self.result._test_failed(TestStatus("someOtherTest", "", ""))
         assert self.result.failed == "someTest someOtherTest"
 
     @Test
     def test_not_completed_tests(self) -> None:
         assert self.result.not_completed == ""
-        self.result._test_not_completed(TestErrorInfo("someBrokenTest", "", ""))
+        self.result._test_not_completed(TestStatus("someBrokenTest", "", ""))
         assert self.result.not_completed == "someBrokenTest"
         assert self.result.failed == self.result.started == ""
-        self.result._test_not_completed(TestErrorInfo("someOtherBrokenTest", "", ""))
+        self.result._test_not_completed(TestStatus("someOtherBrokenTest", "", ""))
         assert self.result.not_completed == "someBrokenTest someOtherBrokenTest"
 
     @Test
