@@ -48,6 +48,10 @@ class TestResult:
         return started.executed
 
     @property
+    def results(self) -> list[TestStatus]:
+        return self._results[:]
+
+    @property
     def failed(self) -> str:
         errors = Log()
         for error in self._failed_errors:

@@ -47,8 +47,8 @@ class PassedSummary(Summary):
 class FailedSummary(Summary):
     def results(self, result: TestResult) -> str:
         results = []
-        for test in result.failed.split():
-            messege = self.failed_formatter(test + ' - Failed')
+        for status in filter(lambda x: x.result == "Failed", result.results):
+            messege = self.failed_formatter(f'{status.name} - {status.result}')
             results.append(messege)
         return '\n'.join(results)
 
