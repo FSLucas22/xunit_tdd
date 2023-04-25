@@ -1,5 +1,6 @@
 from xunit.src import *
 from xunit.src.testerrorinfo import TestErrorInfo
+from xunit.src.status import TestStatus
 from xunit.tests.testclasses import *
 
 
@@ -62,8 +63,8 @@ class TestCaseTest(TestCase):
         mock_class = MockTestCase("testMethod", error)
         mock_class.run(self.result)
         assert mock_class.exception_raised == error
-        expected_info = TestErrorInfo.from_exception(
-            error, name="testMethod"
+        expected_info = TestStatus.from_exception(
+            error, "testMethod", ""
         )
         error_info = self.result._failed_errors[0]
         assert expected_info == error_info
@@ -74,8 +75,8 @@ class TestCaseTest(TestCase):
         mock_class = MockBrokenTestCase("testMethod", error)
         mock_class.run(self.result)
         assert mock_class.exception_raised == error
-        expected_info = TestErrorInfo.from_exception(
-            error, name="testMethod"
+        expected_info = TestStatus.from_exception(
+            error, "testMethod", ""
         )
         error_info = self.result._not_completed_errors[0]
         assert error_info == expected_info
