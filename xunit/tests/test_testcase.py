@@ -79,3 +79,8 @@ class TestCaseTest(TestCase):
         )
         error_info = self.result._not_completed_errors[0]
         assert error_info == expected_info
+
+    @Test
+    def test_observer(self) -> None:
+        observer: Observer = DummyObserver()
+        
