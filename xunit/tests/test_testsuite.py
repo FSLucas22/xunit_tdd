@@ -35,16 +35,18 @@ class TestSuiteTest(TestCase):
         assert hasattr(DummyTestCase, "failedTest2")
         
         normal_suite = TestSuite()
+        normal_suite.register(individual_result.save_status)
         normal_suite.add(
             DummyTestCase("passedTest1"),
             DummyTestCase("passedTest2"),
             DummyTestCase("failedTest1"),
             DummyTestCase("failedTest2")
         )
-        normal_suite.run(individual_result)
+        normal_suite.run(TestResult())
         
         suite = TestSuite.from_test_case(DummyTestCase)
-        suite.run(self.result)
+        suite.register(self.result.save_status)
+        suite.run(TestResult())
         
         assert self.result.passed == individual_result.passed == "passedTest1 passedTest2"
         assert self.result.failed == individual_result.failed == "failedTest1 failedTest2"
