@@ -33,8 +33,9 @@ class TestCase:
             self.setup()
             method = getattr(self, self.name)
         except Exception as e:
-            error_info = status_factory(e, self.name, "")
+            error_info = status_factory(e, self.name, "Not completed")
             result._test_not_completed(error_info)
+            self.notify(error_info)
             self.teardown()
             return
         try:

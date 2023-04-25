@@ -83,7 +83,7 @@ class TestCaseTest(TestCase):
         mock_class.run(self.result)
         assert mock_class.exception_raised == error
         expected_info = TestStatus.from_exception(
-            error, "testMethod", ""
+            error, "testMethod", "Not completed"
         )
         error_info = self.result._not_completed_errors[0]
         assert error_info == expected_info
