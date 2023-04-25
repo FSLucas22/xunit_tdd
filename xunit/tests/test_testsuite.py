@@ -129,7 +129,8 @@ class TestSuiteTest(TestCase):
     def test_can_ignore_names(self) -> None:
         import xunit.tests.testpackage as testpackage
         suite = TestSuite.from_package(testpackage, ignore_name)
-        suite.run(self.result)
+        suite.register(self.result.save_status)
+        suite.run(TestResult())
         passed = self.result.passed
         failed = self.result.failed
         assert "x" in passed and "y" in passed and "z" not in passed
@@ -138,14 +139,25 @@ class TestSuiteTest(TestCase):
     @Test
     def test_merge(self) -> None:
         suite1 = TestSuite.from_test_case(DummyTestCase)
-        suite2 = TestSuite.from_test_case(DummyTestCase)
-        merged = suite1.merge(suite2)
         result1 = TestResult()
+        suite1.register(result1.save_status)
+        suite1.run(TestResult())
+        
+        suite2 = TestSuite.from_test_case(DummyTestCase)
         result2 = TestResult()
+        suite2.register(result2.save_status)
+        suite2.run(TestResult())
+
+        merged = suite1.merge(suite2)
+        
+        
+        suite1.unregister(result1.save_status)
+        suite2.unregister(result2.save_status)
+
         merged_result = TestResult()
-        suite1.run(result1)
-        suite2.run(result2)
-        merged.run(merged_result)
+        merged.register(merged_result.save_status)
+        merged.run(TestResult())
+        
         assert result1.passed == result2.passed == "passedTest1 passedTest2"
         assert result1.failed == result2.failed == "failedTest1 failedTest2"
         assert result1.passed + " " + result2.passed == merged_result.passed
