@@ -110,7 +110,8 @@ class TestSuiteTest(TestCase):
         import xunit.tests.testpackage as testpackage
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
         suite = TestSuite.from_package(testpackage, ignore=ignore)
-        suite.run(self.result)
+        suite.register(self.result.save_status)
+        suite.run(TestResult())
         assert "y" == self.result.passed
         assert "y1" == self.result.failed
 
@@ -119,7 +120,8 @@ class TestSuiteTest(TestCase):
         import xunit.tests.testpackage as testpackage
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
         suite = TestSuite.from_package(testpackage, ignore=ignore)
-        suite.run(self.result)
+        suite.register(self.result.save_status)
+        suite.run(TestResult())
         assert "y" == self.result.passed
         assert "y1" == self.result.failed
 
