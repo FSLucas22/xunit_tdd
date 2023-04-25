@@ -13,62 +13,60 @@ class TestCaseTest(TestCase):
     def setup(self) -> None:
         self.result = TestResult()
         self.test = WasRun("testMethod")
+        self.test.register(self.result.save_status)
 
     @Test
     def test_template_method(self) -> None:
-        self.test.run(self.result)
+        self.test.run()
         assert self.test.log == "setup testMethod teardown"
 
     @Test
     def test_result(self) -> None:
-        subject = TestResult()
-        self.test.register(subject.save_status)
-        self.test.run(self.result)
-        assert 1 == subject.passed_count == self.result.passed_count
-        assert 0 == subject.failed_count == self.result.failed_count
-        assert 0 == subject.not_completed_count == self.result.not_completed_count
-        assert "testMethod" == self.result.passed ==  subject.passed
+        self.test.run()
+        assert 1 == self.result.passed_count
+        assert 0 == self.result.failed_count
+        assert 0 == self.result.not_completed_count
+        assert "testMethod" == self.result.passed
 
     @Test
     def test_failed_result(self) -> None:
-        subject = TestResult()
         test = WasRun("testBrokenMethod")
-        test.register(subject.save_status)
-        test.run(self.result)
-        assert 1 == subject.failed_count == self.result.failed_count
-        assert 0 == subject.not_completed_count == self.result.not_completed_count
-        assert "testBrokenMethod" == self.result.failed == subject.failed
+        test.register(self.result.save_status)
+        test.run()
+        assert 1 == self.result.failed_count
+        assert 0 == self.result.not_completed_count
+        assert "testBrokenMethod" == self.result.failed
 
     @Test
     def test_failed_in_set_up(self) -> None:
-        subject = TestResult()
         test = FailedSetUp("testMethod")
-        test.register(subject.save_status)
-        test.run(self.result)
+        test.register(self.result.save_status)
+        test.run()
         assert "teardown" in test.log
-        assert subject.failed_count == self.result.failed_count == 0
-        assert subject.not_completed_count == self.result.not_completed_count == 1
-        assert "testMethod" == self.result.not_completed == subject.not_completed
+        assert self.result.failed_count == 0
+        assert self.result.not_completed_count == 1
+        assert "testMethod" == self.result.not_completed
 
     @Test
     def test_not_completed_when_not_found(self) -> None:
         test = WasRun("notImplementedTest")
-        test.run(self.result)
+        test.register(self.result.save_status)
+        test.run()
         assert self.result.not_completed_count == 1
         assert "notImplementedTest" == self.result.not_completed
 
     @Test 
     def test_failed_result_calls_tear_down(self) -> None:
         test = WasRun("testBrokenMethod")
-        test.run(self.result)
+        test.run()
         assert "teardown" in test.log
 
     @Test
     def test_failed_result_passes_exception(self) -> None:
         error = Exception()
-
         mock_class = MockTestCase("testMethod", error)
-        mock_class.run(self.result)
+        mock_class.register(self.result.save_status)
+        mock_class.run()
         assert mock_class.exception_raised == error
         expected_info = TestStatus.from_exception(
             error, "testMethod", "Failed"
@@ -80,7 +78,8 @@ class TestCaseTest(TestCase):
     def test_not_completed_result_passes_exception(self) -> None:
         error = Exception()
         mock_class = MockBrokenTestCase("testMethod", error)
-        mock_class.run(self.result)
+        mock_class.register(self.result.save_status)
+        mock_class.run()
         assert mock_class.exception_raised == error
         expected_info = TestStatus.from_exception(
             error, "testMethod", "Not completed"
