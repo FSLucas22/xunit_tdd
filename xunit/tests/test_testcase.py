@@ -93,5 +93,9 @@ class TestCaseTest(TestCase):
     @Test
     def test_test_case_is_subject(self) -> None:
         subject: Subject = DummyTestCase("passedTest1")
-
+        observer = DummyObserver()
+        status = TestStatus("x", "y", "z")
+        subject.register(observer)
+        subject.notify(TestStatus("x","y","z"))
+        assert observer.received == [status]
 
