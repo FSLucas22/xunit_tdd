@@ -1,6 +1,6 @@
 from xunit.src import *
 from xunit.src.status import TestStatus
-from xunit.src.observer import Observer
+from xunit.src.observer import Observer, Subject
 from xunit.tests.testclasses import *
 from typing import cast
 
