@@ -16,15 +16,14 @@ class TestSuiteTest(TestCase):
     @Test
     def test_suite(self) -> None:
         suite = TestSuite()
-        observer = TestResult()
-        suite.register(observer.save_status)
+        suite.register(self.result.save_status)
         suite.add(WasRun("testMethod"), WasRun("testBrokenMethod"))
-        suite.run(self.result)
-        assert self.result.passed_count == observer.passed_count == 1
-        assert self.result.failed_count == observer.failed_count == 1
-        assert self.result.not_completed_count == observer.not_completed_count == 0
-        assert "testMethod testBrokenMethod" == self.result.started == observer.started
-        assert "testMethod" == self.result.passed == observer.passed
+        suite.run()
+        assert self.result.passed_count == 1
+        assert self.result.failed_count == 1
+        assert self.result.not_completed_count == 0
+        assert "testMethod testBrokenMethod" == self.result.started
+        assert "testMethod" == self.result.passed
 
     @Test
     def test_names_from_tests(self) -> None:
