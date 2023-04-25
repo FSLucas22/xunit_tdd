@@ -6,11 +6,9 @@ from xunit.tests.testclasses import *
 @TestClass
 class TestResultTest(TestCase):
     result: TestResult
-    error_info: TestStatus
     
     def setup(self) -> None:
         self.result = TestResult()
-        self.error_info = TestStatus("","", "")
 
     @Test
     def test_completed_tests(self) -> None:
