@@ -27,7 +27,9 @@ class TestCase:
         self._observers += list(observer)
 
     def unregister(self, *observers: Observer) -> None:
-        pass
+        for observer in observers:
+            if observer in self._observers:
+                self._observers.remove(observer)
 
     def run(self, result: TestResult,
             status_factory: StatusFactory = TestStatus.from_exception
