@@ -53,7 +53,7 @@ class TestSummaryTest(TestCase):
         test2.register(self.result.save_status)
         test.run()
         test2.run()
-        error_info = self.result._failed_errors
+        error_info = self.result.failed_errors
         assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].info}\ntestMethod2 - Failed\n{error_info[1].info}"
 
     @Test
@@ -67,8 +67,8 @@ class TestSummaryTest(TestCase):
         test2.register(self.result.save_status)
         test.run()
         test2.run()
-        failed_info = self.result._failed_errors[0]
-        not_completed_info = self.result._not_completed_errors[0]
+        failed_info = self.result.failed_errors[0]
+        not_completed_info = self.result.not_completed_errors[0]
         assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.info}\n"\
                                                f"testMethod - Not completed\n{not_completed_info.info}"
 
@@ -94,7 +94,7 @@ class TestSummaryTest(TestCase):
         test2.register(self.result.save_status)
         test.run()
         test2.run()
-        failed_info = self.result._failed_errors[0]
-        not_completed_info = self.result._not_completed_errors[0]
+        failed_info = self.result.failed_errors[0]
+        not_completed_info = self.result.not_completed_errors[0]
         assert summary.results(self.result) == f"[F]testMethod2 - Failed\n{failed_info.info}\n"\
                                                f"[NC]testMethod - Not completed\n{not_completed_info.info}"

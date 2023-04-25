@@ -71,7 +71,7 @@ class TestCaseTest(TestCase):
         expected_info = TestStatus.from_exception(
             error, "testMethod", "Failed"
         )
-        error_info = self.result._failed_errors[0]
+        error_info = self.result.failed_errors[0]
         assert expected_info == error_info
 
     @Test
@@ -84,7 +84,7 @@ class TestCaseTest(TestCase):
         expected_info = TestStatus.from_exception(
             error, "testMethod", "Not completed"
         )
-        error_info = self.result._not_completed_errors[0]
+        error_info = self.result.not_completed_errors[0]
         assert error_info == expected_info
 
     @Test

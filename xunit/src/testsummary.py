@@ -86,12 +86,12 @@ class MixedTestSummary:
 class ErrorInfoSummary(Summary):
     def results(self, result: TestResult) -> str:
         errors = []
-        for error_info in result._failed_errors:
+        for error_info in result.failed_errors:
             messege = self.failed_formatter(
                 f"{error_info.name} - Failed\n{error_info.info}"
             )
             errors.append(messege)
-        for error_info in result._not_completed_errors:
+        for error_info in result.not_completed_errors:
             messege = self.not_completed_formatter(
                 f"{error_info.name} - Not completed\n{error_info.info}"
             )

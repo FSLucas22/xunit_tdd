@@ -55,18 +55,18 @@ class TestResultTest(TestCase):
 
     @Test
     def test_failed_errors(self) -> None:
-        assert self.result._failed_errors == []
+        assert self.result.failed_errors == []
         error_info = TestStatus("", "Failed", "")
         self.result.save_status(error_info)
-        assert self.result._failed_errors == [error_info]
+        assert self.result.failed_errors == [error_info]
 
     @Test
     def test_not_completed_errors(self) -> None:
-        assert self.result._not_completed_errors == []
+        assert self.result.not_completed_errors == []
         error_info = TestStatus("", "Not completed", "")
         self.result.save_status(error_info)
-        assert self.result._failed_errors == []
-        assert self.result._not_completed_errors == [error_info]
+        assert self.result.failed_errors == []
+        assert self.result.not_completed_errors == [error_info]
 
     @Test
     def test_save_status(self) -> None:
