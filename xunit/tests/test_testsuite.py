@@ -150,7 +150,6 @@ class TestSuiteTest(TestCase):
 
         merged = suite1.merge(suite2)
         
-        
         suite1.unregister(result1.save_status)
         suite2.unregister(result2.save_status)
 
@@ -173,8 +172,13 @@ class TestSuiteTest(TestCase):
         suite2 = TestSuite.from_package(testpackage)
         result1 = TestResult()
         result2 = TestResult()
-        suite1.run(result1)
-        suite2.run(result2)
+
+        suite1.register(result1.save_status)
+        suite2.register(result2.save_status)
+        
+        suite1.run(TestResult())
+        suite2.run(TestResult())
+        
         assert result1.passed == result2.passed
         assert result1.failed == result2.failed
         assert result1.not_completed == result2.not_completed
