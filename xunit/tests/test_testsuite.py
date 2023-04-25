@@ -85,11 +85,16 @@ class TestSuiteTest(TestCase):
         )
         from xunit.tests.testpackage.subpackage import subpackagemodule
         import xunit.tests.testpackage as testpackage
+        
         suite = TestSuite.from_module(packagemodule, packagemodule2, subpackagemodule)
+        suite.register(self.result.save_status)
         packagesuite = TestSuite.from_package(testpackage)
         result = TestResult()
-        packagesuite.run(result)
-        suite.run(self.result)
+        packagesuite.register(result.save_status)
+        
+        packagesuite.run(TestResult())
+        suite.run(TestResult())
+        
         normal_passed = self.result.passed
         normal_failed = self.result.failed
         package_passed = result.passed
