@@ -1,5 +1,4 @@
 from xunit.src.testresult import TestResult
-from xunit.src.testerrorinfo import TestErrorInfo, ErrorInfoFactory
 from xunit.src.status import TestStatus, StatusFactory
 from typing import Callable
 
