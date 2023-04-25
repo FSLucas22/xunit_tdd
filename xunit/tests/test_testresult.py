@@ -63,7 +63,7 @@ class TestResultTest(TestCase):
     def test_not_completed_errors(self) -> None:
         assert self.result._not_completed_errors == []
         error_info = TestStatus("", "Not completed", "")
-        self.result._test_not_completed(error_info)
+        self.result.save_status(error_info)
         assert self.result._failed_errors == []
         assert self.result._not_completed_errors == [error_info]
 
