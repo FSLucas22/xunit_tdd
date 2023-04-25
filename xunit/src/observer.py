@@ -11,3 +11,6 @@ class Subject(Protocol):
 
     def notify(self, status: TestStatus) -> None:
         ...
+
+    def unregister(self, *observer: Observer) -> None:
+        ...

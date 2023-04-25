@@ -26,6 +26,9 @@ class TestCase:
     def register(self, *observer: Observer) -> None:
         self._observers += list(observer)
 
+    def unregister(self, *observers: Observer) -> None:
+        pass
+
     def run(self, result: TestResult,
             status_factory: StatusFactory = TestStatus.from_exception
             ) -> None:
