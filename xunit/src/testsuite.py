@@ -20,7 +20,10 @@ class TestSuite:
 
     def merge(self, other_suite: 'TestSuite') -> Self:
         merged = type(self)()
-        merged._tests = self._tests + other_suite._tests
+        
+        for test in self._tests + other_suite._tests:
+            merged.add(test)
+        
         return merged
 
     def run(self, result: TestResult) -> None:
