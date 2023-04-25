@@ -1,5 +1,5 @@
-from typing import Protocol
+from typing import Callable
+from xunit.src.status import TestStatus
 
 
-class Observer(Protocol):
-    pass
+Observer = Callable[[TestStatus], None]
