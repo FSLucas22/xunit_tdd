@@ -78,7 +78,7 @@ class DummyObserver:
     received: TestStatus
     
     def __call__(self, status: TestStatus) -> None:
-        pass
+        self.received = status
 
 
 
