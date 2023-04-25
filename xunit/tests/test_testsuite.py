@@ -78,7 +78,7 @@ class TestSuiteTest(TestCase):
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
         suite = TestSuite.from_package(testpackage, ignore=ignore)
         suite.register(self.result.save_status)
-        suite.run(TestResult())
+        suite.run()
         assert "y" == self.result.passed
         assert "y1" == self.result.failed
 
