@@ -31,18 +31,14 @@ class TestCase:
             if observer in self._observers:
                 self._observers.remove(observer)
 
-    def run(self, result: TestResult = TestResult(),
-            status_factory: StatusFactory = TestStatus.from_exception
+    def run(self, status_factory: StatusFactory = TestStatus.from_exception
             ) -> None:
-        self.unregister(result.save_status)
-        self.register(result.save_status)
         try:
             self.setup()
             method = getattr(self, self.name)
         except Exception as e:
             info = status_factory(e, self.name, "Not completed")
             self.notify(info)
-            self.unregister(result.save_status)
             self.teardown()
             return
         try:
@@ -51,5 +47,4 @@ class TestCase:
         except Exception as e:
             info = status_factory(e, self.name, "Failed")
         self.notify(info)
-        self.unregister(result.save_status)
         self.teardown()
