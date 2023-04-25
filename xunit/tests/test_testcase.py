@@ -41,12 +41,14 @@ class TestCaseTest(TestCase):
 
     @Test
     def test_failed_in_set_up(self) -> None:
+        subject = TestResult()
         test = FailedSetUp("testMethod")
+        test.register(subject.save_status)
         test.run(self.result)
         assert "teardown" in test.log
-        assert self.result.failed_count == 0
-        assert self.result.not_completed_count == 1
-        assert "testMethod" == self.result.not_completed
+        assert subject.failed_count == self.result.failed_count == 0
+        assert subject.not_completed_count == self.result.not_completed_count == 1
+        assert "testMethod" == self.result.not_completed == subject.not_completed
 
     @Test
     def test_not_completed_when_not_found(self) -> None:
