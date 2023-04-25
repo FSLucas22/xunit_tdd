@@ -40,6 +40,7 @@ class TestCase:
         try:
             method()
             result._test_passed(self.name)
+            self.notify(TestStatus(self.name, "Passed", "-"))
         except Exception as e:
             error_info = status_factory(e, self.name, "")
             result._test_failed(error_info)
