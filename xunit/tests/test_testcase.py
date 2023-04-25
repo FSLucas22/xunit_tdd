@@ -25,8 +25,8 @@ class TestCaseTest(TestCase):
         self.test.register(subject.save_status)
         self.test.run(self.result)
         assert 1 == subject.passed_count == self.result.passed_count
-        assert 0 == subject.passed_count ==  self.result.failed_count
-        assert 0 == subject.passed_count == self.result.not_completed_count
+        assert 0 == subject.failed_count ==  self.result.failed_count
+        assert 0 == subject.not_completed_count == self.result.not_completed_count
         assert "testMethod" == self.result.passed ==  subject.passed
 
     @Test
