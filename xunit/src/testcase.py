@@ -1,5 +1,6 @@
 from xunit.src.testresult import TestResult
 from xunit.src.status import TestStatus, StatusFactory
+from xunit.src.observer import Observer
 from typing import Callable
 
 
@@ -15,6 +16,12 @@ class TestCase:
         pass
 
     def teardown(self) -> None:
+        pass
+
+    def notify(self, status: TestStatus) -> None:
+        pass
+
+    def register(self, observer: Observer) -> None:
         pass
 
     def run(self, result: TestResult,
