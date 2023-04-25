@@ -63,8 +63,10 @@ class TestSummaryTest(TestCase):
             passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
         test = MockTestCase("testMethod2", Exception())
         test2 = MockBrokenTestCase("testMethod", Exception())
-        test.run(self.result)
-        test2.run(self.result)
+        test.register(self.result.save_status)
+        test2.register(self.result.save_status)
+        test.run()
+        test2.run()
         failed_info = self.result._failed_errors[0]
         not_completed_info = self.result._not_completed_errors[0]
         assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.info}\n"\
