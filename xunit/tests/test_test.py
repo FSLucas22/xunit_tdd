@@ -65,7 +65,8 @@ class TestTest(TestCase):
 
         suite = TestSuite.from_test_case(UnnamedTestClass)
         result = TestResult()
-        suite.run(result)
+        suite.register(result.save_status)
+        suite.run()
         assert result.passed == "test_method"
         assert result.failed == "broken_method"
 
