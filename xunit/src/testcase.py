@@ -11,6 +11,7 @@ class TestCase:
     
     def __init__(self, name: str):
         self.name = name
+        self._observers: list[Observer] = []
 
     def setup(self) -> None:
         pass
@@ -19,10 +20,11 @@ class TestCase:
         pass
 
     def notify(self, status: TestStatus) -> None:
-        self._observer(status)
+        for observer in self._observers:
+            observer(status)
 
-    def register(self, observer: Observer) -> None:
-        self._observer = observer
+    def register(self, *observer: Observer) -> None:
+        self._observers += list(observer)
 
     def run(self, result: TestResult,
             status_factory: StatusFactory = TestStatus.from_exception
