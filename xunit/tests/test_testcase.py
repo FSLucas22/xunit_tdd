@@ -21,11 +21,13 @@ class TestCaseTest(TestCase):
 
     @Test
     def test_result(self) -> None:
+        subject = TestResult()
+        self.test.register(subject.save_status)
         self.test.run(self.result)
-        assert 1 == self.result.passed_count
-        assert 0 == self.result.failed_count
-        assert 0 == self.result.not_completed_count
-        assert "testMethod" == self.result.passed
+        assert 1 == subject.passed_count == self.result.passed_count
+        assert 0 == subject.passed_count ==  self.result.failed_count
+        assert 0 == subject.passed_count == self.result.not_completed_count
+        assert "testMethod" == self.result.passed ==  subject.passed
 
     @Test
     def test_failed_result(self) -> None:
