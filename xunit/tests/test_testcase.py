@@ -25,17 +25,19 @@ class TestCaseTest(TestCase):
         self.test.register(subject.save_status)
         self.test.run(self.result)
         assert 1 == subject.passed_count == self.result.passed_count
-        assert 0 == subject.failed_count ==  self.result.failed_count
+        assert 0 == subject.failed_count == self.result.failed_count
         assert 0 == subject.not_completed_count == self.result.not_completed_count
         assert "testMethod" == self.result.passed ==  subject.passed
 
     @Test
     def test_failed_result(self) -> None:
+        subject = TestResult()
         test = WasRun("testBrokenMethod")
+        test.register(subject.save_status)
         test.run(self.result)
-        assert 1 == self.result.failed_count
-        assert 0 == self.result.not_completed_count
-        assert "testBrokenMethod" == self.result.failed
+        assert 1 == subject.failed_count == self.result.failed_count
+        assert 0 == subject.not_completed_count == self.result.not_completed_count
+        assert "testBrokenMethod" == self.result.failed == subject.failed
 
     @Test
     def test_failed_in_set_up(self) -> None:
