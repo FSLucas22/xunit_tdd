@@ -1,4 +1,5 @@
 from xunit.src import TestCase
+from xunit.src.status import TestStatus
 
 
 class WasRun(TestCase):
@@ -74,7 +75,10 @@ class MockPrint:
 
 
 class DummyObserver:
-    pass
+    received: TestStatus
+    
+    def __call__(self, status: TestStatus) -> None:
+        pass
 
 
 
