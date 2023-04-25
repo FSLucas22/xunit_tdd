@@ -19,10 +19,10 @@ class TestCase:
         pass
 
     def notify(self, status: TestStatus) -> None:
-        pass
+        self._observer(status)
 
     def register(self, observer: Observer) -> None:
-        pass
+        self._observer = observer
 
     def run(self, result: TestResult,
             status_factory: StatusFactory = TestStatus.from_exception
