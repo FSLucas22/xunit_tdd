@@ -64,7 +64,8 @@ class TestSuiteTest(TestCase):
             testmodule.SomeTest,
             testmodule.SomeOtherTest
         )
-        suite.run(self.result)
+        suite.register(self.result.save_status)
+        suite.run(TestResult())
         assert self.result.passed == "someTest"
         assert self.result.failed == "someOtherTest"
 
