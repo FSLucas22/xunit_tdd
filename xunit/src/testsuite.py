@@ -1,5 +1,7 @@
 from typing import Type, Self
 from xunit.src.testcase import TestCase
+from xunit.src.status import TestStatus
+from xunit.src.observer import Observer
 from xunit.src.testresult import TestResult
 import xunit.src.packagemanager as pm
 from types import ModuleType
@@ -9,6 +11,7 @@ class TestSuite:
     
     def __init__(self) -> None:
         self._tests: list[TestCase] = []
+        self._observers: list[Observer] = []
         
     def add(self, *tests: TestCase) -> None:
         self._tests += list(tests)
@@ -21,6 +24,18 @@ class TestSuite:
     def run(self, result: TestResult) -> None:
         for test in self._tests:
             test.run(result)
+
+    def register(self, *observer: Observer) -> None:
+        self._observers += list(observer)
+
+    def notify(self, status: TestStatus) -> None:
+        for observer in self._observers:
+            observer(status)
+
+    def unregister(self, *observers: Observer) -> None:
+        for observer in observers:
+            if observer in self._observers:
+                self._observers.remove(observer)
 
     @classmethod
     def from_test_case(cls, *tests: Type[TestCase]) -> Self:
