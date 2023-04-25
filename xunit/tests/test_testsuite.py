@@ -97,7 +97,7 @@ class TestSuiteTest(TestCase):
         import xunit.tests.testpackage as testpackage
         suite = TestSuite.from_package(testpackage, ignore_name)
         suite.register(self.result.save_status)
-        suite.run(TestResult())
+        suite.run()
         passed = self.result.passed
         failed = self.result.failed
         assert "x" in passed and "y" in passed and "z" not in passed
