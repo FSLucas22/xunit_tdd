@@ -42,6 +42,7 @@ class TestCase:
             result._test_passed(self.name)
             self.notify(TestStatus(self.name, "Passed", "-"))
         except Exception as e:
-            error_info = status_factory(e, self.name, "")
+            error_info = status_factory(e, self.name, "Failed")
             result._test_failed(error_info)
+            self.notify(error_info)
         self.teardown()
