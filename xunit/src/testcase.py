@@ -31,7 +31,7 @@ class TestCase:
             if observer in self._observers:
                 self._observers.remove(observer)
 
-    def run(self, result: TestResult,
+    def run(self, result: TestResult = TestResult(),
             status_factory: StatusFactory = TestStatus.from_exception
             ) -> None:
         self.unregister(result.save_status)
