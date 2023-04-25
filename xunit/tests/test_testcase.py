@@ -2,6 +2,7 @@ from xunit.src import *
 from xunit.src.status import TestStatus
 from xunit.src.observer import Observer
 from xunit.tests.testclasses import *
+from typing import cast
 
 
 @TestClass
@@ -84,4 +85,7 @@ class TestCaseTest(TestCase):
     @Test
     def test_observer(self) -> None:
         observer: Observer = DummyObserver()
-        
+        status = TestStatus("x", "y", "z")
+        observer(status)
+        observer = cast(DummyObserver, observer)
+        assert observer.received == status
