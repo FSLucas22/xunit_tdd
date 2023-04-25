@@ -106,28 +106,16 @@ class TestSuiteTest(TestCase):
     @Test
     def test_merge(self) -> None:
         suite1 = TestSuite.from_test_case(DummyTestCase)
-        result1 = TestResult()
-        suite1.register(result1.save_status)
-        suite1.run(TestResult())
-        
         suite2 = TestSuite.from_test_case(DummyTestCase)
-        result2 = TestResult()
-        suite2.register(result2.save_status)
-        suite2.run(TestResult())
-
+        result = TestResult()
+        
         merged = suite1.merge(suite2)
         
-        suite1.unregister(result1.save_status)
-        suite2.unregister(result2.save_status)
-
-        merged_result = TestResult()
-        merged.register(merged_result.save_status)
+        merged.register(result.save_status)
         merged.run(TestResult())
         
-        assert result1.passed == result2.passed == "passedTest1 passedTest2"
-        assert result1.failed == result2.failed == "failedTest1 failedTest2"
-        assert result1.passed + " " + result2.passed == merged_result.passed
-        assert result1.failed + " " + result2.failed == merged_result.failed
+        assert "passedTest1 passedTest2 passedTest1 passedTest2" == result.passed
+        assert "failedTest1 failedTest2 failedTest1 failedTest2" == result.failed
 
         
     @Test
