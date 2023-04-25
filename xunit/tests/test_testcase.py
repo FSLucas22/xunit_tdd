@@ -95,14 +95,20 @@ class TestCaseTest(TestCase):
         observer(status)
         observer = cast(DummyObserver, observer)
         assert observer.received == [status]
-
+        observer(status)
+        assert observer.received == [status, status]
+        
     @Test
     def test_testcase_is_subject(self) -> None:
-        subject: Subject = DummyTestCase("passedTest1")
+        subject: Subject = DummyTestCase("passedTest1") 
         observer1 = DummyObserver()
         observer2 = DummyObserver()
         status = TestStatus("x", "y", "z")
         subject.register(observer1, observer2)
-        subject.notify(TestStatus("x","y","z"))
+        subject.notify(status)
         assert observer1.received == observer2.received == [status]
+        subject.unregister(observer1)
+        subject.notify(status)
+        assert observer1.received == [status]
+        assert observer2.received == [status, status]
 

@@ -154,7 +154,6 @@ class TestSuiteTest(TestCase):
         suite1.run(result1)
         suite2.run(result2)
         merged.run(merged_result)
-
         assert result1.passed == result2.passed == "passedTest1 passedTest2"
         assert result1.failed == result2.failed == "failedTest1 failedTest2"
         assert result1.passed + " " + result2.passed == merged_result.passed
