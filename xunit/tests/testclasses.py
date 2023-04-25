@@ -73,5 +73,9 @@ class MockPrint:
         self.passed_value = result
 
 
+class DummyObserver:
+    pass
+
+
 
 
