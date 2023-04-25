@@ -16,8 +16,8 @@ class TestSummaryTest(TestCase):
     @Test
     def test_summary(self) -> None:
         summary = SimpleTestSummary()
-        self.result._test_passed("someTest")
-        self.result._test_not_completed(self.error_info)
+        self.result.save_status(TestStatus("someTest", "Passed", ""))
+        self.result.save_status(TestStatus("", "Not completed", ""))
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
     @Test
