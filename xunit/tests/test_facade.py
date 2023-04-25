@@ -92,5 +92,6 @@ class TestFacade(TestCase):
         suite = TestSuite.from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
         )
-        suite.run(result)
+        suite.register(result.save_status)
+        suite.run()
         return summary.results(result)
