@@ -88,4 +88,6 @@ class TestCaseTest(TestCase):
         status = TestStatus("x", "y", "z")
         observer(status)
         observer = cast(DummyObserver, observer)
-        assert observer.received == status
+        assert observer.received == [status]
+
+
