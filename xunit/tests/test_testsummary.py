@@ -25,9 +25,9 @@ class TestSummaryTest(TestCase):
         identity = lambda messege: messege
         summary = DetailedTestSummary(
             passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
-        self.result._test_passed("someOtherTest")
-        self.result._test_failed(TestStatus("someTest", "", ""))
-        self.result._test_not_completed(TestStatus("someBrokenTest", "", ""))
+        self.result.save_status(TestStatus("someOtherTest", "Passed", ""))
+        self.result.save_status(TestStatus("someTest", "Failed", ""))
+        self.result.save_status(TestStatus("someBrokenTest", "Not completed", ""))
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     @Test
@@ -36,8 +36,8 @@ class TestSummaryTest(TestCase):
             DetailedTestSummary(), SimpleTestSummary()
         ]
         summary = MixedTestSummary(*summariesToMix)
-        self.result._test_passed("someTest")
-        self.result._test_not_completed(self.error_info)
+        self.result.save_status(TestStatus("someTest", "Passed", ""))
+        self.result.save_status(TestStatus("", "Not completed", ""))
         summary_result = summary.results(self.result)
         individual_results = [s.results(self.result) for s in summariesToMix]
         assert summary_result == '\n'.join(individual_results)
@@ -74,9 +74,9 @@ class TestSummaryTest(TestCase):
         passed_formatter = lambda messege: "{P}" + messege
         not_completed_formatter = lambda messege: "{NC}" + messege
         summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, not_completed_formatter=not_completed_formatter)
-        self.result._test_passed("passedTest")
-        self.result._test_failed(TestStatus("failedTest", "", ""))
-        self.result._test_not_completed(TestStatus("not_completedTest", "", ""))
+        self.result.save_status(TestStatus("passedTest", "Passed", ""))
+        self.result.save_status(TestStatus("failedTest", "Failed", ""))
+        self.result.save_status(TestStatus("not_completedTest", "Not completed", ""))
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}not_completedTest - Not completed"
 
     @Test
