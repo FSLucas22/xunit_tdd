@@ -14,6 +14,8 @@ class TestSuite:
         self._observers: list[Observer] = []
         
     def add(self, *tests: TestCase) -> None:
+        for test in tests:
+            test.register(self.notify)
         self._tests += list(tests)
 
     def merge(self, other_suite: 'TestSuite') -> Self:
