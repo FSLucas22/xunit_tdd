@@ -55,7 +55,7 @@ class TestSuiteTest(TestCase):
         import xunit.tests.testmodule as testmodule
         suite = TestSuite.from_module(testmodule, testmodule)
         suite.register(self.result.save_status)
-        suite.run(TestResult())
+        suite.run()
         assert self.result.passed == "someTest someTest"
         assert self.result.failed == "someOtherTest someOtherTest"
 
