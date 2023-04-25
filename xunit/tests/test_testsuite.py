@@ -112,7 +112,7 @@ class TestSuiteTest(TestCase):
         merged = suite1.merge(suite2)
         
         merged.register(result.save_status)
-        merged.run(TestResult())
+        merged.run()
         
         assert "passedTest1 passedTest2 passedTest1 passedTest2" == result.passed
         assert "failedTest1 failedTest2 failedTest1 failedTest2" == result.failed
