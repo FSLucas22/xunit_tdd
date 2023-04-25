@@ -91,7 +91,7 @@ class TestCaseTest(TestCase):
         assert observer.received == [status]
 
     @Test
-    def test_test_case_is_subject(self) -> None:
+    def test_testcase_is_subject(self) -> None:
         subject: Subject = DummyTestCase("passedTest1")
         observer1 = DummyObserver()
         observer2 = DummyObserver()
