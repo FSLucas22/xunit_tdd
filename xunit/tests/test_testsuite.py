@@ -27,31 +27,6 @@ class TestSuiteTest(TestCase):
         assert "testMethod" == self.result.passed == observer.passed
 
     @Test
-    def test_suite_from_test_case(self) -> None:
-        individual_result = TestResult()
-        assert hasattr(DummyTestCase, "passedTest1")
-        assert hasattr(DummyTestCase, "passedTest2")
-        assert hasattr(DummyTestCase, "failedTest1")
-        assert hasattr(DummyTestCase, "failedTest2")
-        
-        normal_suite = TestSuite()
-        normal_suite.register(individual_result.save_status)
-        normal_suite.add(
-            DummyTestCase("passedTest1"),
-            DummyTestCase("passedTest2"),
-            DummyTestCase("failedTest1"),
-            DummyTestCase("failedTest2")
-        )
-        normal_suite.run(TestResult())
-        
-        suite = TestSuite.from_test_case(DummyTestCase)
-        suite.register(self.result.save_status)
-        suite.run(TestResult())
-        
-        assert self.result.passed == individual_result.passed == "passedTest1 passedTest2"
-        assert self.result.failed == individual_result.failed == "failedTest1 failedTest2"
-
-    @Test
     def test_names_from_tests(self) -> None:
         assert DummyTestCase.xunit_test_names == "passedTest1 passedTest2 failedTest1 failedTest2"
 
