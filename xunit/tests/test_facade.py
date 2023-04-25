@@ -75,7 +75,8 @@ class TestFacade(TestCase):
         SimpleTestSummary()
         )
         suite = TestSuite.from_module(testmodule)
-        suite.run(result)
+        suite.register(result.save_status)
+        suite.run()
         return summary.results(result)
 
     def expected_value_for_package(self) -> str:
