@@ -28,7 +28,8 @@ class TestRunner:
             ErrorInfoSummary(),
             SimpleTestSummary()
         )
-        suite.run(result)
+        suite.register(result.save_status)
+        suite.run()
         self.capture_output(summary.results(result))
 
     def run_for_class(self, cls: Type[TestCase]) -> None:
