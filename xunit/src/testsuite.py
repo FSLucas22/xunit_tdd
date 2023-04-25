@@ -26,9 +26,9 @@ class TestSuite:
         
         return merged
 
-    def run(self, result: TestResult = TestResult()) -> None:
+    def run(self) -> None:
         for test in self._tests:
-            test.run(result)
+            test.run()
 
     def register(self, *observer: Observer) -> None:
         self._observers += list(observer)
