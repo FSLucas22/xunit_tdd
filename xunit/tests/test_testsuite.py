@@ -151,8 +151,8 @@ class TestSuiteTest(TestCase):
         suite1.register(result1.save_status)
         suite2.register(result2.save_status)
         
-        suite1.run(TestResult())
-        suite2.run(TestResult())
+        suite1.run()
+        suite2.run()
         
         assert result1.passed == result2.passed
         assert result1.failed == result2.failed
