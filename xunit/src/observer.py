@@ -6,4 +6,8 @@ Observer = Callable[[TestStatus], None]
 
 
 class Subject(Protocol):
-    pass
+    def register(self, observer: Observer) -> None:
+        ...
+
+    def notify(self, status: TestStatus) -> None:
+        ...
