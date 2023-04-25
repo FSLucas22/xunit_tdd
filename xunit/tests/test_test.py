@@ -19,16 +19,27 @@ class TestTest(TestCase):
     def test_decorator_dont_change_test(self) -> None:
         result_before_decorator = TestResult()
         result_after_decorator = TestResult()
-        self.test_cls("test_method").run(result_before_decorator)
-        self.test_cls("broken_method").run(result_before_decorator)
+        test1 = self.test_cls("test_method")
+        test2 = self.test_cls("broken_method")
+        test1.register(result_before_decorator.save_status)
+        test2.register(result_before_decorator.save_status)
+        test1.run()
+        test2.run()
+        
         setattr(self.test_cls, "test_method", Test(
             getattr(self.test_cls, "test_method")
         ))
         setattr(self.test_cls, "broken_method", Test(
             getattr(self.test_cls, "broken_method")
         ))
-        self.test_cls("test_method").run(result_after_decorator)
-        self.test_cls("broken_method").run(result_after_decorator)
+        
+        test1 = self.test_cls("test_method")
+        test2 = self.test_cls("broken_method")
+        test1.register(result_after_decorator.save_status)
+        test2.register(result_after_decorator.save_status)
+        test1.run()
+        test2.run()
+        
         assert result_before_decorator.passed ==\
                result_after_decorator.passed
         assert result_before_decorator.failed ==\
