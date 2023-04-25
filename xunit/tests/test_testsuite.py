@@ -61,30 +61,16 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_from_package(self) -> None:
-        from xunit.tests.testpackage import (
-            packagemodule, packagemodule2, subpackage
-        )
-        from xunit.tests.testpackage.subpackage import subpackagemodule
         import xunit.tests.testpackage as testpackage
         
-        suite = TestSuite.from_module(packagemodule, packagemodule2, subpackagemodule)
-        suite.register(self.result.save_status)
-        packagesuite = TestSuite.from_package(testpackage)
+        suite = TestSuite.from_package(testpackage)
         result = TestResult()
-        packagesuite.register(result.save_status)
+        suite.register(result.save_status)
         
-        packagesuite.run(TestResult())
-        suite.run(TestResult())
-        
-        normal_passed = self.result.passed
-        normal_failed = self.result.failed
-        package_passed = result.passed
-        package_failed = result.failed
-        
-        assert "x" in normal_passed and "y" in normal_passed and "z" in normal_passed
-        assert "x" in package_passed and "y" in package_passed and "z" in package_passed
-        assert "x1" in normal_failed and "y1" in normal_failed and "z1" in normal_failed
-        assert "x1" in package_failed and "y1" in package_failed and "z1" in package_failed
+        suite.run()
+
+        assert "x" in result.passed and "y" in result.passed and "z" in result.passed
+        assert "x1" in result.failed and "y1" in result.failed and "z1" in result.failed
 
     @Test
     def test_ignore(self) -> None:
