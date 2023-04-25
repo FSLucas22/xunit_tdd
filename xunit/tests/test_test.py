@@ -99,7 +99,8 @@ class TestTest(TestCase):
         suite = TestSuite.from_test_case(
             BrokenUnnamedTestClass, UnnamedTestClass)
         result = TestResult()
-        suite.run(result)
+        suite.register(result.save_status)
+        suite.run()
         assert result.passed_count == 1
         assert result.failed_count == 1
         assert result.not_completed_count == 2
