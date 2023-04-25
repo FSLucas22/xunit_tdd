@@ -45,7 +45,8 @@ class TestResultTest(TestCase):
         suite.add(WasRun("testMethod"))
         suite.add(WasRun("testBrokenMethod"))
         suite.add(FailedSetUp("testMethod"))
-        suite.run(self.result)
+        suite.register(self.result.save_status)
+        suite.run()
         
         assert self.result.passed_count == 1
         assert self.result.failed_count == 1
