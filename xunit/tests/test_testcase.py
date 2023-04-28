@@ -12,8 +12,7 @@ class TestCaseTest(TestCase):
     
     def setup(self) -> None:
         self.result = TestResult()
-        self.test = WasRun("testMethod")
-        self.test.register(self.result.save_status)
+        self.test = WasRun("testMethod", self.result.save_status)
 
     @Test
     def test_template_method(self) -> None:
@@ -30,8 +29,7 @@ class TestCaseTest(TestCase):
 
     @Test
     def test_failed_result(self) -> None:
-        test = WasRun("testBrokenMethod")
-        test.register(self.result.save_status)
+        test = WasRun("testBrokenMethod", self.result.save_status)
         test.run()
         assert 1 == self.result.failed_count
         assert 0 == self.result.not_completed_count
@@ -39,8 +37,7 @@ class TestCaseTest(TestCase):
 
     @Test
     def test_failed_in_set_up(self) -> None:
-        test = FailedSetUp("testMethod")
-        test.register(self.result.save_status)
+        test = FailedSetUp("testMethod", self.result.save_status)
         test.run()
         assert "teardown" in test.log
         assert self.result.failed_count == 0
@@ -49,8 +46,7 @@ class TestCaseTest(TestCase):
 
     @Test
     def test_not_completed_when_not_found(self) -> None:
-        test = WasRun("notImplementedTest")
-        test.register(self.result.save_status)
+        test = WasRun("notImplementedTest", self.result.save_status)
         test.run()
         assert self.result.not_completed_count == 1
         assert "notImplementedTest" == self.result.not_completed
