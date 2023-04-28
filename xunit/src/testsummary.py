@@ -1,6 +1,6 @@
 from typing import Protocol, Callable
 from xunit.src.testresult import TestResult
-import xunit.src.testcolors as color
+import xunit.src.testcolours as color
 from abc import ABC, abstractmethod
 
 

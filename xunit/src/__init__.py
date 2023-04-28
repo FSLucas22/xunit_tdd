@@ -4,13 +4,13 @@ from xunit.src.testsummary import *
 from xunit.src.testsuite import TestSuite as TestSuite
 from xunit.src import testdecorator
 from xunit.src.testexceptions import *
-from xunit.src import testcolors
+from xunit.src import testcolours
 import xunit.src.packagemanager  as pm
 from typing import Type, Callable
 from types import ModuleType
 
 
-color = testcolors
+color = testcolours
 Test = testdecorator.Test
 TestClass = testdecorator.TestClass
 
