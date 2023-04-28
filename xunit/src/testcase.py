@@ -9,9 +9,9 @@ class TestCase(SubjectImp):
     xunit_test_names: str
     _is_xunit_test_class: bool
     
-    def __init__(self, name: str):
+    def __init__(self, name: str, *observers: Observer):
         self.name = name
-        self._observers: list[Observer] = []
+        super().__init__(*observers)
 
     def setup(self) -> None:
         pass

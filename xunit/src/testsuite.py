@@ -9,9 +9,9 @@ from types import ModuleType
 
 class TestSuite(SubjectImp):
     
-    def __init__(self) -> None:
+    def __init__(self, *observers: Observer) -> None:
         self._tests: list[TestCase] = []
-        self._observers: list[Observer] = []
+        super().__init__(*observers)
         
     def add(self, *tests: TestCase) -> None:
         for test in tests:
