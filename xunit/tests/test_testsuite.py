@@ -30,8 +30,8 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_suite_from_multiple_test_cases(self) -> None:
-        suite = TestSuite.from_test_case(DummyTestCase, DummyTestCase)
-        suite.register(self.result.save_status)
+        suite = TestSuite.from_test_case(DummyTestCase, DummyTestCase,
+                                         observers=[self.result.save_status])
         suite.run()
         
         assert self.result.passed == "passedTest1 passedTest2 passedTest1 passedTest2"
@@ -42,9 +42,9 @@ class TestSuiteTest(TestCase):
         import xunit.tests.testmodule as testmodule
         suite = TestSuite.from_test_case(
             testmodule.SomeTest,
-            testmodule.SomeOtherTest
+            testmodule.SomeOtherTest,
+            observers=[self.result.save_status]
         )
-        suite.register(self.result.save_status)
         suite.run()
         assert self.result.passed == "someTest"
         assert self.result.failed == "someOtherTest"
@@ -52,8 +52,7 @@ class TestSuiteTest(TestCase):
     @Test
     def test_from_module(self) -> None:
         import xunit.tests.testmodule as testmodule
-        suite = TestSuite.from_module(testmodule, testmodule)
-        suite.register(self.result.save_status)
+        suite = TestSuite.from_module(testmodule, testmodule, observers=[self.result.save_status])
         suite.run()
         assert self.result.passed == "someTest someTest"
         assert self.result.failed == "someOtherTest someOtherTest"
@@ -62,21 +61,17 @@ class TestSuiteTest(TestCase):
     def test_from_package(self) -> None:
         import xunit.tests.testpackage as testpackage
         
-        suite = TestSuite.from_package(testpackage)
-        result = TestResult()
-        suite.register(result.save_status)
-        
+        suite = TestSuite.from_package(testpackage, observers=[self.result.save_status])
         suite.run()
 
-        assert "x" in result.passed and "y" in result.passed and "z" in result.passed
-        assert "x1" in result.failed and "y1" in result.failed and "z1" in result.failed
+        assert "x" in self.result.passed and "y" in self.result.passed and "z" in self.result.passed
+        assert "x1" in self.result.failed and "y1" in self.result.failed and "z1" in self.result.failed
 
     @Test
     def test_ignore(self) -> None:
         import xunit.tests.testpackage as testpackage
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
-        suite = TestSuite.from_package(testpackage, ignore=ignore)
-        suite.register(self.result.save_status)
+        suite = TestSuite.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
         suite.run()
         assert "y" == self.result.passed
         assert "y1" == self.result.failed
@@ -85,8 +80,7 @@ class TestSuiteTest(TestCase):
     def test_ignore_perpetuates(self) -> None:
         import xunit.tests.testpackage as testpackage
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
-        suite = TestSuite.from_package(testpackage, ignore=ignore)
-        suite.register(self.result.save_status)
+        suite = TestSuite.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
         suite.run()
         assert "y" == self.result.passed
         assert "y1" == self.result.failed
@@ -94,8 +88,7 @@ class TestSuiteTest(TestCase):
     @Test
     def test_can_ignore_names(self) -> None:
         import xunit.tests.testpackage as testpackage
-        suite = TestSuite.from_package(testpackage, ignore_name)
-        suite.register(self.result.save_status)
+        suite = TestSuite.from_package(testpackage, ignore_name, observers=[self.result.save_status])
         suite.run()
         passed = self.result.passed
         failed = self.result.failed
@@ -106,29 +99,26 @@ class TestSuiteTest(TestCase):
     def test_merge(self) -> None:
         suite1 = TestSuite.from_test_case(DummyTestCase)
         suite2 = TestSuite.from_test_case(DummyTestCase)
-        result = TestResult()
         
         merged = suite1.merge(suite2)
         
-        merged.register(result.save_status)
+        merged.register(self.result.save_status)
         merged.run()
         
-        assert "passedTest1 passedTest2 passedTest1 passedTest2" == result.passed
-        assert "failedTest1 failedTest2 failedTest1 failedTest2" == result.failed
+        assert "passedTest1 passedTest2 passedTest1 passedTest2" == self.result.passed
+        assert "failedTest1 failedTest2 failedTest1 failedTest2" == self.result.failed
 
         
     @Test
     def test_can_construct_suite_from_package_path(self) -> None:
         from xunit.tests import testpackage
-        suite1 = TestSuite.from_path(
-            "testpackage", testpackage.__file__, is_package=True
-        )
-        suite2 = TestSuite.from_package(testpackage)
         result1 = TestResult()
         result2 = TestResult()
-
-        suite1.register(result1.save_status)
-        suite2.register(result2.save_status)
+        
+        suite1 = TestSuite.from_path(
+            "testpackage", testpackage.__file__, is_package=True, observers=[result1.save_status]
+        )
+        suite2 = TestSuite.from_package(testpackage, observers=[result2.save_status])
         
         suite1.run()
         suite2.run()
@@ -140,15 +130,13 @@ class TestSuiteTest(TestCase):
     @Test
     def test_can_construct_suite_from_module_path(self) -> None:
         from xunit.tests.testpackage.subpackage import subpackagemodule
-        suite1 = TestSuite.from_path(
-            "subpackagemodule", subpackagemodule.__file__, is_package=False
-        )
-        suite2 = TestSuite.from_module(subpackagemodule)
         result1 = TestResult()
         result2 = TestResult()
-
-        suite1.register(result1.save_status)
-        suite2.register(result2.save_status)
+        
+        suite1 = TestSuite.from_path(
+            "subpackagemodule", subpackagemodule.__file__, is_package=False, observers=[self.result.save_status]
+        )
+        suite2 = TestSuite.from_module(subpackagemodule, observers=[self.result.save_status])
         
         suite1.run()
         suite2.run()
