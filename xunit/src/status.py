@@ -1,5 +1,12 @@
 from typing import NamedTuple, Protocol
+from enum import StrEnum, auto
 import traceback
+
+
+class Status(StrEnum):
+    PASSED = "Passed"
+    FAILED = "Failed"
+    not_completed = "Not completed"
 
 
 class TestStatus(NamedTuple):
