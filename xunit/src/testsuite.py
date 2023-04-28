@@ -31,23 +31,32 @@ class TestSuite(SubjectImp):
             test.run()
 
     @classmethod
-    def from_test_case(cls, *tests: Type[TestCase]) -> Self:
-        suite = cls()
+    def suite(cls, observers: list[Observer] | None = None) -> Self:
+        if observers is None:
+            observers = []
+        return cls(*observers)
+
+    @classmethod
+    def from_test_case(cls, *tests: Type[TestCase],
+                       observers: list[Observer] | None = None) -> Self:
+        suite = cls.suite(observers)
         for test_case in tests:
             for testname in test_case.xunit_test_names.split():
                 suite.add(test_case(testname))
         return suite
 
     @classmethod
-    def from_module(cls, *modules: ModuleType) -> Self:
+    def from_module(cls, *modules: ModuleType,
+                    observers: list[Observer] | None = None) -> Self:
         classes = []
         for module in modules:
             classes += pm.get_test_classes(module)
-        return cls.from_test_case(*classes)
+        return cls.from_test_case(*classes, observers=observers)
 
     @classmethod
     def from_package(cls, package: ModuleType,
-                    ignore: pm.Predicate = lambda _,__: False) -> Self:
+                    ignore: pm.Predicate = lambda _,__: False,
+                    observers: list[Observer] | None = None) -> Self:
         objs = pm.get_package_objects(package, ignore)
         suite = cls()
         for obj in objs:
@@ -55,15 +64,19 @@ class TestSuite(SubjectImp):
                 obj.value, ignore
                 ) if obj.is_package else cls.from_module(obj.value)
             suite = suite.merge(obj_suite)
+        if observers is None:
+            observers = []
+        suite.register(*observers)
         return suite
 
     @classmethod
     def from_path(cls, name: str, path: str, is_package: bool,
-                 ignore: pm.Predicate=lambda _,__: False) -> Self:
+                 ignore: pm.Predicate=lambda _,__: False,
+                 observers: list[Observer] | None = None) -> Self:
         module = pm.find_module(name, path)
         if is_package:
-            return cls.from_package(module, ignore)
-        return cls.from_module(module)
+            return cls.from_package(module, ignore, observers=observers)
+        return cls.from_module(module, observers=observers)
 
 
 
