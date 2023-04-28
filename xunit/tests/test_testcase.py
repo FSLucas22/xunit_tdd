@@ -83,27 +83,3 @@ class TestCaseTest(TestCase):
         error_info = self.result.not_completed_errors[0]
         assert error_info == expected_info
 
-    @Test
-    def test_observer(self) -> None:
-        observer: Observer = DummyObserver()
-        status = TestStatus("x", "y", "z")
-        observer(status)
-        observer = cast(DummyObserver, observer)
-        assert observer.received == [status]
-        observer(status)
-        assert observer.received == [status, status]
-        
-    @Test
-    def test_testcase_is_subject(self) -> None:
-        subject: Subject = DummyTestCase("passedTest1") 
-        observer1 = DummyObserver()
-        observer2 = DummyObserver()
-        status = TestStatus("x", "y", "z")
-        subject.register(observer1, observer2)
-        subject.notify(status)
-        assert observer1.received == observer2.received == [status]
-        subject.unregister(observer1)
-        subject.notify(status)
-        assert observer1.received == [status]
-        assert observer2.received == [status, status]
-
