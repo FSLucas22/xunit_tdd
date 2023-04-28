@@ -15,8 +15,7 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_suite(self) -> None:
-        suite = TestSuite()
-        suite.register(self.result.save_status)
+        suite = TestSuite(self.result.save_status)
         suite.add(WasRun("testMethod"), WasRun("testBrokenMethod"))
         suite.run()
         assert self.result.passed_count == 1
