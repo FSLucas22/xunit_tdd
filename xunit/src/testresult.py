@@ -1,5 +1,5 @@
 from xunit.src.log import Log
-from xunit.src.status import TestStatus
+from xunit.src.status import TestStatus, Status
 
 
 class TestResult:
@@ -27,16 +27,16 @@ class TestResult:
     @property
     def passed_count(self) -> int:
         return len(
-            [status for status in self._results if status.result == "Passed"]
+            [status for status in self._results if status.result == Status.PASSED]
         )
 
     @property
     def failed_errors(self) -> list[TestStatus]:
-        return [status for status in self._results if status.result == "Failed"]
+        return [status for status in self._results if status.result == Status.FAILED]
 
     @property
     def not_completed_errors(self) -> list[TestStatus]:
-        return [status for status in self._results if status.result == "Not completed"]
+        return [status for status in self._results if status.result == Status.NOT_COMPLETED]
     
     @property
     def started(self) -> str:
@@ -61,7 +61,7 @@ class TestResult:
     @property
     def passed(self) -> str:
         names = [
-            status.name for status in self._results if status.result == "Passed"
+            status.name for status in self._results if status.result == Status.PASSED
         ]
         return ' '.join(names)
 
