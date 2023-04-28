@@ -6,7 +6,7 @@ import traceback
 class Status(StrEnum):
     PASSED = "Passed"
     FAILED = "Failed"
-    not_completed = "Not completed"
+    NOT_COMPLETED = "Not completed"
 
 
 class TestStatus(NamedTuple):
