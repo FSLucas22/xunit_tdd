@@ -1,7 +1,6 @@
 from xunit.src import *
 from xunit.src.status import TestStatus, Status
 import traceback
-from enum import StrEnum, auto
 from typing import cast
 
 
@@ -35,15 +34,5 @@ class TestTestStatus(TestCase):
             )
             assert info.name == name
             assert info.result == result
-
-    @Test
-    def test_strenum(self) -> None:
-        class TestEnum(StrEnum):
-            test1 = auto()
-            test2 = auto()
-            test3 = "teste 3"
-        assert TestEnum.test1 == "test1"
-        test3 = cast(str, TestEnum.test3)
-        assert test3 == "teste 3"
     
             
