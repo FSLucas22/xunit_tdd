@@ -1,5 +1,5 @@
 from xunit.src.testresult import TestResult
-from xunit.src.status import TestStatus, StatusFactory
+from xunit.src.status import *
 from xunit.src.observer import Observer, SubjectImp
 from typing import Callable
 
@@ -25,14 +25,14 @@ class TestCase(SubjectImp):
             self.setup()
             method = getattr(self, self.name)
         except Exception as e:
-            info = status_factory(e, self.name, "Not completed")
+            info = status_factory(e, self.name, Status.NOT_COMPLETED)
             self.notify(info)
             self.teardown()
             return
         try:
             method()
-            info = TestStatus(self.name, "Passed", "-")
+            info = TestStatus(self.name, Status.PASSED, "-")
         except Exception as e:
-            info = status_factory(e, self.name, "Failed")
+            info = status_factory(e, self.name, Status.FAILED)
         self.notify(info)
         self.teardown()

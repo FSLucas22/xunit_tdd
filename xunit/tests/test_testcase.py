@@ -1,5 +1,5 @@
 from xunit.src import *
-from xunit.src.status import TestStatus
+from xunit.src.status import TestStatus, Status
 from xunit.src.observer import Observer, Subject
 from xunit.tests.testclasses import *
 from typing import cast
@@ -65,7 +65,7 @@ class TestCaseTest(TestCase):
         mock_class.run()
         assert mock_class.exception_raised == error
         expected_info = TestStatus.from_exception(
-            error, "testMethod", "Failed"
+            error, "testMethod", Status.FAILED
         )
         error_info = self.result.failed_errors[0]
         assert expected_info == error_info
@@ -78,7 +78,7 @@ class TestCaseTest(TestCase):
         mock_class.run()
         assert mock_class.exception_raised == error
         expected_info = TestStatus.from_exception(
-            error, "testMethod", "Not completed"
+            error, "testMethod", Status.NOT_COMPLETED
         )
         error_info = self.result.not_completed_errors[0]
         assert error_info == expected_info

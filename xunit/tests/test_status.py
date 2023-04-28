@@ -1,5 +1,5 @@
 from xunit.src import *
-from xunit.src.status import TestStatus
+from xunit.src.status import TestStatus, Status
 import traceback
 from enum import StrEnum, auto
 from typing import cast
@@ -10,15 +10,15 @@ class TestTestStatus(TestCase):
 
     @Test
     def test_creation(self) -> None:
-        status = TestStatus("someTest", "passed", "-")
+        status = TestStatus("someTest", Status.PASSED, "-")
         assert status.name == "someTest"
-        assert status.result == "passed"
+        assert status.result == Status.PASSED
         assert status.info == "-"
 
     @Test
     def test_equality(self) -> None:
-        status1 = TestStatus("someTest", "passed", "-")
-        status2 = TestStatus("someTest", "passed", "-")
+        status1 = TestStatus("someTest", Status.PASSED, "-")
+        status2 = TestStatus("someTest", Status.PASSED, "-")
         assert status1 == status2
 
     @Test
@@ -28,8 +28,8 @@ class TestTestStatus(TestCase):
         except Exception as e:
             error_info = traceback.extract_tb(e.__traceback__)[-1]
             name = "test_from_exception"
-            result = "Not completed"
-            info = TestStatus.from_exception(e, name, result)
+            result = Status.NOT_COMPLETED
+            info = TestStatus.from_exception(e, name, Status.NOT_COMPLETED)
             assert info.info == ''.join(
             traceback.format_exception(type(e), e, e.__traceback__)
             )

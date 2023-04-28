@@ -1,6 +1,6 @@
 from xunit.src import *
 from xunit.tests.testclasses import *
-from xunit.src.status import TestStatus
+from xunit.src.status import TestStatus, Status
 import colorama
 
 
@@ -11,13 +11,13 @@ class TestSummaryTest(TestCase):
     
     def setup(self) -> None:
         self.result = TestResult()
-        self.error_info = TestStatus("", "", "")
+        self.error_info = TestStatus("", Status.PASSED, "")
 
     @Test
     def test_summary(self) -> None:
         summary = SimpleTestSummary()
-        self.result.save_status(TestStatus("someTest", "Passed", ""))
-        self.result.save_status(TestStatus("", "Not completed", ""))
+        self.result.save_status(TestStatus("someTest", Status.PASSED, ""))
+        self.result.save_status(TestStatus("", Status.NOT_COMPLETED, ""))
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
     @Test
@@ -25,9 +25,9 @@ class TestSummaryTest(TestCase):
         identity = lambda messege: messege
         summary = DetailedTestSummary(
             passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
-        self.result.save_status(TestStatus("someOtherTest", "Passed", ""))
-        self.result.save_status(TestStatus("someTest", "Failed", ""))
-        self.result.save_status(TestStatus("someBrokenTest", "Not completed", ""))
+        self.result.save_status(TestStatus("someOtherTest", Status.PASSED, ""))
+        self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
+        self.result.save_status(TestStatus("someBrokenTest", Status.NOT_COMPLETED, ""))
         assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     @Test
@@ -36,8 +36,8 @@ class TestSummaryTest(TestCase):
             DetailedTestSummary(), SimpleTestSummary()
         ]
         summary = MixedTestSummary(*summariesToMix)
-        self.result.save_status(TestStatus("someTest", "Passed", ""))
-        self.result.save_status(TestStatus("", "Not completed", ""))
+        self.result.save_status(TestStatus("someTest", Status.PASSED, ""))
+        self.result.save_status(TestStatus("", Status.NOT_COMPLETED, ""))
         summary_result = summary.results(self.result)
         individual_results = [s.results(self.result) for s in summariesToMix]
         assert summary_result == '\n'.join(individual_results)
@@ -78,9 +78,9 @@ class TestSummaryTest(TestCase):
         passed_formatter = lambda messege: "{P}" + messege
         not_completed_formatter = lambda messege: "{NC}" + messege
         summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, not_completed_formatter=not_completed_formatter)
-        self.result.save_status(TestStatus("passedTest", "Passed", ""))
-        self.result.save_status(TestStatus("failedTest", "Failed", ""))
-        self.result.save_status(TestStatus("not_completedTest", "Not completed", ""))
+        self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
+        self.result.save_status(TestStatus("failedTest", Status.FAILED, ""))
+        self.result.save_status(TestStatus("not_completedTest", Status.NOT_COMPLETED, ""))
         assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}not_completedTest - Not completed"
 
     @Test

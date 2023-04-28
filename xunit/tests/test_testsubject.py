@@ -1,5 +1,5 @@
 from xunit.src import *
-from xunit.src.status import TestStatus
+from xunit.src.status import TestStatus, Status
 from xunit.src.observer import *
 from xunit.tests.testclasses import DummyObserver
 from typing import cast
@@ -11,7 +11,7 @@ class TestSubject(TestCase):
     @Test
     def test_observer(self) -> None:
         observer: Observer = DummyObserver()
-        status = TestStatus("x", "y", "z")
+        status = TestStatus("x", Status.PASSED, "z")
         observer(status)
         observer = cast(DummyObserver, observer)
         assert observer.received == [status]
@@ -23,7 +23,7 @@ class TestSubject(TestCase):
         observer1 = DummyObserver()
         observer2 = DummyObserver()
         subject: Subject = SubjectImp(observer1, observer2) 
-        status = TestStatus("x", "y", "z")
+        status = TestStatus("x", Status.PASSED, "z")
         
         subject.notify(status)
         

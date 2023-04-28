@@ -11,11 +11,11 @@ class Status(StrEnum):
 
 class TestStatus(NamedTuple):
     name: str
-    result: str
+    result: Status
     info: str
 
     @staticmethod
-    def from_exception(error: Exception, name: str, result: str) -> 'TestStatus':
+    def from_exception(error: Exception, name: str, result: Status) -> 'TestStatus':
         info = ''.join(
             traceback.format_exception(type(error), error, error.__traceback__)
         )
@@ -23,5 +23,5 @@ class TestStatus(NamedTuple):
 
 
 class StatusFactory(Protocol):
-    def __call__(self, error: Exception, name: str, result: str) -> TestStatus:
+    def __call__(self, error: Exception, name: str, result: Status) -> TestStatus:
         pass
