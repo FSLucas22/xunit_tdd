@@ -1,6 +1,6 @@
 from typing import Type, Self
 from xunit.src.testcase import TestCase
-from xunit.src.status import TestStatus
+from xunit.src.status import TestStatus, Status
 from xunit.src.observer import Observer, SubjectImp
 from xunit.src.testresult import TestResult
 import xunit.src.packagemanager as pm
@@ -27,6 +27,7 @@ class TestSuite(SubjectImp):
         return merged
 
     def run(self) -> None:
+        self.notify(TestStatus("Suite", Status.CREATED, "individual"))
         for test in self._tests:
             test.run()
 
