@@ -145,3 +145,17 @@ class TestSuiteTest(TestCase):
         assert result1.failed == result2.failed
         assert result1.not_completed == result2.not_completed
 
+    @Test
+    def test_can_inform_status(self) -> None:
+        suite = TestSuite(self.result.save_status)
+        assert self.result.results == [TestStatus("Suite", Status.CREATED, "individual")]
+        
+
+
+
+
+
+
+
+        
+
