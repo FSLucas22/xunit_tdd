@@ -150,6 +150,26 @@ class TestSuiteTest(TestCase):
         suite = TestSuite(self.result.save_status)
         suite.run()
         assert self.result.results == [TestStatus("Suite", Status.CREATED, "individual")]
+
+    @Test
+    def test_can_inform_error_in_run(self) -> None:
+        exception = Exception()
+        @TestClass
+        class Test(TestCase):
+            @Test
+            def test(self) -> None:
+                pass
+            
+            def run(self) -> None:
+                raise exception
+
+        error_info = TestStatus.from_exception(exception, Status.FAILED).info
+        suite = Suite.from_test_case(Test, self.result.save_status)
+        suite.run()
+        assert self.result.results == [
+            TestStatus("Suite", Status.CREATED, Test.__name__),
+            TestStatus("Suite", Status.FAILED_TO_RUN, error_info)
+        ]
         
 
 
