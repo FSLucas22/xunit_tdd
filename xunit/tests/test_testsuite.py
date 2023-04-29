@@ -148,6 +148,7 @@ class TestSuiteTest(TestCase):
     @Test
     def test_can_inform_status(self) -> None:
         suite = TestSuite(self.result.save_status)
+        suite.run()
         assert self.result.results == [TestStatus("Suite", Status.CREATED, "individual")]
         
 
