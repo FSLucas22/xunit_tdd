@@ -3,7 +3,7 @@ from xunit.src.status import TestStatus
 from xunit.src.observer import Subject
 from xunit.tests.testclasses import *
 from xunit.src.packagemanager import ignore_name
-from importlib import import_module
+from typing import Callable
 
 
 @TestClass
@@ -155,20 +155,21 @@ class TestSuiteTest(TestCase):
     def test_can_inform_error_in_run(self) -> None:
         exception = Exception()
         @TestClass
-        class Test(TestCase):
+        class TestCls(TestCase):
             @Test
             def test(self) -> None:
                 pass
             
-            def run(self) -> None:
+            def run(self, status_factory: StatusFactory = TestStatus.from_exception
+            ) -> None:
                 raise exception
 
-        error_info = TestStatus.from_exception(exception, Status.FAILED).info
-        suite = Suite.from_test_case(Test, self.result.save_status)
+        error_info = TestStatus.from_exception(exception, "TestCls", Status.FAILED).info
+        suite = TestSuite.from_test_case(TestCls, observers=[self.result.save_status])
         suite.run()
         assert self.result.results == [
             TestStatus("Suite", Status.CREATED, Test.__name__),
-            TestStatus("Suite", Status.FAILED_TO_RUN, error_info)
+            TestStatus(Test.__name__, Status.FAILED_TO_RUN, error_info)
         ]
         
 
