@@ -8,6 +8,7 @@ class Status(StrEnum):
     FAILED = "Failed"
     NOT_COMPLETED = "Not completed"
     CREATED = "Created"
+    FAILED_TO_RUN = "Failed to run"
 
 
 class TestStatus(NamedTuple):
