@@ -1,6 +1,7 @@
 from xunit.src import *
 from xunit.src.status import TestStatus
 from xunit.src.observer import Subject
+from xunit.src.testsuite import Runnable
 from xunit.tests.testclasses import *
 from xunit.src.packagemanager import ignore_name
 from typing import Callable
@@ -149,29 +150,31 @@ class TestSuiteTest(TestCase):
     def test_can_inform_status(self) -> None:
         suite = TestSuite(self.result.save_status)
         suite.run()
-        assert self.result.results == [TestStatus("Suite", Status.CREATED, "individual")]
+        assert self.result.results == [TestStatus("Suite", Status.CREATED, "suite")]
 
     @Test
     def test_can_inform_error_in_run(self) -> None:
-        exception = Exception()
         @TestClass
         class TestCls(TestCase):
             @Test
             def test(self) -> None:
                 pass
             
-            def run(self, status_factory: StatusFactory = TestStatus.from_exception
-            ) -> None:
-                raise exception
-
-        error_info = TestStatus.from_exception(exception, "TestCls", Status.FAILED).info
-        suite = TestSuite.from_test_case(TestCls, observers=[self.result.save_status])
-        suite.run()
-        assert self.result.results == [
-            TestStatus("Suite", Status.CREATED, Test.__name__),
-            TestStatus(Test.__name__, Status.FAILED_TO_RUN, error_info)
-        ]
+            def run(self) -> None:
+                raise Exception()
         
+        error_info_factory = lambda e, name, status: TestStatus(name, status, "error")
+
+        suite = TestSuite.from_test_case(TestCls, observers=[self.result.save_status],
+                                         error_info_factory=error_info_factory)
+        suite.run()
+
+        assert self.result.results == [
+            TestStatus("Suite", Status.CREATED, "suite"),
+            TestStatus("Suite", Status.CREATED, TestCls.__name__),
+            TestStatus(TestCls.__name__, Status.FAILED_TO_RUN, "error")]
+
+
 
 
 
