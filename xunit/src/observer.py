@@ -1,7 +1,5 @@
 from typing import Callable, Protocol
 from xunit.src.status import TestStatus
-from abc import ABC, abstractmethod
-
 
 Observer = Callable[[TestStatus], None]
 
