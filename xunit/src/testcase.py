@@ -1,7 +1,5 @@
-from xunit.src.testresult import TestResult
 from xunit.src.status import *
 from xunit.src.observer import Observer, SubjectImp
-from typing import Callable
 
 
 class TestCase(SubjectImp):
@@ -19,13 +17,12 @@ class TestCase(SubjectImp):
     def teardown(self) -> None:
         pass
 
-    def run(self, status_factory: StatusFactory = TestStatus.from_exception
-            ) -> None:
+    def run(self) -> None:
         try:
             self.setup()
             method = getattr(self, self.name)
         except Exception as e:
-            info = status_factory(e, self.name, Status.NOT_COMPLETED)
+            info = TestStatus.from_exception(e, self.name, Status.NOT_COMPLETED)
             self.notify(info)
             self.teardown()
             return
@@ -33,6 +30,6 @@ class TestCase(SubjectImp):
             method()
             info = TestStatus(self.name, Status.PASSED, "-")
         except Exception as e:
-            info = status_factory(e, self.name, Status.FAILED)
+            info = TestStatus.from_exception(e, self.name, Status.FAILED)
         self.notify(info)
         self.teardown()
