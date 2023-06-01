@@ -4,7 +4,7 @@ from xunit.src.observer import Subject
 from xunit.src.testsuite import Runnable
 from xunit.tests.testclasses import *
 from xunit.src.packagemanager import ignore_name
-from typing import Callable
+from typing import cast
 
 
 @TestClass
@@ -163,7 +163,7 @@ class TestSuiteTest(TestCase):
             def run(self) -> None:
                 raise Exception()
         
-        error_info_factory = lambda e, name, status: TestStatus(name, status, "error")
+        error_info_factory = cast(StatusFactory, lambda e, name, status: TestStatus(name, status, "error"))
 
         suite = TestSuite.from_test_case(TestCls, observers=[self.result.save_status],
                                          error_info_factory=error_info_factory)
