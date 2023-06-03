@@ -1,5 +1,5 @@
 from typing import NamedTuple, Protocol
-from enum import StrEnum, auto
+from enum import StrEnum
 import traceback
 
 
@@ -26,4 +26,4 @@ class TestStatus(NamedTuple):
 
 class StatusFactory(Protocol):
     def __call__(self, error: Exception, name: str, result: Status) -> TestStatus:
-        pass
+        ...
