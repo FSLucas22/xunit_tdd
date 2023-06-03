@@ -1,12 +1,13 @@
 from typing import Protocol, Callable
 from xunit.src.testresult import TestResult
+from xunit.src.status import Status
 import xunit.src.testcolours as color
 from abc import ABC, abstractmethod
 
 
 class TestSummary(Protocol):
     def results(self, result: TestResult) -> str:
-        pass
+        ...
 
 
 formatter = Callable[[str], str]
@@ -97,3 +98,24 @@ class ErrorInfoSummary(Summary):
             )
             errors.append(messege)
         return '\n'.join(errors)
+
+    
+class StatusSummary(Summary):
+
+    def results(self, result: TestResult) -> str:
+        FORMATTERS = {
+            Status.FAILED: self.failed_formatter,
+            Status.PASSED: self.passed_formatter,
+            Status.NOT_COMPLETED: self.not_completed_formatter
+        }
+        
+        status_list: list[str] = []
+        
+        for status in result.results:
+            formatter = FORMATTERS.get(status.result, lambda x: x)
+            messege = formatter(
+                f"{status.name} - {status.result}: {status.info}"
+            )
+            status_list.append(messege)
+
+        return "\n".join(status_list)
