@@ -102,18 +102,19 @@ class ErrorInfoSummary(Summary):
     
 class StatusSummary(Summary):
 
-    def results(self, result: TestResult) -> str:
-        FORMATTERS = {
+    def formatter(self, status: Status) -> formatter:
+        FORMMATERS = {
             Status.FAILED: self.failed_formatter,
             Status.PASSED: self.passed_formatter,
             Status.NOT_COMPLETED: self.not_completed_formatter
         }
-        
+        return FORMMATERS.get(status, lambda x: x)
+
+    def results(self, result: TestResult) -> str:
         status_list: list[str] = []
         
         for status in result.results:
-            formatter = FORMATTERS.get(status.result, lambda x: x)
-            messege = formatter(
+            messege = self.formatter(status.result)(
                 f"{status.name} - {status.result}: {status.info}"
             )
             status_list.append(messege)
