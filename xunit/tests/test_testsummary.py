@@ -1,7 +1,6 @@
 from xunit.src import *
 from xunit.tests.testclasses import *
 from xunit.src.status import TestStatus, Status
-import colorama
 
 
 @TestClass
@@ -87,7 +86,8 @@ class TestSummaryTest(TestCase):
     def test_error_info_summary_formatter(self) -> None:
         failed_formatter = lambda messege: "[F]" + messege
         not_completed_formatter = lambda messege: "[NC]" + messege
-        summary = ErrorInfoSummary(failed_formatter=failed_formatter, not_completed_formatter=not_completed_formatter)
+        summary = ErrorInfoSummary(failed_formatter=failed_formatter, 
+                                   not_completed_formatter=not_completed_formatter)
         test = MockTestCase("testMethod2", Exception())
         test2 = MockBrokenTestCase("testMethod", Exception())
         test.register(self.result.save_status)
@@ -98,3 +98,11 @@ class TestSummaryTest(TestCase):
         not_completed_info = self.result.not_completed_errors[0]
         assert summary.results(self.result) == f"[F]testMethod2 - Failed\n{failed_info.info}\n"\
                                                f"[NC]testMethod - Not completed\n{not_completed_info.info}"
+    
+    @Test
+    def test_status_summary(self) -> None:
+        self.result.save_status(TestStatus("Suite", Status.CREATED, "someSuite"))
+        self.result.save_status(TestStatus("Some test", Status.FAILED_TO_RUN, "info"))
+        summary: Summary = StatusSummary()
+        assert summary.results(self.result) == f"Suite - Created: someSuite\nSome test - Failed to run: info"
+
