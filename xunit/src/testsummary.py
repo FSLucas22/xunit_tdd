@@ -117,16 +117,24 @@ class MixedTestSummary:
 
 
 class ErrorInfoSummary(Summary):
+    def formatter(self, status: Status) -> formatter:
+        if status is Status.FAILED:
+            return self.failed_formatter
+        else:
+            return self.not_completed_formatter
+        
+    def is_failed(self, test_status: TestStatus) -> bool:
+        return test_status.result is Status.FAILED
+    
+    def is_not_completed(self, test_status: TestStatus) -> bool:
+        return test_status.result is Status.NOT_COMPLETED
+    
     def results(self, result: TestResult) -> str:
         errors = []
-        for error_info in result.failed_errors:
-            messege = self.failed_formatter(
-                f"{error_info.name} - Failed\n{error_info.info}"
-            )
-            errors.append(messege)
-        for error_info in result.not_completed_errors:
-            messege = self.not_completed_formatter(
-                f"{error_info.name} - Not completed\n{error_info.info}"
+        for status in list(filter(self.is_failed, result.results)) +  \
+                      list(filter(self.is_not_completed, result.results)):
+            messege = self.formatter(status.result)(
+                f"{status.name} - {status.result}\n{status.info}"
             )
             errors.append(messege)
         return '\n'.join(errors)
@@ -137,9 +145,7 @@ class StatusSummary(Summary):
         status_list: list[str] = []
         
         for status in result.results:
-            messege = self.formatter(status.result)(
-                f"{status.name} - {status.result}: {status.info}"
-            )
+            messege = self.formatter(status.result)(f"{status.name} - {status.result}: {status.info}")
             status_list.append(messege)
 
         return "\n".join(status_list)
