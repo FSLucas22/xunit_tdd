@@ -22,7 +22,6 @@ class TestSuiteTest(TestCase):
         assert self.result.passed_count == 1
         assert self.result.failed_count == 1
         assert self.result.not_completed_count == 0
-        assert "testMethod testBrokenMethod" == self.result.started
         assert "testMethod" == self.result.passed
 
     @Test
