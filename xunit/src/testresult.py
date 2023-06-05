@@ -44,10 +44,10 @@ class TestResult:
 
     @property
     def failed(self) -> str:
-        errors = Log()
-        for error in self.failed_errors:
-            errors.register(error.name)
-        return errors.executed
+        names = [
+            status.name for status in self._results if status.result == Status.FAILED
+        ]
+        return ' '.join(names)
 
     @property
     def passed(self) -> str:
@@ -58,7 +58,7 @@ class TestResult:
 
     @property
     def not_completed(self) -> str:
-        errors = Log()
-        for error in self.not_completed_errors:
-            errors.register(error.name)
-        return errors.executed
+        names = [
+            status.name for status in self._results if status.result == Status.NOT_COMPLETED
+        ]
+        return ' '.join(names)
