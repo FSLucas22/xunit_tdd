@@ -13,8 +13,7 @@ class TestResult:
 
     @property
     def run_count(self) -> int:
-        return self.passed_count + \
-               len(self.failed_errors) 
+        return self.passed_count + self.failed_count 
 
     @property
     def failed_count(self) -> int:
