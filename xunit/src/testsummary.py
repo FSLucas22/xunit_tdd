@@ -1,6 +1,6 @@
 from typing import Protocol, Callable
 from xunit.src.testresult import TestResult
-from xunit.src.status import Status
+from xunit.src.status import Status, TestStatus
 import xunit.src.testcolours as color
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
@@ -64,10 +64,16 @@ class PassedSummary(Summary):
 
 
 class FailedSummary(Summary):
+    def formatter(self, status: Status) -> formatter:
+        return self.failed_formatter
+
+    def is_interesting(self, test_status: TestStatus) -> bool:
+        return test_status.result is Status.FAILED
+    
     def results(self, result: TestResult) -> str:
         results = []
-        for test in result.failed.split():
-            messege = self.failed_formatter(test + ' - Failed')
+        for status in filter(self.is_interesting, result.results):
+            messege = self.formatter(status.result)(status.name + ' - Failed')
             results.append(messege)
         return '\n'.join(results)
 
