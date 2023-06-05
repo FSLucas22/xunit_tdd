@@ -17,17 +17,18 @@ class TestResult:
 
     @property
     def failed_count(self) -> int:
-        return len(self.failed_errors)
+        return len(
+            [status for status in self._results if status.result == Status.FAILED])
 
     @property
     def not_completed_count(self) -> int:
-        return len(self.not_completed_errors)
+        return len(
+            [status for status in self._results if status.result == Status.NOT_COMPLETED])
 
     @property
     def passed_count(self) -> int:
         return len(
-            [status for status in self._results if status.result == Status.PASSED]
-        )
+            [status for status in self._results if status.result == Status.PASSED])
 
     @property
     def failed_errors(self) -> list[TestStatus]:
