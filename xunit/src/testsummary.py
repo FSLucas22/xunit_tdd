@@ -80,12 +80,19 @@ class FailedSummary(Summary):
 
 
 class not_completedSummary(Summary):
+    def formatter(self, status: Status) -> formatter:
+        return self.not_completed_formatter
+
+    def is_interesting(self, test_status: TestStatus) -> bool:
+        return test_status.result is Status.NOT_COMPLETED
+    
     def results(self, result: TestResult) -> str:
         results = []
-        for test in result.not_completed.split():
-            messege = self.not_completed_formatter(test + ' - Not completed')
+        for status in filter(self.is_interesting, result.results):
+            messege = self.formatter(status.result)(f'{status.name} - {status.result}')
             results.append(messege)
         return '\n'.join(results)
+
 
 
 class DetailedTestSummary(Summary):
