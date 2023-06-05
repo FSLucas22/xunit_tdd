@@ -12,9 +12,7 @@ class TestResultTest(TestCase):
 
     @Test
     def test_completed_tests(self) -> None:
-        assert self.result.started == ""
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
-        assert self.result.started == "someTest"
         assert self.result.failed == "someTest"
 
     @Test
@@ -28,7 +26,6 @@ class TestResultTest(TestCase):
         assert self.result.not_completed == ""
         self.result.save_status(TestStatus("someBrokenTest", Status.NOT_COMPLETED, ""))
         assert self.result.not_completed == "someBrokenTest"
-        assert self.result.failed == self.result.started == ""
         self.result.save_status(TestStatus("someOtherBrokenTest", Status.NOT_COMPLETED, ""))
         assert self.result.not_completed == "someBrokenTest someOtherBrokenTest"
 
@@ -51,7 +48,6 @@ class TestResultTest(TestCase):
         assert self.result.passed_count == 1
         assert self.result.failed_count == 1
         assert self.result.run_count == self.result.passed_count + self.result.failed_count
-        assert self.result.started == 'testMethod testBrokenMethod'
 
     @Test
     def test_failed_errors(self) -> None:
