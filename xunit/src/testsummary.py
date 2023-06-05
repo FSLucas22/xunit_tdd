@@ -49,10 +49,16 @@ class SimpleTestSummary:
 
 
 class PassedSummary(Summary):
+
+    def formatter(self, status: Status) -> formatter:
+        return self.passed_formatter
+    
     def results(self, result: TestResult) -> str:
         results = []
-        for test in result.passed.split():
-            messege = self.passed_formatter(test + ' - Passed')
+        for status in result.results:
+            if status.result != Status.PASSED:
+                continue
+            messege = self.formatter(status.result)(status.name + ' - Passed')
             results.append(messege)
         return '\n'.join(results)
 
