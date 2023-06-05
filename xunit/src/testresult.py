@@ -37,15 +37,6 @@ class TestResult:
     @property
     def not_completed_errors(self) -> list[TestStatus]:
         return [status for status in self._results if status.result == Status.NOT_COMPLETED]
-    
-    @property
-    def started(self) -> str:
-        started = Log()
-        for passed in self.passed.split():
-            started.register(passed)
-        for failed in self.failed.split():
-            started.register(failed)
-        return started.executed
 
     @property
     def results(self) -> list[TestStatus]:
