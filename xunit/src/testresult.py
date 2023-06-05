@@ -1,4 +1,3 @@
-from xunit.src.log import Log
 from xunit.src.status import TestStatus, Status
 
 
