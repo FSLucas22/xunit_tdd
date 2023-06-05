@@ -103,6 +103,6 @@ class TestSummaryTest(TestCase):
     def test_status_summary(self) -> None:
         self.result.save_status(TestStatus("Suite", Status.CREATED, "someSuite"))
         self.result.save_status(TestStatus("Some test", Status.FAILED_TO_RUN, "info"))
-        summary: Summary = StatusSummary()
+        summary: Summary = StatusSummary(formatters={})
         assert summary.results(self.result) == f"Suite - Created: someSuite\nSome test - Failed to run: info"
 

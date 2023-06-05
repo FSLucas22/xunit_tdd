@@ -3,6 +3,7 @@ from xunit.src.testresult import TestResult
 from xunit.src.status import Status
 import xunit.src.testcolours as color
 from abc import ABC, abstractmethod
+from collections.abc import Mapping
 
 
 class TestSummary(Protocol):
@@ -13,6 +14,13 @@ class TestSummary(Protocol):
 formatter = Callable[[str], str]
 
 
+FORMATTERS = {
+    Status.FAILED: color.red,
+    Status.PASSED: color.green,
+    Status.NOT_COMPLETED: color.yellow
+}
+
+
 class Summary(ABC):
     passed_formatter: formatter
     failed_formatter: formatter
@@ -20,10 +28,14 @@ class Summary(ABC):
     
     def __init__(self, passed_formatter: formatter = color.green,
                        failed_formatter: formatter = color.red,
-                       not_completed_formatter: formatter = color.yellow):
+                       not_completed_formatter: formatter = color.yellow, formatters: Mapping[Status, formatter] = FORMATTERS):
         self.passed_formatter = passed_formatter
         self.failed_formatter = failed_formatter
         self.not_completed_formatter = not_completed_formatter
+        self.formatters = formatters
+    
+    def formatter(self, status: Status) -> formatter:
+        return self.formatters.get(status, lambda x: x)
 
     @abstractmethod
     def results(self, result: TestResult) -> str:
@@ -101,15 +113,6 @@ class ErrorInfoSummary(Summary):
 
     
 class StatusSummary(Summary):
-
-    def formatter(self, status: Status) -> formatter:
-        FORMMATERS = {
-            Status.FAILED: self.failed_formatter,
-            Status.PASSED: self.passed_formatter,
-            Status.NOT_COMPLETED: self.not_completed_formatter
-        }
-        return FORMMATERS.get(status, lambda x: x)
-
     def results(self, result: TestResult) -> str:
         status_list: list[str] = []
         
