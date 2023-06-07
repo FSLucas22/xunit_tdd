@@ -93,8 +93,7 @@ class MixedTestSummary:
 class ErrorInfoSummary(Summary):
     def results(self, result: TestResult) -> str:
         errors = []
-        for status in result.get_results_of_status(Status.FAILED) +  \
-                      result.get_results_of_status(Status.NOT_COMPLETED):
+        for status in result.get_results_of_status(Status.FAILED, Status.NOT_COMPLETED):
             messege = self.formatter(status.result)(
                 f"{status.name} - {status.result}\n{status.info}"
             )
