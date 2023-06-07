@@ -126,7 +126,7 @@ class TestSuiteTest(TestCase):
         
         assert result1.get_names_of_status(Status.PASSED) == result2.get_names_of_status(Status.PASSED)
         assert result1.get_names_of_status(Status.FAILED) == result2.get_names_of_status(Status.FAILED)
-        assert result1.not_completed == result2.not_completed
+        assert result1.get_names_of_status(Status.NOT_COMPLETED) == result2.get_names_of_status(Status.NOT_COMPLETED)
 
     @Test
     def test_can_construct_suite_from_module_path(self) -> None:
@@ -144,7 +144,7 @@ class TestSuiteTest(TestCase):
         
         assert result1.get_names_of_status(Status.PASSED) == result2.get_names_of_status(Status.PASSED)
         assert result1.get_names_of_status(Status.FAILED) == result2.get_names_of_status(Status.FAILED)
-        assert result1.not_completed == result2.not_completed
+        assert result1.get_names_of_status(Status.NOT_COMPLETED) == result2.get_names_of_status(Status.NOT_COMPLETED)
 
     @Test
     def test_can_inform_status(self) -> None:
