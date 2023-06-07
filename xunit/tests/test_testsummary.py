@@ -84,10 +84,12 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_error_info_summary_formatter(self) -> None:
-        failed_formatter = lambda messege: "[F]" + messege
-        not_completed_formatter = lambda messege: "[NC]" + messege
-        summary = ErrorInfoSummary(failed_formatter=failed_formatter, 
-                                   not_completed_formatter=not_completed_formatter)
+        formatters = {
+            Status.FAILED: lambda messege: "[F]" + messege,
+            Status.NOT_COMPLETED: lambda messege: "[NC]" + messege
+        }
+        summary = ErrorInfoSummary(formatters=formatters)
+
         test = MockTestCase("testMethod2", Exception())
         test2 = MockBrokenTestCase("testMethod", Exception())
         test.register(self.result.save_status)
