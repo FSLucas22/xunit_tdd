@@ -68,7 +68,6 @@ class not_completedSummary(Summary):
         return '\n'.join(results)
 
 
-
 class DetailedTestSummary(Summary):
     def results(self, result: TestResult) -> str:
         summary = [
@@ -105,7 +104,7 @@ class StatusSummary(Summary):
     def results(self, result: TestResult) -> str:
         status_list: list[str] = []
         
-        for status in result.results:
+        for status in result.get_results_of_status():
             messege = self.formatter(status.result)(f"{status.name} - {status.result}: {status.info}")
             status_list.append(messege)
 
