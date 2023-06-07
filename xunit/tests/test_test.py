@@ -40,10 +40,10 @@ class TestTest(TestCase):
         test1.run()
         test2.run()
         
-        assert result_before_decorator.passed ==\
-               result_after_decorator.passed
-        assert result_before_decorator.failed ==\
-               result_after_decorator.failed
+        assert result_before_decorator.get_names_of_status(Status.PASSED) ==\
+               result_after_decorator.get_names_of_status(Status.PASSED)
+        assert result_before_decorator.get_names_of_status(Status.FAILED) ==\
+               result_after_decorator.get_names_of_status(Status.FAILED)
         
     @Test
     def test_decorator_returns_flag(self) -> None:
@@ -67,8 +67,8 @@ class TestTest(TestCase):
         result = TestResult()
         suite.register(result.save_status)
         suite.run()
-        assert result.passed == "test_method"
-        assert result.failed == "broken_method"
+        assert result.get_names_of_status(Status.PASSED) == "test_method"
+        assert result.get_names_of_status(Status.FAILED) == "broken_method"
 
     @Test
     def test_is_equal_when_fails_in_set_up(self) -> None:
