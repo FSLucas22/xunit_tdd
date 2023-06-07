@@ -22,10 +22,6 @@ FORMATTERS = {
 
 
 class Summary(ABC):
-    passed_formatter: formatter
-    failed_formatter: formatter
-    not_completed_formatter: formatter
-    
     def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS):
         self.formatters = formatters
     
