@@ -52,12 +52,9 @@ class TestFacade(TestCase):
     def expected_value_for_class(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-        PassedSummary(passed_formatter=color.green),
-        ErrorInfoSummary(
-            failed_formatter=color.red,
-            not_completed_formatter=color.yellow
-        ),
-        SimpleTestSummary()
+            PassedSummary(),
+            ErrorInfoSummary(),
+            SimpleTestSummary()
         )
         suite = TestSuite.from_test_case(DummyTestCase)
         suite.register(result.save_status)
@@ -67,12 +64,9 @@ class TestFacade(TestCase):
     def expected_value_for_module(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-        PassedSummary(passed_formatter=color.green),
-        ErrorInfoSummary(
-            failed_formatter=color.red,
-            not_completed_formatter=color.yellow
-        ),
-        SimpleTestSummary()
+            PassedSummary(),
+            ErrorInfoSummary(),
+            SimpleTestSummary()
         )
         suite = TestSuite.from_module(testmodule)
         suite.register(result.save_status)
@@ -82,12 +76,9 @@ class TestFacade(TestCase):
     def expected_value_for_package(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-        PassedSummary(passed_formatter=color.green),
-        ErrorInfoSummary(
-            failed_formatter=color.red,
-            not_completed_formatter=color.yellow
-        ),
-        SimpleTestSummary()
+            PassedSummary(),
+            ErrorInfoSummary(),
+            SimpleTestSummary()
         )
         suite = TestSuite.from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
