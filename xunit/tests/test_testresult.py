@@ -11,6 +11,14 @@ class TestResultTest(TestCase):
         self.result = TestResult()
 
     @Test
+    def test_should_get_results_of_given_status(self) -> None:
+        failed_test = TestStatus("passedTest", Status.FAILED, "")
+        self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
+        self.result.save_status(failed_test)
+
+        assert [failed_test] == self.result.get_results_of_status(Status.FAILED)
+
+    @Test
     def test_completed_tests(self) -> None:
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
         assert self.result.get_names_of_status(Status.FAILED) == "someTest"
