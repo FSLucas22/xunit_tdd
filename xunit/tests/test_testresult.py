@@ -11,6 +11,14 @@ class TestResultTest(TestCase):
         self.result = TestResult()
 
     @Test
+    def test_should_count_status(self) -> None:
+        self.result.save_status(TestStatus("failedTest", Status.FAILED, ""))
+        self.result.save_status(TestStatus("failedTest", Status.FAILED, ""))
+        self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
+
+        assert 2 == self.result.get_status_count(Status.FAILED)
+
+    @Test
     def test_should_get_results_of_given_status(self) -> None:
         failed_test = TestStatus("failedTest", Status.FAILED, "")
         self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
