@@ -21,9 +21,7 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_detailed_summary(self) -> None:
-        identity = lambda messege: messege
-        summary = DetailedTestSummary(
-            passed_formatter=identity, failed_formatter=identity, not_completed_formatter=identity)
+        summary = DetailedTestSummary(formatters={})
         self.result.save_status(TestStatus("someOtherTest", Status.PASSED, ""))
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("someBrokenTest", Status.NOT_COMPLETED, ""))
@@ -69,10 +67,11 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_format_messeges(self) -> None:
-        failed_formatter = lambda messege: "{F}" + messege
-        passed_formatter = lambda messege: "{P}" + messege
-        not_completed_formatter = lambda messege: "{NC}" + messege
-        summary = DetailedTestSummary(passed_formatter=passed_formatter, failed_formatter=failed_formatter, not_completed_formatter=not_completed_formatter)
+        formatters = {
+            Status.FAILED: lambda messege: "[F]" + messege,
+            Status.NOT_COMPLETED: lambda messege: "[NC]" + messege
+        }
+        summary = DetailedTestSummary(formatters=formatters)
         self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
         self.result.save_status(TestStatus("failedTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("not_completedTest", Status.NOT_COMPLETED, ""))
