@@ -22,17 +22,17 @@ class TestCaseTest(TestCase):
     @Test
     def test_result(self) -> None:
         self.test.run()
-        assert 1 == self.result.passed_count
-        assert 0 == self.result.failed_count
-        assert 0 == self.result.not_completed_count
+        assert 1 == self.result.get_status_count(Status.PASSED)
+        assert 0 == self.result.get_status_count(Status.FAILED)
+        assert 0 == self.result.get_status_count(Status.NOT_COMPLETED)
         assert "testMethod" == self.result.get_names_of_status(Status.PASSED)
 
     @Test
     def test_failed_result(self) -> None:
         test = WasRun("testBrokenMethod", self.result.save_status)
         test.run()
-        assert 1 == self.result.failed_count
-        assert 0 == self.result.not_completed_count
+        assert 1 == self.result.get_status_count(Status.FAILED)
+        assert 0 == self.result.get_status_count(Status.NOT_COMPLETED)
         assert "testBrokenMethod" == self.result.get_names_of_status(Status.FAILED)
 
     @Test
@@ -40,15 +40,15 @@ class TestCaseTest(TestCase):
         test = FailedSetUp("testMethod", self.result.save_status)
         test.run()
         assert "teardown" in test.log
-        assert self.result.failed_count == 0
-        assert self.result.not_completed_count == 1
+        assert self.result.get_status_count(Status.FAILED) == 0
+        assert self.result.get_status_count(Status.NOT_COMPLETED) == 1
         assert "testMethod" == self.result.get_names_of_status(Status.NOT_COMPLETED)
 
     @Test
     def test_not_completed_when_not_found(self) -> None:
         test = WasRun("notImplementedTest", self.result.save_status)
         test.run()
-        assert self.result.not_completed_count == 1
+        assert self.result.get_status_count(Status.NOT_COMPLETED) == 1
         assert "notImplementedTest" == self.result.get_names_of_status(Status.NOT_COMPLETED)
 
     @Test 
