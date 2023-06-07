@@ -45,9 +45,9 @@ class TestResultTest(TestCase):
         suite.register(self.result.save_status)
         suite.run()
         
-        assert self.result.passed_count == 1
-        assert self.result.failed_count == 1
-        assert self.result.run_count == self.result.passed_count + self.result.failed_count
+        assert self.result.get_status_count(Status.PASSED) == 1
+        assert self.result.get_status_count(Status.FAILED) == 1
+        assert self.result.run_count == self.result.get_status_count(Status.PASSED) + self.result.get_status_count(Status.FAILED)
 
     @Test
     def test_failed_errors(self) -> None:
