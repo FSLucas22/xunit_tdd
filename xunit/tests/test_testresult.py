@@ -23,11 +23,11 @@ class TestResultTest(TestCase):
 
     @Test
     def test_not_completed_tests(self) -> None:
-        assert self.result.not_completed == ""
+        assert self.result.get_names_of_status(Status.NOT_COMPLETED) == ""
         self.result.save_status(TestStatus("someBrokenTest", Status.NOT_COMPLETED, ""))
-        assert self.result.not_completed == "someBrokenTest"
+        assert self.result.get_names_of_status(Status.NOT_COMPLETED) == "someBrokenTest"
         self.result.save_status(TestStatus("someOtherBrokenTest", Status.NOT_COMPLETED, ""))
-        assert self.result.not_completed == "someBrokenTest someOtherBrokenTest"
+        assert self.result.get_names_of_status(Status.NOT_COMPLETED) == "someBrokenTest someOtherBrokenTest"
 
     @Test
     def test_passed_tests(self) -> None:
@@ -71,7 +71,7 @@ class TestResultTest(TestCase):
         self.result.save_status(TestStatus("brokenTest", Status.NOT_COMPLETED, "-"))
         assert self.result.get_names_of_status(Status.PASSED) == "someTest"
         assert self.result.get_names_of_status(Status.FAILED) == "someOtherTest"
-        assert self.result.not_completed == "brokenTest"
+        assert self.result.get_names_of_status(Status.NOT_COMPLETED) == "brokenTest"
         
         
 
