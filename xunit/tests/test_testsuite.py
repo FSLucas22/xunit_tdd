@@ -22,7 +22,7 @@ class TestSuiteTest(TestCase):
         assert self.result.passed_count == 1
         assert self.result.failed_count == 1
         assert self.result.not_completed_count == 0
-        assert "testMethod" == self.result.passed
+        assert "testMethod" == self.result.get_names_of_status(Status.PASSED)
 
     @Test
     def test_names_from_tests(self) -> None:
@@ -34,8 +34,8 @@ class TestSuiteTest(TestCase):
                                          observers=[self.result.save_status])
         suite.run()
         
-        assert self.result.passed == "passedTest1 passedTest2 passedTest1 passedTest2"
-        assert self.result.failed == "failedTest1 failedTest2 failedTest1 failedTest2"
+        assert self.result.get_names_of_status(Status.PASSED) == "passedTest1 passedTest2 passedTest1 passedTest2"
+        assert self.result.get_names_of_status(Status.FAILED) == "failedTest1 failedTest2 failedTest1 failedTest2"
 
     @Test
     def test_test_module(self) -> None:
@@ -46,16 +46,16 @@ class TestSuiteTest(TestCase):
             observers=[self.result.save_status]
         )
         suite.run()
-        assert self.result.passed == "someTest"
-        assert self.result.failed == "someOtherTest"
+        assert self.result.get_names_of_status(Status.PASSED) == "someTest"
+        assert self.result.get_names_of_status(Status.FAILED) == "someOtherTest"
 
     @Test
     def test_from_module(self) -> None:
         import xunit.tests.testmodule as testmodule
         suite = TestSuite.from_module(testmodule, testmodule, observers=[self.result.save_status])
         suite.run()
-        assert self.result.passed == "someTest someTest"
-        assert self.result.failed == "someOtherTest someOtherTest"
+        assert self.result.get_names_of_status(Status.PASSED) == "someTest someTest"
+        assert self.result.get_names_of_status(Status.FAILED) == "someOtherTest someOtherTest"
 
     @Test
     def test_from_package(self) -> None:
@@ -63,9 +63,10 @@ class TestSuiteTest(TestCase):
         
         suite = TestSuite.from_package(testpackage, observers=[self.result.save_status])
         suite.run()
-
-        assert "x" in self.result.passed and "y" in self.result.passed and "z" in self.result.passed
-        assert "x1" in self.result.failed and "y1" in self.result.failed and "z1" in self.result.failed
+        passed = self.result.get_names_of_status(Status.PASSED)
+        failed = self.result.get_names_of_status(Status.FAILED)
+        assert "x" in passed and "y" in passed and "z" in passed
+        assert "x1" in failed and "y1" in failed and "z1" in failed
 
     @Test
     def test_ignore(self) -> None:
@@ -73,8 +74,8 @@ class TestSuiteTest(TestCase):
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
         suite = TestSuite.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
         suite.run()
-        assert "y" == self.result.passed
-        assert "y1" == self.result.failed
+        assert "y" == self.result.get_names_of_status(Status.PASSED)
+        assert "y1" == self.result.get_names_of_status(Status.FAILED)
 
     @Test
     def test_ignore_perpetuates(self) -> None:
@@ -82,16 +83,16 @@ class TestSuiteTest(TestCase):
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
         suite = TestSuite.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
         suite.run()
-        assert "y" == self.result.passed
-        assert "y1" == self.result.failed
+        assert "y" == self.result.get_names_of_status(Status.PASSED)
+        assert "y1" == self.result.get_names_of_status(Status.FAILED)
 
     @Test
     def test_can_ignore_names(self) -> None:
         import xunit.tests.testpackage as testpackage
         suite = TestSuite.from_package(testpackage, ignore_name, observers=[self.result.save_status])
         suite.run()
-        passed = self.result.passed
-        failed = self.result.failed
+        passed = self.result.get_names_of_status(Status.PASSED)
+        failed = self.result.get_names_of_status(Status.FAILED)
         assert "x" in passed and "y" in passed and "z" not in passed
         assert "x1" in failed and "y1" in failed and "z1" not in failed
         
@@ -105,8 +106,8 @@ class TestSuiteTest(TestCase):
         merged.register(self.result.save_status)
         merged.run()
         
-        assert "passedTest1 passedTest2 passedTest1 passedTest2" == self.result.passed
-        assert "failedTest1 failedTest2 failedTest1 failedTest2" == self.result.failed
+        assert "passedTest1 passedTest2 passedTest1 passedTest2" == self.result.get_names_of_status(Status.PASSED)
+        assert "failedTest1 failedTest2 failedTest1 failedTest2" == self.result.get_names_of_status(Status.FAILED)
 
         
     @Test
@@ -123,8 +124,8 @@ class TestSuiteTest(TestCase):
         suite1.run()
         suite2.run()
         
-        assert result1.passed == result2.passed
-        assert result1.failed == result2.failed
+        assert result1.get_names_of_status(Status.PASSED) == result2.get_names_of_status(Status.PASSED)
+        assert result1.get_names_of_status(Status.FAILED) == result2.get_names_of_status(Status.FAILED)
         assert result1.not_completed == result2.not_completed
 
     @Test
@@ -141,8 +142,8 @@ class TestSuiteTest(TestCase):
         suite1.run()
         suite2.run()
         
-        assert result1.passed == result2.passed
-        assert result1.failed == result2.failed
+        assert result1.get_names_of_status(Status.PASSED) == result2.get_names_of_status(Status.PASSED)
+        assert result1.get_names_of_status(Status.FAILED) == result2.get_names_of_status(Status.FAILED)
         assert result1.not_completed == result2.not_completed
 
     @Test
