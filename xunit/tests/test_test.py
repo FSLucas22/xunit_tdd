@@ -101,9 +101,9 @@ class TestTest(TestCase):
         result = TestResult()
         suite.register(result.save_status)
         suite.run()
-        assert result.passed_count == 1
-        assert result.failed_count == 1
-        assert result.not_completed_count == 2
+        assert result.get_status_count(Status.PASSED) == 1
+        assert result.get_status_count(Status.FAILED) == 1
+        assert result.get_status_count(Status.NOT_COMPLETED) == 2
         
 
     @Test
