@@ -16,19 +16,22 @@ class TestResult:
 
     @property
     def failed_count(self) -> int:
-        return len(self.get_results_of_status(Status.FAILED))
+        return self.get_status_count(Status.FAILED)
 
     @property
     def not_completed_count(self) -> int:
-        return len(self.get_results_of_status(Status.NOT_COMPLETED))
+        return self.get_status_count(Status.NOT_COMPLETED)
 
     @property
     def passed_count(self) -> int:
-        return len(self.get_results_of_status(Status.PASSED))
+        return self.get_status_count(Status.PASSED)
 
     @property
     def results(self) -> list[TestStatus]:
         return self._results[:]
+    
+    def get_status_count(self, status: Status) -> int:
+        return len(self.get_results_of_status(status))
     
     def get_names_of_status(self, status: Status) -> str:
         names = map(lambda x: x.name, self.get_results_of_status(status))
