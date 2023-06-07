@@ -12,7 +12,7 @@ class TestResult:
 
     @property
     def run_count(self) -> int:
-        return self.passed_count + self.failed_count 
+        return self.get_status_count(Status.PASSED) + self.get_status_count(Status.FAILED)
 
     @property
     def failed_count(self) -> int:
