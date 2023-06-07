@@ -122,16 +122,10 @@ class ErrorInfoSummary(Summary):
     def formatter(self, status: Status) -> formatter:
         return self.formatters.get(status, lambda x: x)
         
-    def is_failed(self, test_status: TestStatus) -> bool:
-        return test_status.result is Status.FAILED
-    
-    def is_not_completed(self, test_status: TestStatus) -> bool:
-        return test_status.result is Status.NOT_COMPLETED
-    
     def results(self, result: TestResult) -> str:
         errors = []
-        for status in list(filter(self.is_failed, result.results)) +  \
-                      list(filter(self.is_not_completed, result.results)):
+        for status in result.get_results_of_status(Status.FAILED) +  \
+                      result.get_results_of_status(Status.NOT_COMPLETED):
             messege = self.formatter(status.result)(
                 f"{status.name} - {status.result}\n{status.info}"
             )
