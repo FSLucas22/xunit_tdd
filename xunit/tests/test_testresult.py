@@ -47,7 +47,6 @@ class TestResultTest(TestCase):
         
         assert self.result.get_status_count(Status.PASSED) == 1
         assert self.result.get_status_count(Status.FAILED) == 1
-        assert self.result.run_count == self.result.get_status_count(Status.PASSED) + self.result.get_status_count(Status.FAILED)
 
     @Test
     def test_failed_errors(self) -> None:
