@@ -26,12 +26,7 @@ class Summary(ABC):
     failed_formatter: formatter
     not_completed_formatter: formatter
     
-    def __init__(self, passed_formatter: formatter = color.green,
-                       failed_formatter: formatter = color.red,
-                       not_completed_formatter: formatter = color.yellow, formatters: Mapping[Status, formatter] = FORMATTERS):
-        self.passed_formatter = passed_formatter
-        self.failed_formatter = failed_formatter
-        self.not_completed_formatter = not_completed_formatter
+    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS):
         self.formatters = formatters
     
     def formatter(self, status: Status) -> formatter:
@@ -100,12 +95,9 @@ class not_completedSummary(Summary):
 class DetailedTestSummary(Summary):
     def results(self, result: TestResult) -> str:
         summary = [
-            FailedSummary(failed_formatter=self.failed_formatter, 
-                          formatters=self.formatters).results(result),
-            PassedSummary(passed_formatter=self.passed_formatter, 
-                          formatters=self.formatters).results(result),
-            not_completedSummary(not_completed_formatter=self.not_completed_formatter, 
-                                 formatters=self.formatters).results(result)
+            FailedSummary(formatters=self.formatters).results(result),
+            PassedSummary(formatters=self.formatters).results(result),
+            not_completedSummary(formatters=self.formatters).results(result)
         ]
         return '\n'.join(summary)
 
