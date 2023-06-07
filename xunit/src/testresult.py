@@ -40,19 +40,20 @@ class TestResult:
 
     @property
     def failed(self) -> str:
-        names = map(lambda x: x.name, self.get_results_of_status(Status.FAILED))
-        return ' '.join(names)
+        return self.get_names_of_status(Status.FAILED)
 
     @property
     def passed(self) -> str:
-        names = map(lambda x: x.name, self.get_results_of_status(Status.PASSED))
-        return ' '.join(names)
+        return self.get_names_of_status(Status.PASSED)
 
     @property
     def not_completed(self) -> str:
-        names = map(lambda x: x.name, self.get_results_of_status(Status.NOT_COMPLETED))
-        return ' '.join(names)
+        return self.get_names_of_status(Status.NOT_COMPLETED)
     
+    def get_names_of_status(self, status: Status) -> str:
+        names = map(lambda x: x.name, self.get_results_of_status(status))
+        return ' '.join(names)
+
     def get_results_of_status(self, status: Status) -> list[TestStatus]:
         return [
             test_status for test_status in self._results if test_status.result == status
