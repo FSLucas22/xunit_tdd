@@ -11,10 +11,6 @@ class TestResult:
         self._results.append(status)
 
     @property
-    def run_count(self) -> int:
-        return self.get_status_count(Status.PASSED) + self.get_status_count(Status.FAILED)
-
-    @property
     def results(self) -> list[TestStatus]:
         return self._results[:]
     
