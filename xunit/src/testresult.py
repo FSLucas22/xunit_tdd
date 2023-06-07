@@ -15,18 +15,6 @@ class TestResult:
         return self.get_status_count(Status.PASSED) + self.get_status_count(Status.FAILED)
 
     @property
-    def failed_count(self) -> int:
-        return self.get_status_count(Status.FAILED)
-
-    @property
-    def not_completed_count(self) -> int:
-        return self.get_status_count(Status.NOT_COMPLETED)
-
-    @property
-    def passed_count(self) -> int:
-        return self.get_status_count(Status.PASSED)
-
-    @property
     def results(self) -> list[TestStatus]:
         return self._results[:]
     
