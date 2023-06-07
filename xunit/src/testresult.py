@@ -16,26 +16,23 @@ class TestResult:
 
     @property
     def failed_count(self) -> int:
-        return len(
-            [status for status in self._results if status.result == Status.FAILED])
+        return len(self.get_results_of_status(Status.FAILED))
 
     @property
     def not_completed_count(self) -> int:
-        return len(
-            [status for status in self._results if status.result == Status.NOT_COMPLETED])
+        return len(self.get_results_of_status(Status.NOT_COMPLETED))
 
     @property
     def passed_count(self) -> int:
-        return len(
-            [status for status in self._results if status.result == Status.PASSED])
+        return len(self.get_results_of_status(Status.PASSED))
 
     @property
     def failed_errors(self) -> list[TestStatus]:
-        return [status for status in self._results if status.result == Status.FAILED]
+        return self.get_results_of_status(Status.FAILED)
 
     @property
     def not_completed_errors(self) -> list[TestStatus]:
-        return [status for status in self._results if status.result == Status.NOT_COMPLETED]
+        return self.get_results_of_status(Status.NOT_COMPLETED)
 
     @property
     def results(self) -> list[TestStatus]:
@@ -43,21 +40,20 @@ class TestResult:
 
     @property
     def failed(self) -> str:
-        names = [
-            status.name for status in self._results if status.result == Status.FAILED
-        ]
+        names = map(lambda x: x.name, self.get_results_of_status(Status.FAILED))
         return ' '.join(names)
 
     @property
     def passed(self) -> str:
-        names = [
-            status.name for status in self._results if status.result == Status.PASSED
-        ]
+        names = map(lambda x: x.name, self.get_results_of_status(Status.PASSED))
         return ' '.join(names)
 
     @property
     def not_completed(self) -> str:
-        names = [
-            status.name for status in self._results if status.result == Status.NOT_COMPLETED
-        ]
+        names = map(lambda x: x.name, self.get_results_of_status(Status.NOT_COMPLETED))
         return ' '.join(names)
+    
+    def get_results_of_status(self, status: Status) -> list[TestStatus]:
+        return [
+            test_status for test_status in self._results if test_status.result == status
+        ]
