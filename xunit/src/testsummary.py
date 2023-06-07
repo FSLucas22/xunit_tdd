@@ -120,10 +120,7 @@ class MixedTestSummary:
 
 class ErrorInfoSummary(Summary):
     def formatter(self, status: Status) -> formatter:
-        if status is Status.FAILED:
-            return self.failed_formatter
-        else:
-            return self.not_completed_formatter
+        return self.formatters.get(status, lambda x: x)
         
     def is_failed(self, test_status: TestStatus) -> bool:
         return test_status.result is Status.FAILED
