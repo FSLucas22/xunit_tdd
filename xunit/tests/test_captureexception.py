@@ -27,8 +27,8 @@ class TestCaptureException(TestCase):
         suite = TestSuite.from_test_case(SomeTestClass)
         suite.register(result.save_status)
         suite.run()
-        assert result.passed == "testError"
-        assert result.failed == "testDifferentError testNoError"
+        assert result.get_names_of_status(Status.PASSED) == "testError"
+        assert result.get_names_of_status(Status.FAILED) == "testDifferentError testNoError"
 
     @Test
     def test_raises_expectation_error(self) -> None:
