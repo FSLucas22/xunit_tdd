@@ -21,7 +21,10 @@ class TestResult:
         names = map(lambda test_status: test_status.name, self.get_results_of_status(status))
         return ' '.join(names)
 
-    def get_results_of_status(self, status: Status) -> list[TestStatus]:
-        return [
-            test_status for test_status in self._results if test_status.result == status
-        ]
+    def get_results_of_status(self, status: Status, *other_status: Status) -> list[TestStatus]:
+        results = []
+
+        for status in [status] + list(other_status):
+            results += [test_status for test_status in self._results if test_status.result == status]
+
+        return results
