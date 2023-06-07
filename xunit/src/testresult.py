@@ -27,14 +27,6 @@ class TestResult:
         return len(self.get_results_of_status(Status.PASSED))
 
     @property
-    def failed_errors(self) -> list[TestStatus]:
-        return self.get_results_of_status(Status.FAILED)
-
-    @property
-    def not_completed_errors(self) -> list[TestStatus]:
-        return self.get_results_of_status(Status.NOT_COMPLETED)
-
-    @property
     def results(self) -> list[TestStatus]:
         return self._results[:]
     
