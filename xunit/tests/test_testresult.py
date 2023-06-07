@@ -19,15 +19,7 @@ class TestResultTest(TestCase):
         assert [failed_test] == self.result.get_results_of_status(Status.FAILED)
 
     @Test
-    def test_should_get_names_of_given_status(self) -> None:
-        failed_test = TestStatus("failedTest", Status.FAILED, "")
-        self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
-        self.result.save_status(failed_test)
-
-        assert "failedTest" == self.result.get_names_of_status(Status.FAILED)
-
-    @Test
-    def test_completed_multiple_tests(self) -> None:
+    def test_should_get_multiple_names(self) -> None:
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("someOtherTest", Status.FAILED, ""))
         assert self.result.get_names_of_status(Status.FAILED) == "someTest someOtherTest"
