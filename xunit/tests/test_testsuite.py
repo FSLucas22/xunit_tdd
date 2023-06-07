@@ -19,9 +19,9 @@ class TestSuiteTest(TestCase):
         suite = TestSuite(self.result.save_status)
         suite.add(WasRun("testMethod"), WasRun("testBrokenMethod"))
         suite.run()
-        assert self.result.passed_count == 1
-        assert self.result.failed_count == 1
-        assert self.result.not_completed_count == 0
+        assert self.result.get_status_count(Status.PASSED) == 1
+        assert self.result.get_status_count(Status.FAILED) == 1
+        assert self.result.get_status_count(Status.NOT_COMPLETED) == 0
         assert "testMethod" == self.result.get_names_of_status(Status.PASSED)
 
     @Test
