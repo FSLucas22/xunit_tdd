@@ -18,7 +18,7 @@ class TestResult:
         return len(self.get_results_of_status(status))
     
     def get_names_of_status(self, status: Status) -> str:
-        names = map(lambda x: x.name, self.get_results_of_status(status))
+        names = map(lambda test_status: test_status.name, self.get_results_of_status(status))
         return ' '.join(names)
 
     def get_results_of_status(self, status: Status) -> list[TestStatus]:
