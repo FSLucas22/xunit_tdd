@@ -13,13 +13,13 @@ class TestResultTest(TestCase):
     @Test
     def test_completed_tests(self) -> None:
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
-        assert self.result.failed == "someTest"
+        assert self.result.get_names_of_status(Status.FAILED) == "someTest"
 
     @Test
     def test_completed_multiple_tests(self) -> None:
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("someOtherTest", Status.FAILED, ""))
-        assert self.result.failed == "someTest someOtherTest"
+        assert self.result.get_names_of_status(Status.FAILED) == "someTest someOtherTest"
 
     @Test
     def test_not_completed_tests(self) -> None:
@@ -31,10 +31,10 @@ class TestResultTest(TestCase):
 
     @Test
     def test_passed_tests(self) -> None:
-        assert self.result.passed == ""
+        assert self.result.get_names_of_status(Status.PASSED) == ""
         self.result.save_status(TestStatus("someTest", Status.PASSED, ""))
         self.result.save_status(TestStatus("someOtherTest", Status.PASSED, ""))
-        assert self.result.passed == "someTest someOtherTest"
+        assert self.result.get_names_of_status(Status.PASSED) == "someTest someOtherTest"
 
     @Test
     def test_runned_equals_passed_plus_failed(self) -> None:
@@ -69,8 +69,8 @@ class TestResultTest(TestCase):
         self.result.save_status(TestStatus("someTest", Status.PASSED, "-"))
         self.result.save_status(TestStatus("someOtherTest", Status.FAILED, "-"))
         self.result.save_status(TestStatus("brokenTest", Status.NOT_COMPLETED, "-"))
-        assert self.result.passed == "someTest"
-        assert self.result.failed == "someOtherTest"
+        assert self.result.get_names_of_status(Status.PASSED) == "someTest"
+        assert self.result.get_names_of_status(Status.FAILED) == "someOtherTest"
         assert self.result.not_completed == "brokenTest"
         
         
