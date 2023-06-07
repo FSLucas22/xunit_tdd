@@ -42,46 +42,27 @@ class SimpleTestSummary:
 
 
 class PassedSummary(Summary):
-
-    def formatter(self, status: Status) -> formatter:
-        return self.formatters.get(status, lambda x: x)
-    
-    def is_interesting(self, test_status: TestStatus) -> bool:
-        return test_status.result is Status.PASSED
-    
     def results(self, result: TestResult) -> str:
         results = []
-        for status in filter(self.is_interesting, result.results):
+        for status in result.get_results_of_status(Status.PASSED):
             messege = self.formatter(status.result)(f'{status.name} - {status.result}')
             results.append(messege)
         return '\n'.join(results)
 
 
 class FailedSummary(Summary):
-    def formatter(self, status: Status) -> formatter:
-        return self.formatters.get(status, lambda x: x)
-
-    def is_interesting(self, test_status: TestStatus) -> bool:
-        return test_status.result is Status.FAILED
-    
     def results(self, result: TestResult) -> str:
         results = []
-        for status in filter(self.is_interesting, result.results):
+        for status in result.get_results_of_status(Status.FAILED):
             messege = self.formatter(status.result)(f'{status.name} - {status.result}')
             results.append(messege)
         return '\n'.join(results)
 
 
 class not_completedSummary(Summary):
-    def formatter(self, status: Status) -> formatter:
-        return self.formatters.get(status, lambda x: x)
-
-    def is_interesting(self, test_status: TestStatus) -> bool:
-        return test_status.result is Status.NOT_COMPLETED
-    
     def results(self, result: TestResult) -> str:
         results = []
-        for status in filter(self.is_interesting, result.results):
+        for status in result.get_results_of_status(Status.NOT_COMPLETED):
             messege = self.formatter(status.result)(f'{status.name} - {status.result}')
             results.append(messege)
         return '\n'.join(results)
@@ -110,9 +91,6 @@ class MixedTestSummary:
 
 
 class ErrorInfoSummary(Summary):
-    def formatter(self, status: Status) -> formatter:
-        return self.formatters.get(status, lambda x: x)
-        
     def results(self, result: TestResult) -> str:
         errors = []
         for status in result.get_results_of_status(Status.FAILED) +  \
