@@ -53,7 +53,7 @@ class SimpleTestSummary:
 class PassedSummary(Summary):
 
     def formatter(self, status: Status) -> formatter:
-        return self.passed_formatter
+        return self.formatters.get(status, lambda x: x)
     
     def is_interesting(self, test_status: TestStatus) -> bool:
         return test_status.result is Status.PASSED
@@ -68,7 +68,7 @@ class PassedSummary(Summary):
 
 class FailedSummary(Summary):
     def formatter(self, status: Status) -> formatter:
-        return self.failed_formatter
+        return self.formatters.get(status, lambda x: x)
 
     def is_interesting(self, test_status: TestStatus) -> bool:
         return test_status.result is Status.FAILED
@@ -83,7 +83,7 @@ class FailedSummary(Summary):
 
 class not_completedSummary(Summary):
     def formatter(self, status: Status) -> formatter:
-        return self.not_completed_formatter
+        return self.formatters.get(status, lambda x: x)
 
     def is_interesting(self, test_status: TestStatus) -> bool:
         return test_status.result is Status.NOT_COMPLETED
@@ -100,9 +100,12 @@ class not_completedSummary(Summary):
 class DetailedTestSummary(Summary):
     def results(self, result: TestResult) -> str:
         summary = [
-            FailedSummary(failed_formatter=self.failed_formatter).results(result),
-            PassedSummary(passed_formatter=self.passed_formatter).results(result),
-            not_completedSummary(not_completed_formatter=self.not_completed_formatter).results(result)
+            FailedSummary(failed_formatter=self.failed_formatter, 
+                          formatters=self.formatters).results(result),
+            PassedSummary(passed_formatter=self.passed_formatter, 
+                          formatters=self.formatters).results(result),
+            not_completedSummary(not_completed_formatter=self.not_completed_formatter, 
+                                 formatters=self.formatters).results(result)
         ]
         return '\n'.join(summary)
 
