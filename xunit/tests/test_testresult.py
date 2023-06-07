@@ -51,18 +51,18 @@ class TestResultTest(TestCase):
 
     @Test
     def test_failed_errors(self) -> None:
-        assert self.result.failed_errors == []
+        assert self.result.get_results_of_status(Status.FAILED) == []
         error_info = TestStatus("", Status.FAILED, "")
         self.result.save_status(error_info)
-        assert self.result.failed_errors == [error_info]
+        assert self.result.get_results_of_status(Status.FAILED) == [error_info]
 
     @Test
     def test_not_completed_errors(self) -> None:
-        assert self.result.not_completed_errors == []
+        assert self.result.get_results_of_status(Status.NOT_COMPLETED) == []
         error_info = TestStatus("", Status.NOT_COMPLETED, "")
         self.result.save_status(error_info)
-        assert self.result.failed_errors == []
-        assert self.result.not_completed_errors == [error_info]
+        assert self.result.get_results_of_status(Status.FAILED) == []
+        assert self.result.get_results_of_status(Status.NOT_COMPLETED) == [error_info]
 
     @Test
     def test_save_status(self) -> None:
