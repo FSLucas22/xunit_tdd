@@ -14,17 +14,19 @@ class TestResult:
     def results(self) -> list[TestStatus]:
         return self._results[:]
     
-    def get_status_count(self, status: Status) -> int:
-        return len(self.get_results_of_status(status))
+    def get_status_count(self, *status: Status) -> int:
+        return len(self.get_results_of_status(*status))
     
-    def get_names_of_status(self, status: Status) -> str:
-        names = map(lambda test_status: test_status.name, self.get_results_of_status(status))
+    def get_names_of_status(self, *status: Status) -> str:
+        names = map(lambda test_status: test_status.name, self.get_results_of_status(*status))
         return ' '.join(names)
 
-    def get_results_of_status(self, status: Status, *other_status: Status) -> list[TestStatus]:
+    def get_results_of_status(self, *order_filter: Status) -> list[TestStatus]:
         results = []
-
-        for status in [status] + list(other_status):
+        if len(order_filter) == 0:
+            return self._results[:]
+        
+        for status in order_filter:
             results += [test_status for test_status in self._results if test_status.result == status]
 
         return results
