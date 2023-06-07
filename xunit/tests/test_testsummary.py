@@ -68,8 +68,9 @@ class TestSummaryTest(TestCase):
     @Test
     def test_format_messeges(self) -> None:
         formatters = {
-            Status.FAILED: lambda messege: "[F]" + messege,
-            Status.NOT_COMPLETED: lambda messege: "[NC]" + messege
+            Status.PASSED: lambda messege: "{P}" + messege,
+            Status.FAILED: lambda messege: "{F}" + messege,
+            Status.NOT_COMPLETED: lambda messege: "{NC}" + messege
         }
         summary = DetailedTestSummary(formatters=formatters)
         self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
