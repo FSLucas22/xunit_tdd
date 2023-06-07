@@ -25,7 +25,7 @@ class TestCaseTest(TestCase):
         assert 1 == self.result.passed_count
         assert 0 == self.result.failed_count
         assert 0 == self.result.not_completed_count
-        assert "testMethod" == self.result.passed
+        assert "testMethod" == self.result.get_names_of_status(Status.PASSED)
 
     @Test
     def test_failed_result(self) -> None:
@@ -33,7 +33,7 @@ class TestCaseTest(TestCase):
         test.run()
         assert 1 == self.result.failed_count
         assert 0 == self.result.not_completed_count
-        assert "testBrokenMethod" == self.result.failed
+        assert "testBrokenMethod" == self.result.get_names_of_status(Status.FAILED)
 
     @Test
     def test_failed_in_set_up(self) -> None:
@@ -42,14 +42,14 @@ class TestCaseTest(TestCase):
         assert "teardown" in test.log
         assert self.result.failed_count == 0
         assert self.result.not_completed_count == 1
-        assert "testMethod" == self.result.not_completed
+        assert "testMethod" == self.result.get_names_of_status(Status.NOT_COMPLETED)
 
     @Test
     def test_not_completed_when_not_found(self) -> None:
         test = WasRun("notImplementedTest", self.result.save_status)
         test.run()
         assert self.result.not_completed_count == 1
-        assert "notImplementedTest" == self.result.not_completed
+        assert "notImplementedTest" == self.result.get_names_of_status(Status.NOT_COMPLETED)
 
     @Test 
     def test_failed_result_calls_tear_down(self) -> None:
