@@ -3,7 +3,7 @@ from xunit.src.testresult import TestResult
 from xunit.src.status import Status, TestStatus
 import xunit.src.testcolours as color
 from abc import ABC, abstractmethod
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 
 
 class TestSummary(Protocol):
@@ -12,6 +12,7 @@ class TestSummary(Protocol):
 
 
 formatter = Callable[[str], str]
+test_status_formatter = Callable[[TestStatus], str]
 
 
 FORMATTERS = {
@@ -21,16 +22,27 @@ FORMATTERS = {
 }
 
 
-class Summary(ABC):
-    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS):
+class Summary:
+    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS,
+                *order_filter: Status):
         self.formatters = formatters
+        self.order_filter = order_filter
     
     def formatter(self, status: Status) -> formatter:
         return self.formatters.get(status, lambda x: x)
+    
+    def test_status_formatter(self, test_status: TestStatus) -> str:
+       return self.formatter(test_status.result)(f'{test_status.name} - {test_status.result}')
 
-    @abstractmethod
     def results(self, result: TestResult) -> str:
-        pass
+        
+        status_list: list[str] = []
+        
+        for status in result.get_results_of_status(*self.order_filter):
+            messege = self.test_status_formatter(status)
+            status_list.append(messege)
+
+        return "\n".join(status_list)
     
     
 class SimpleTestSummary:
@@ -42,38 +54,29 @@ class SimpleTestSummary:
 
 
 class PassedSummary(Summary):
-    def results(self, result: TestResult) -> str:
-        results = []
-        for status in result.get_results_of_status(Status.PASSED):
-            messege = self.formatter(status.result)(f'{status.name} - {status.result}')
-            results.append(messege)
-        return '\n'.join(results)
-
+    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
+        super().__init__(formatters, Status.PASSED)
+    
 
 class FailedSummary(Summary):
-    def results(self, result: TestResult) -> str:
-        results = []
-        for status in result.get_results_of_status(Status.FAILED):
-            messege = self.formatter(status.result)(f'{status.name} - {status.result}')
-            results.append(messege)
-        return '\n'.join(results)
+    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
+        super().__init__(formatters, Status.FAILED)
 
 
 class not_completedSummary(Summary):
-    def results(self, result: TestResult) -> str:
-        results = []
-        for status in result.get_results_of_status(Status.NOT_COMPLETED):
-            messege = self.formatter(status.result)(f'{status.name} - {status.result}')
-            results.append(messege)
-        return '\n'.join(results)
+    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
+        super().__init__(formatters, Status.NOT_COMPLETED)
 
 
 class DetailedTestSummary(Summary):
+    def test_status_formatter(self, test_status: TestStatus) -> str:
+        return ""
+    
     def results(self, result: TestResult) -> str:
         summary = [
-            FailedSummary(formatters=self.formatters).results(result),
-            PassedSummary(formatters=self.formatters).results(result),
-            not_completedSummary(formatters=self.formatters).results(result)
+            Summary(self.formatters, Status.FAILED).results(result),
+            Summary(self.formatters, Status.PASSED).results(result),
+            Summary(self.formatters, Status.NOT_COMPLETED).results(result)
         ]
         return '\n'.join(summary)
 
@@ -90,22 +93,16 @@ class MixedTestSummary:
 
 
 class ErrorInfoSummary(Summary):
-    def results(self, result: TestResult) -> str:
-        errors = []
-        for status in result.get_results_of_status(Status.FAILED, Status.NOT_COMPLETED):
-            messege = self.formatter(status.result)(
-                f"{status.name} - {status.result}\n{status.info}"
-            )
-            errors.append(messege)
-        return '\n'.join(errors)
+    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
+        super().__init__(formatters, Status.FAILED, Status.NOT_COMPLETED)
+
+    def test_status_formatter(self, test_status: TestStatus) -> str:
+       return self.formatter(test_status.result)(
+           f"{test_status.name} - {test_status.result}\n{test_status.info}")
 
     
 class StatusSummary(Summary):
-    def results(self, result: TestResult) -> str:
-        status_list: list[str] = []
-        
-        for status in result.get_results_of_status():
-            messege = self.formatter(status.result)(f"{status.name} - {status.result}: {status.info}")
-            status_list.append(messege)
+    def test_status_formatter(self, test_status: TestStatus) -> str:
+       return self.formatter(test_status.result)(
+           f"{test_status.name} - {test_status.result}: {test_status.info}")
 
-        return "\n".join(status_list)
