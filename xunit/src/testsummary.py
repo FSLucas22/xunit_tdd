@@ -44,8 +44,8 @@ class Summary(ABC):
     
 class SimpleTestSummary:
     def results(self, result: TestResult) -> str:
-        return f"{result.run_count} run, {result.failed_count} failed, "\
-               f"{result.not_completed_count} not completed"
+        return f"{result.run_count} run, {result.get_status_count(Status.FAILED)} failed, "\
+               f"{result.get_status_count(Status.NOT_COMPLETED)} not completed"
 
 
 class PassedSummary(Summary):
