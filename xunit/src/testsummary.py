@@ -2,8 +2,7 @@ from typing import Protocol, Callable
 from xunit.src.testresult import TestResult
 from xunit.src.status import Status, TestStatus
 import xunit.src.testcolours as color
-from abc import ABC, abstractmethod
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping
 
 
 class TestSummary(Protocol):
