@@ -37,18 +37,6 @@ class TestResult:
     @property
     def results(self) -> list[TestStatus]:
         return self._results[:]
-
-    @property
-    def failed(self) -> str:
-        return self.get_names_of_status(Status.FAILED)
-
-    @property
-    def passed(self) -> str:
-        return self.get_names_of_status(Status.PASSED)
-
-    @property
-    def not_completed(self) -> str:
-        return self.get_names_of_status(Status.NOT_COMPLETED)
     
     def get_names_of_status(self, status: Status) -> str:
         names = map(lambda x: x.name, self.get_results_of_status(status))
