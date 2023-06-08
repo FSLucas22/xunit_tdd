@@ -4,12 +4,12 @@ from xunit.src.status import Status
 from .formatters import *
 
 
-class TestSummary(Protocol):
+class Summary(Protocol):
     def results(self, result: TestResult) -> str:
         ...
 
 
-class Summary:
+class TestSummary:
     def __init__(self, formatter: test_status_formatter = FORMATTERS,
                 *order_filter: Status):
         self.order_filter = order_filter
@@ -35,7 +35,7 @@ class SimpleTestSummary:
 
 
 class MixedTestSummary:
-    def __init__(self, *summaries: TestSummary):
+    def __init__(self, *summaries: Summary):
         self.summaries = summaries
         
     def results(self, result: TestResult) -> str:

@@ -21,9 +21,9 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_mixed_summary(self) -> None:
-        basic_summary = Summary(
+        basic_summary = TestSummary(
             BASIC_UNCOLORED_FORMATTERS, Status.FAILED, Status.PASSED, Status.NOT_COMPLETED)
-        summariesToMix: list[TestSummary] = [
+        summariesToMix: list[Summary] = [
             basic_summary, SimpleTestSummary()
         ]
         summary = MixedTestSummary(*summariesToMix)
@@ -40,7 +40,7 @@ class TestSummaryTest(TestCase):
             Status.FAILED: lambda status: "{F}" + basic_msg_formatter(status),
             Status.NOT_COMPLETED: lambda status: "{NC}" + basic_msg_formatter(status)
         }
-        summary = Summary(TestStatusFormatter(formatters), 
+        summary = TestSummary(TestStatusFormatter(formatters), 
                                       Status.FAILED, Status.PASSED, Status.NOT_COMPLETED)
         
         self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))

@@ -10,11 +10,11 @@ class TestFacade(TestCase):
 
     print: MockPrint
     runner: TestRunner
-    summary: TestSummary
+    summary: Summary
 
     def setup(self) -> None:
         self.print = MockPrint()
-        self.summary = Summary()
+        self.summary = TestSummary()
         self.result = TestResult()
         self.runner = TestRunner(self.print, self.summary)
 

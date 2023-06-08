@@ -17,7 +17,7 @@ TestClass = testdecorator.TestClass
 
 
 DEFAULT_SUMMARY = MixedTestSummary(
-    Summary(FORMATTERS, 
+    TestSummary(FORMATTERS, 
             Status.PASSED,
             Status.FAILED, 
             Status.NOT_COMPLETED, 
@@ -27,10 +27,10 @@ DEFAULT_SUMMARY = MixedTestSummary(
 
 class TestRunner:
     capture_output: Callable[[str], None]
-    summary: TestSummary
+    summary: Summary
     
     def __init__(self, capture_output: Callable[[str], None] = print, 
-                 summary: TestSummary=DEFAULT_SUMMARY) -> None:
+                 summary: Summary=DEFAULT_SUMMARY) -> None:
         self.capture_output = capture_output
         self.summary = summary
 
