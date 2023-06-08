@@ -52,7 +52,7 @@ class TestFacade(TestCase):
     def expected_value_for_class(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-            PassedSummary(),
+            Summary(FORMATTERS, Status.PASSED),
             ErrorInfoSummary(),
             SimpleTestSummary()
         )
@@ -64,7 +64,7 @@ class TestFacade(TestCase):
     def expected_value_for_module(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-            PassedSummary(),
+            Summary(FORMATTERS, Status.PASSED),
             ErrorInfoSummary(),
             SimpleTestSummary()
         )
@@ -76,7 +76,7 @@ class TestFacade(TestCase):
     def expected_value_for_package(self) -> str:
         result = TestResult()
         summary = MixedTestSummary(
-            PassedSummary(),
+            Summary(FORMATTERS, Status.PASSED),
             ErrorInfoSummary(),
             SimpleTestSummary()
         )
