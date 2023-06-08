@@ -34,17 +34,6 @@ class SimpleTestSummary:
         return f"{run_count} run, {failed_count} failed, {not_completed_count} not completed"
 
 
-class DetailedTestSummary:
-    def __init__(self, formatter: test_status_formatter = BASIC_FORMATTERS):
-        self.formatter = formatter
-    
-    def results(self, result: TestResult) -> str:
-        return Summary(
-            self.formatter, 
-            Status.FAILED, Status.PASSED, Status.NOT_COMPLETED
-        ).results(result)
-
-
 class MixedTestSummary:
     def __init__(self, *summaries: TestSummary):
         self.summaries = summaries

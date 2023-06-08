@@ -30,8 +30,10 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_mixed_summary(self) -> None:
+        basic_summary = Summary(
+            BASIC_UNCOLORED_FORMATTERS, Status.FAILED, Status.PASSED, Status.NOT_COMPLETED)
         summariesToMix: list[TestSummary] = [
-            DetailedTestSummary(), SimpleTestSummary()
+            basic_summary, SimpleTestSummary()
         ]
         summary = MixedTestSummary(*summariesToMix)
         self.result.save_status(TestStatus("someTest", Status.PASSED, ""))
