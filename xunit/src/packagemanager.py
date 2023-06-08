@@ -1,14 +1,13 @@
-from typing import NamedTuple, Callable, Protocol, Type
-from xunit.src.testcase import TestCase
-from types import ModuleType
-from inspect import getmembers
-import pkgutil
 import importlib
 import importlib.util
-from pathlib import Path
-import os
+import pkgutil
+from inspect import getmembers
 from os.path import dirname
-import sys
+from pathlib import Path
+from types import ModuleType
+from typing import NamedTuple, Protocol, Type
+
+from xunit.src.testcase import TestCase
 from xunit.src.testexceptions import InvalidPathError
 
 
@@ -63,23 +62,6 @@ def ignore_name(obj: PackageObject, pkg: ModuleType | None = None) -> bool:
     if pkg is None:
         raise Exception
     return obj.name in get_ignore_file_content(pkg)
-
-
-def find_module(module_name: str, file_path: str) -> ModuleType:
-    spec = importlib.util.spec_from_file_location(module_name, file_path)
-    if spec is None or spec.loader is None:
-        raise ModuleNotFoundError("Module not found.")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
-def get_path(name: str, directory_path: str, is_package: bool) -> str:
-    path = directory_path + "\\" + name
-    if is_package:
-        path += "\\" + "__init__.py"
-    return path
 
 
 def get_test_classes(module: ModuleType) -> list[Type[TestCase]]:
