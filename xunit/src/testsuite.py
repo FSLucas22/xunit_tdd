@@ -84,7 +84,7 @@ class TestSuite(SubjectImp):
         suite = cls()
         for obj in objs:
             obj_suite = cls.from_package(
-                obj.value, ignore
+                obj.value, ignore=ignore
                 ) if obj.is_package else cls.from_module(obj.value)
             suite = suite.merge(obj_suite)
         if observers is None:
