@@ -39,12 +39,10 @@ class DetailedTestSummary:
         self.formatter = formatter
     
     def results(self, result: TestResult) -> str:
-        summary = [
-            Summary(self.formatter, Status.FAILED).results(result),
-            Summary(self.formatter, Status.PASSED).results(result),
-            Summary(self.formatter, Status.NOT_COMPLETED).results(result)
-        ]
-        return '\n'.join(summary)
+        return Summary(
+            self.formatter, 
+            Status.FAILED, Status.PASSED, Status.NOT_COMPLETED
+        ).results(result)
 
 
 class MixedTestSummary:
