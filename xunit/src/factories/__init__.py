@@ -1,2 +1,2 @@
-from .suite_factory import SuiteFactory as SuiteFactory
-from .verbose_suite import SuiteFactoryImp as SuiteFactoryImp
+from .suitefactory import SuiteFactory as SuiteFactory
+from .verbosesuite import SuiteFactoryImp as SuiteFactoryImp

@@ -1,9 +1,6 @@
-from types import ModuleType
-from typing import Self, Type, Protocol
-import xunit.src.packagemanager as pm
+from typing import Protocol
 from xunit.src.observer import Observer, Subject, SubjectImp
 from xunit.src.status import Status, StatusFactory, TestStatus
-from xunit.src.testcase import TestCase
 
 
 DEFAULT_SUITE_NAME = 'Base suite'
