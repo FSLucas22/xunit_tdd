@@ -15,22 +15,26 @@ Test = testdecorator.Test
 TestClass = testdecorator.TestClass
 
 
+DEFAULT_SUMMARY = MixedTestSummary(
+    Summary(FORMATTERS, Status.PASSED),
+    ErrorInfoSummary(),
+    SimpleTestSummary())
+
+
 class TestRunner:
     capture_output: Callable[[str], None]
+    summary: TestSummary
     
-    def __init__(self, capture_output: Callable[[str], None] = print) -> None:
+    def __init__(self, capture_output: Callable[[str], None] = print, 
+                 summary: TestSummary=DEFAULT_SUMMARY) -> None:
         self.capture_output = capture_output
+        self.summary = summary
 
     def _run(self, suite: TestSuite) -> None:
         result = TestResult()
-        summary = MixedTestSummary(
-            Summary(FORMATTERS, Status.PASSED),
-            ErrorInfoSummary(),
-            SimpleTestSummary()
-        )
         suite.register(result.save_status)
         suite.run()
-        self.capture_output(summary.results(result))
+        self.capture_output(self.summary.results(result))
 
     def run_for_class(self, cls: Type[TestCase]) -> None:
         self._run(TestSuite.from_test_case(cls))
