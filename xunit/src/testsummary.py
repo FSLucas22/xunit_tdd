@@ -61,7 +61,3 @@ class MixedTestSummary:
 class ErrorInfoSummary(Summary):
     def __init__(self, formatter: test_status_formatter = FORMATTERS) -> None:
         super().__init__(formatter, Status.FAILED, Status.NOT_COMPLETED)
-
-    
-class StatusSummary(Summary):
-    pass

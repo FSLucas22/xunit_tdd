@@ -97,10 +97,3 @@ class TestSummaryTest(TestCase):
         not_completed_info = self.result.get_results_of_status(Status.NOT_COMPLETED)[0]
         assert summary.results(self.result) == f"[F]testMethod2 - Failed\n{failed_info.info}\n"\
                                                f"[NC]testMethod - Not completed\n{not_completed_info.info}"
-    
-    @Test
-    def test_status_summary(self) -> None:
-        self.result.save_status(TestStatus("Suite", Status.CREATED, "someSuite"))
-        self.result.save_status(TestStatus("Some test", Status.FAILED_TO_RUN, "info"))
-        summary: Summary = StatusSummary()
-        assert summary.results(self.result) == f"Suite - Created: someSuite\nSome test - Failed to run: info"
