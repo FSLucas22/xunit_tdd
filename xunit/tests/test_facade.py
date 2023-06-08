@@ -1,5 +1,4 @@
 from xunit.src import *
-from xunit.src.testsuite import SuiteFactoryImp
 from xunit.tests import testmodule
 from xunit.tests.testclasses import WasRun
 from xunit.tests.testclasses import MockPrint
