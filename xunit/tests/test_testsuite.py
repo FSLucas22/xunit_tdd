@@ -1,7 +1,5 @@
 from xunit.src import *
 from xunit.src.status import TestStatus
-from xunit.src.observer import Subject
-from xunit.src.testsuite import Runnable
 from xunit.tests.testclasses import *
 from xunit.src.packagemanager import ignore_name
 from typing import cast
