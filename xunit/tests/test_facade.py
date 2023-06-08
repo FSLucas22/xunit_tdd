@@ -19,7 +19,6 @@ class TestFacade(TestCase):
         self.result = TestResult()
         self.suite_factory = VerboseSuiteFactory()
         self.runner = TestRunner(self.print, self.summary, self.suite_factory)
-        
 
     @Test
     def test_mock(self) -> None:
