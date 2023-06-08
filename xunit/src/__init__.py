@@ -1,3 +1,4 @@
+import importlib
 from xunit.src.testcase import *
 from xunit.src.testresult import *
 from xunit.src.testsummary import *
@@ -9,7 +10,7 @@ from xunit.src.formatters import *
 import xunit.src.packagemanager  as pm
 from typing import Type, Callable
 from types import ModuleType
-
+from pathlib import Path
 
 color = testcolours
 Test = testdecorator.Test
@@ -51,12 +52,12 @@ class TestRunner:
         ) -> None:
         self._run(TestSuite.from_package(package, ignore))
 
-    def run_for_module_path(self, path: str) -> None:
-        module = pm.find_module("test_module", path)
+    def run_for_module_name(self, module_name: str) -> None:
+        module = importlib.import_module(module_name)
         self._run(TestSuite.from_module(module))
 
-    def run_for_package_path(
-        self, path: str, ignore: pm.Predicate=pm.ignore_name
+    def run_for_package_name(
+        self, package_name: str, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
-        package = pm.find_module("test_package", path)
+        package = importlib.import_module(package_name)
         self._run(TestSuite.from_package(package, ignore=ignore))

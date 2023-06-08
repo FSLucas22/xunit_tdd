@@ -64,18 +64,19 @@ class TestSuite(SubjectImp):
 
     @classmethod
     def from_module(cls, *modules: ModuleType,
-                    observers: list[Observer] | None = None) -> Self:
-        classes = []
+                    observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME) -> Self:
+        base_suite = cls.suite(observers=observers, name=name)
         for module in modules:
-            classes += pm.get_test_classes(module)
-        return cls.from_test_case(*classes, observers=observers)
+            module_suite = cls.from_test_case(*pm.get_test_classes(module), name=module.__name__)
+            base_suite.add(module_suite)
+        return base_suite
 
     @classmethod
     def from_package(cls, package: ModuleType,
                     ignore: pm.Predicate = lambda _,__: False,
-                    observers: list[Observer] | None = None) -> Self:
+                    observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME) -> Self:
         objs = pm.get_package_objects(package, ignore)
-        suite = cls()
+        suite = cls(name=name)
         for obj in objs:
             obj_suite = cls.from_package(
                 obj.value, ignore=ignore
