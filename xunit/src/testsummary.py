@@ -52,9 +52,9 @@ class SimpleTestSummary:
         return f"{run_count} run, {failed_count} failed, {not_completed_count} not completed"
 
 
-class DetailedTestSummary(Summary):
-    def test_status_formatter(self, test_status: TestStatus) -> str:
-        return ""
+class DetailedTestSummary:
+    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS):
+        self.formatters = formatters
     
     def results(self, result: TestResult) -> str:
         summary = [
