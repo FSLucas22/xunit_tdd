@@ -91,7 +91,7 @@ class TestSuiteTest(TestCase):
     def test_can_inform_status(self) -> None:
         suite = TestSuite(self.result.save_status)
         suite.run()
-        assert self.result.results == [TestStatus("Suite", Status.CREATED, "suite")]
+        assert self.result.get_results_of_status() == [TestStatus("Suite", Status.CREATED, "suite")]
 
     @Test
     def test_can_inform_error_in_run(self) -> None:
@@ -101,7 +101,7 @@ class TestSuiteTest(TestCase):
                                          error_info_factory=error_info_factory)
         suite.run()
 
-        assert self.result.results == [
+        assert self.result.get_results_of_status() == [
             TestStatus("Suite", Status.CREATED, "suite"),
             TestStatus("Suite", Status.CREATED, UnrunnableTest.__name__),
             TestStatus(UnrunnableTest.__name__, Status.FAILED_TO_RUN, "error")]

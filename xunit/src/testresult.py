@@ -9,10 +9,6 @@ class TestResult:
 
     def save_status(self, status: TestStatus) -> None:
         self._results.append(status)
-
-    @property
-    def results(self) -> list[TestStatus]:
-        return self._results[:]
     
     def get_status_count(self, *status: Status) -> int:
         return len(self.get_results_of_status(*status))
