@@ -32,12 +32,6 @@ class TestSuite(SubjectImp):
             test.register(self.notify)
         self._tests += list(tests)
 
-    def merge(self, other_suite: 'TestSuite', name: str = DEFAULT_SUITE_NAME) -> Self:
-        merged = type(self)(name=name)
-        
-        merged.add(self, other_suite)
-        return merged
-
     def run(self) -> None:
         self.notify(TestStatus("Suite", Status.CREATED, self.name))
         for test in self._tests:

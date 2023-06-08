@@ -77,18 +77,6 @@ class TestSuiteTest(TestCase):
         assert "y y1" == self.result.get_names_of_status(Status.PASSED, Status.FAILED)
 
     @Test
-    def test_merge(self) -> None:
-        suite1 = TestSuite.from_test_case(PassedTestCase)
-        suite2 = TestSuite.from_test_case(FailedTestCase)
-        
-        merged = suite1.merge(suite2)
-        
-        merged.register(self.result.save_status)
-        merged.run()
-        
-        assert "passed_test failed_test" == self.result.get_names_of_status(Status.PASSED, Status.FAILED)
-
-    @Test
     def test_can_inform_status(self) -> None:
         suite = TestSuite(self.result.save_status)
         suite.run()
