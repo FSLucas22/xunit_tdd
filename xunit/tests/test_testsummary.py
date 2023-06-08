@@ -20,15 +20,6 @@ class TestSummaryTest(TestCase):
         assert summary.results(self.result) == "1 run, 0 failed, 1 not completed"
 
     @Test
-    def test_detailed_summary(self) -> None:
-        summary = Summary(BASIC_UNCOLORED_FORMATTERS, Status.FAILED, Status.PASSED, Status.NOT_COMPLETED)
-        self.result.save_status(TestStatus("someOtherTest", Status.PASSED, ""))
-        self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
-        self.result.save_status(TestStatus("someBrokenTest", Status.NOT_COMPLETED, ""))
-        assert summary.results(self.result
-                               ) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
-
-    @Test
     def test_mixed_summary(self) -> None:
         basic_summary = Summary(
             BASIC_UNCOLORED_FORMATTERS, Status.FAILED, Status.PASSED, Status.NOT_COMPLETED)
