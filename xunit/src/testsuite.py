@@ -43,7 +43,6 @@ class TestSuite(SubjectImp):
             try:
                 test.run()
             except Exception as e:
-                print(self.error_info_factory)
                 self.notify(
                     self.error_info_factory(e,
                     type(test).__name__, Status.FAILED_TO_RUN)
