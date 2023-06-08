@@ -26,7 +26,19 @@ class TestStatusFormatter:
     def __call__(self, test_status: TestStatus) -> str:
         formatter = self.formatters.get(test_status.result, detailed_msg_formatter)
         return formatter(test_status)
-    
+
+
+BASIC_FORMATTERS = TestStatusFormatter({
+    Status.PASSED: lambda msg: color.green(basic_msg_formatter(msg)),
+    Status.FAILED: lambda msg: color.red(basic_msg_formatter(msg)),
+    Status.NOT_COMPLETED: lambda msg: color.yellow(basic_msg_formatter(msg))
+})
+
+BASIC_UNCOLORED_FORMATTERS = TestStatusFormatter({
+    Status.PASSED: basic_msg_formatter,
+    Status.FAILED: basic_msg_formatter,
+    Status.NOT_COMPLETED: basic_msg_formatter
+})
 
 UNCOLORED_FORMATTERS = TestStatusFormatter({
     Status.PASSED: basic_msg_formatter,
@@ -67,11 +79,7 @@ class SimpleTestSummary:
 
 
 class DetailedTestSummary:
-    def __init__(self, formatter: test_status_formatter = TestStatusFormatter({
-                     Status.PASSED: basic_msg_formatter,
-                     Status.FAILED: basic_msg_formatter,
-                     Status.NOT_COMPLETED: basic_msg_formatter
-                 })):
+    def __init__(self, formatter: test_status_formatter = BASIC_FORMATTERS):
         self.formatter = formatter
     
     def results(self, result: TestResult) -> str:

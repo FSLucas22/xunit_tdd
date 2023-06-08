@@ -21,11 +21,12 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_detailed_summary(self) -> None:
-        summary = DetailedTestSummary()
+        summary = DetailedTestSummary(BASIC_UNCOLORED_FORMATTERS)
         self.result.save_status(TestStatus("someOtherTest", Status.PASSED, ""))
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("someBrokenTest", Status.NOT_COMPLETED, ""))
-        assert summary.results(self.result) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
+        assert summary.results(self.result
+                               ) == "someTest - Failed\nsomeOtherTest - Passed\nsomeBrokenTest - Not completed"
 
     @Test
     def test_mixed_summary(self) -> None:
