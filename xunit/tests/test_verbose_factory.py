@@ -9,7 +9,7 @@ class SuiteFactoryTest(TestCase):
 
     def setup(self) -> None:
         self.result = TestResult()
-        self.factory = SuiteFactoryImp()
+        self.factory = VerboseSuiteFactory()
 
     @Test
     def test_suite_from_multiple_test_cases(self) -> None:

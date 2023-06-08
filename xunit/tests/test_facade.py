@@ -25,21 +25,21 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_test_class(self) -> None:
-        suite = SuiteFactoryImp().from_test_case(WasRun)
+        suite = VerboseSuiteFactory().from_test_case(WasRun)
 
         self.runner.run_for_class(WasRun)
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_module(self) -> None:
-        suite = SuiteFactoryImp().from_module(testmodule)
+        suite = VerboseSuiteFactory().from_module(testmodule)
 
         self.runner.run_for_module(testmodule)
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_package(self) -> None:
-        suite = SuiteFactoryImp().from_package(
+        suite = VerboseSuiteFactory().from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
         
         self.runner.run_for_package(
@@ -49,14 +49,14 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_module_path(self) -> None:
-        suite = SuiteFactoryImp().from_module(testmodule)
+        suite = VerboseSuiteFactory().from_module(testmodule)
 
         self.runner.run_for_module_name(testmodule.__name__)
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_package_path(self) -> None:
-        suite = SuiteFactoryImp().from_package(
+        suite = VerboseSuiteFactory().from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
         
         self.runner.run_for_package_name(

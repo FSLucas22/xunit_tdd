@@ -8,7 +8,7 @@ from xunit.src.testsuite import DEFAULT_SUITE_NAME, TestSuite
 from xunit.src import packagemanager as pm
 
 
-class SuiteFactoryImp:
+class VerboseSuiteFactory:
     def suite(self, observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME,
               error_info_factory: StatusFactory = TestStatus.from_exception) -> TestSuite:
         if observers is None:

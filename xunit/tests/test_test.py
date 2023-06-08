@@ -63,7 +63,7 @@ class TestTest(TestCase):
             def broken_method(self) -> None:
                 raise Exception
 
-        suite = SuiteFactoryImp().from_test_case(UnnamedTestClass)
+        suite = VerboseSuiteFactory().from_test_case(UnnamedTestClass)
         result = TestResult()
         suite.register(result.save_status)
         suite.run()
@@ -96,7 +96,7 @@ class TestTest(TestCase):
             def broken_method1(self) -> None:
                 raise Exception
 
-        suite = SuiteFactoryImp().from_test_case(
+        suite = VerboseSuiteFactory().from_test_case(
             BrokenUnnamedTestClass, UnnamedTestClass)
         result = TestResult()
         suite.register(result.save_status)
