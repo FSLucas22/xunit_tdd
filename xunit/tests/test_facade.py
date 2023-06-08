@@ -14,9 +14,9 @@ class TestFacade(TestCase):
 
     def setup(self) -> None:
         self.print = MockPrint()
-        self.summary = Summary({})
+        self.summary = Summary()
         self.result = TestResult()
-        self.runner = TestRunner(self.print, Summary({}))
+        self.runner = TestRunner(self.print, self.summary)
 
     @Test
     def test_mock(self) -> None:

@@ -41,7 +41,7 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_error_info_summary_for_failed_test(self) -> None:
-        summary = ErrorInfoSummary(messege_formatters=UNCOLORED_FORMATTERS)
+        summary = ErrorInfoSummary(UNCOLORED_FORMATTERS)
         test = MockTestCase("testMethod", Exception())
         test2 = MockTestCase("testMethod2", Exception())
         test.register(self.result.save_status)
@@ -53,7 +53,7 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_error_info_summary_for_not_completed_test(self) -> None:
-        summary = ErrorInfoSummary(messege_formatters=UNCOLORED_FORMATTERS)
+        summary = ErrorInfoSummary(UNCOLORED_FORMATTERS)
         test = MockTestCase("testMethod2", Exception())
         test2 = MockBrokenTestCase("testMethod", Exception())
         test.register(self.result.save_status)
@@ -67,12 +67,12 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_format_messeges(self) -> None:
-        messege_formatters = {
+        formatters = {
             Status.PASSED: lambda status: "{P}" + basic_msg_formatter(status),
             Status.FAILED: lambda status: "{F}" + basic_msg_formatter(status),
             Status.NOT_COMPLETED: lambda status: "{NC}" + basic_msg_formatter(status)
         }
-        summary = DetailedTestSummary(messege_formatters=messege_formatters)
+        summary = DetailedTestSummary(TestStatusFormatter(formatters))
         self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
         self.result.save_status(TestStatus("failedTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("not_completedTest", Status.NOT_COMPLETED, ""))
@@ -80,11 +80,11 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_error_info_summary_formatter(self) -> None:
-        messege_formatters = {
+        formatters = {
             Status.FAILED: lambda status: "[F]" + error_msg_formatter(status),
             Status.NOT_COMPLETED: lambda status: "[NC]" + error_msg_formatter(status)
         }
-        summary = ErrorInfoSummary(messege_formatters=messege_formatters)
+        summary = ErrorInfoSummary(TestStatusFormatter(formatters))
 
         test = MockTestCase("testMethod2", Exception())
         test2 = MockBrokenTestCase("testMethod", Exception())
@@ -101,5 +101,5 @@ class TestSummaryTest(TestCase):
     def test_status_summary(self) -> None:
         self.result.save_status(TestStatus("Suite", Status.CREATED, "someSuite"))
         self.result.save_status(TestStatus("Some test", Status.FAILED_TO_RUN, "info"))
-        summary: Summary = StatusSummary(messege_formatters={})
+        summary: Summary = StatusSummary()
         assert summary.results(self.result) == f"Suite - Created: someSuite\nSome test - Failed to run: info"
