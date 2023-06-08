@@ -4,7 +4,8 @@ from xunit.src.status import TestStatus
 
 class WasRun(TestCase):
     log: str = ""
-    testNames = "testMethod testBrokenMethod"
+    xunit_test_names = "testMethod testBrokenMethod"
+    
     def setup(self) -> None:
         self.log = "setup"
 
@@ -20,22 +21,6 @@ class WasRun(TestCase):
 
 class FailedSetUp(WasRun):
     def setup(self) -> None:
-        raise Exception
-
-
-class DummyTestCase(TestCase):
-    xunit_test_names = "passedTest1 passedTest2 failedTest1 failedTest2"
-    
-    def passedTest1(self) -> None:
-        pass
-
-    def passedTest2(self) -> None:
-        pass
-
-    def failedTest1(self) -> None:
-        raise Exception
-
-    def failedTest2(self) -> None:
         raise Exception
 
 

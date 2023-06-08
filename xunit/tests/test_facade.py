@@ -1,6 +1,6 @@
 from xunit.src import *
-from xunit.tests.testclasses import DummyTestCase
 from xunit.tests import testmodule
+from xunit.tests.testclasses import WasRun
 from xunit.tests.testclasses import MockPrint
 from xunit.tests import testpackage
 
@@ -25,9 +25,9 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_test_class(self) -> None:
-        suite = TestSuite.from_test_case(DummyTestCase)
+        suite = TestSuite.from_test_case(WasRun)
 
-        self.runner.run_for_class(DummyTestCase)
+        self.runner.run_for_class(WasRun)
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
