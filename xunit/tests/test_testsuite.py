@@ -22,17 +22,12 @@ class TestSuiteTest(TestCase):
         assert "testMethod" == self.result.get_names_of_status(Status.PASSED)
 
     @Test
-    def test_names_from_tests(self) -> None:
-        assert DummyTestCase.xunit_test_names == "passedTest1 passedTest2 failedTest1 failedTest2"
-
-    @Test
     def test_suite_from_multiple_test_cases(self) -> None:
-        suite = TestSuite.from_test_case(DummyTestCase, DummyTestCase,
-                                         observers=[self.result.save_status])
-        suite.run()
-        
-        assert self.result.get_names_of_status(Status.PASSED) == "passedTest1 passedTest2 passedTest1 passedTest2"
-        assert self.result.get_names_of_status(Status.FAILED) == "failedTest1 failedTest2 failedTest1 failedTest2"
+        TestSuite.from_test_case(
+            PassedTestCase, FailedTestCase,
+            observers=[self.result.save_status]).run()
+  
+        assert self.result.get_names_of_status(Status.PASSED, Status.FAILED) == "passed_test failed_test"
 
     @Test
     def test_test_module(self) -> None:
@@ -82,16 +77,15 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_merge(self) -> None:
-        suite1 = TestSuite.from_test_case(DummyTestCase)
-        suite2 = TestSuite.from_test_case(DummyTestCase)
+        suite1 = TestSuite.from_test_case(PassedTestCase)
+        suite2 = TestSuite.from_test_case(FailedTestCase)
         
         merged = suite1.merge(suite2)
         
         merged.register(self.result.save_status)
         merged.run()
         
-        assert "passedTest1 passedTest2 passedTest1 passedTest2" == self.result.get_names_of_status(Status.PASSED)
-        assert "failedTest1 failedTest2 failedTest1 failedTest2" == self.result.get_names_of_status(Status.FAILED)
+        assert "passed_test failed_test" == self.result.get_names_of_status(Status.PASSED, Status.FAILED)
 
     @Test
     def test_can_inform_status(self) -> None:

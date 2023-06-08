@@ -39,6 +39,22 @@ class DummyTestCase(TestCase):
         raise Exception
 
 
+@TestClass
+class PassedTestCase(TestCase):
+
+    @Test
+    def passed_test(self) -> None:
+        pass
+
+
+@TestClass
+class FailedTestCase(TestCase):
+
+    @Test
+    def failed_test(self) -> None:
+        raise Exception
+
+
 class MockTestCase(TestCase):
     exception_raised: Exception
 
