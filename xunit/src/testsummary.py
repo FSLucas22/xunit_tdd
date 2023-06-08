@@ -19,12 +19,6 @@ error_msg_formatter: test_status_formatter = lambda status: f'{status.name} - {s
 detailed_msg_formatter: test_status_formatter = lambda status: f'{status.name} - {status.result}: {status.info}'
 
 
-COLOR_FORMATTERS = {
-    Status.FAILED: color.red,
-    Status.PASSED: color.green,
-    Status.NOT_COMPLETED: color.yellow
-}
-
 UNCOLORED_FORMATTERS = {
     Status.PASSED: basic_msg_formatter,
     Status.FAILED: error_msg_formatter,
@@ -73,14 +67,11 @@ class SimpleTestSummary:
 
 
 class DetailedTestSummary:
-    def __init__(self, color_formatters: Mapping[Status, formatter] = COLOR_FORMATTERS,
-                 messege_formatters: Mapping[Status, test_status_formatter] = {
+    def __init__(self, messege_formatters: Mapping[Status, test_status_formatter] = {
                      Status.PASSED: basic_msg_formatter,
                      Status.FAILED: basic_msg_formatter,
                      Status.NOT_COMPLETED: basic_msg_formatter
                  }):
-    
-        self.color_formatters = color_formatters
         self.messege_formatters = messege_formatters
     
     def results(self, result: TestResult) -> str:
