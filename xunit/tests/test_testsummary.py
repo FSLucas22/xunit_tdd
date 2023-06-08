@@ -21,7 +21,7 @@ class TestSummaryTest(TestCase):
 
     @Test
     def test_detailed_summary(self) -> None:
-        summary = DetailedTestSummary(BASIC_UNCOLORED_FORMATTERS)
+        summary = Summary(BASIC_UNCOLORED_FORMATTERS, Status.FAILED, Status.PASSED, Status.NOT_COMPLETED)
         self.result.save_status(TestStatus("someOtherTest", Status.PASSED, ""))
         self.result.save_status(TestStatus("someTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("someBrokenTest", Status.NOT_COMPLETED, ""))
@@ -73,11 +73,15 @@ class TestSummaryTest(TestCase):
             Status.FAILED: lambda status: "{F}" + basic_msg_formatter(status),
             Status.NOT_COMPLETED: lambda status: "{NC}" + basic_msg_formatter(status)
         }
-        summary = DetailedTestSummary(TestStatusFormatter(formatters))
+        summary = Summary(TestStatusFormatter(formatters), 
+                                      Status.FAILED, Status.PASSED, Status.NOT_COMPLETED)
+        
         self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
         self.result.save_status(TestStatus("failedTest", Status.FAILED, ""))
         self.result.save_status(TestStatus("not_completedTest", Status.NOT_COMPLETED, ""))
-        assert summary.results(self.result) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}not_completedTest - Not completed"
+
+        assert summary.results(self.result
+                ) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}not_completedTest - Not completed"
 
     @Test
     def test_error_info_summary_formatter(self) -> None:
