@@ -34,32 +34,6 @@ class TestSummaryTest(TestCase):
         assert summary_result == '\n'.join(individual_results)
 
     @Test
-    def test_error_info_summary_for_failed_test(self) -> None:
-        summary = ErrorInfoSummary(UNCOLORED_FORMATTERS)
-        test = MockTestCase("testMethod", Exception())
-        test2 = MockTestCase("testMethod2", Exception())
-        test.register(self.result.save_status)
-        test2.register(self.result.save_status)
-        test.run()
-        test2.run()
-        error_info = self.result.get_results_of_status(Status.FAILED)
-        assert summary.results(self.result) == f"testMethod - Failed\n{error_info[0].info}\ntestMethod2 - Failed\n{error_info[1].info}"
-
-    @Test
-    def test_error_info_summary_for_not_completed_test(self) -> None:
-        summary = ErrorInfoSummary(UNCOLORED_FORMATTERS)
-        test = MockTestCase("testMethod2", Exception())
-        test2 = MockBrokenTestCase("testMethod", Exception())
-        test.register(self.result.save_status)
-        test2.register(self.result.save_status)
-        test.run()
-        test2.run()
-        failed_info = self.result.get_results_of_status(Status.FAILED)[0]
-        not_completed_info = self.result.get_results_of_status(Status.NOT_COMPLETED)[0]
-        assert summary.results(self.result) == f"testMethod2 - Failed\n{failed_info.info}\n"\
-                                               f"testMethod - Not completed\n{not_completed_info.info}"
-
-    @Test
     def test_format_messeges(self) -> None:
         formatters = {
             Status.PASSED: lambda status: "{P}" + basic_msg_formatter(status),
@@ -75,22 +49,3 @@ class TestSummaryTest(TestCase):
 
         assert summary.results(self.result
                 ) == "{F}failedTest - Failed\n{P}passedTest - Passed\n{NC}not_completedTest - Not completed"
-
-    @Test
-    def test_error_info_summary_formatter(self) -> None:
-        formatters = {
-            Status.FAILED: lambda status: "[F]" + error_msg_formatter(status),
-            Status.NOT_COMPLETED: lambda status: "[NC]" + error_msg_formatter(status)
-        }
-        summary = ErrorInfoSummary(TestStatusFormatter(formatters))
-
-        test = MockTestCase("testMethod2", Exception())
-        test2 = MockBrokenTestCase("testMethod", Exception())
-        test.register(self.result.save_status)
-        test2.register(self.result.save_status)
-        test.run()
-        test2.run()
-        failed_info = self.result.get_results_of_status(Status.FAILED)[0]
-        not_completed_info = self.result.get_results_of_status(Status.NOT_COMPLETED)[0]
-        assert summary.results(self.result) == f"[F]testMethod2 - Failed\n{failed_info.info}\n"\
-                                               f"[NC]testMethod - Not completed\n{not_completed_info.info}"

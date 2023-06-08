@@ -18,7 +18,7 @@ TestClass = testdecorator.TestClass
 
 DEFAULT_SUMMARY = MixedTestSummary(
     Summary(FORMATTERS, Status.PASSED),
-    ErrorInfoSummary(),
+    Summary(FORMATTERS, Status.FAILED, Status.NOT_COMPLETED),
     SimpleTestSummary())
 
 

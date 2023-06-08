@@ -43,8 +43,3 @@ class MixedTestSummary:
         for summary in self.summaries:
             summary_results.append(summary.results(result))
         return '\n'.join(summary_results)
-
-
-class ErrorInfoSummary(Summary):
-    def __init__(self, formatter: test_status_formatter = FORMATTERS) -> None:
-        super().__init__(formatter, Status.FAILED, Status.NOT_COMPLETED)
