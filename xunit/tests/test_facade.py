@@ -11,7 +11,6 @@ class TestFacade(TestCase):
     print: MockPrint
     runner: TestRunner
     summary: TestSummary
-    result: TestResult
 
     def setup(self) -> None:
         self.print = MockPrint()
@@ -66,6 +65,7 @@ class TestFacade(TestCase):
         assert self.print.passed_value == self.expected_value(suite)
 
     def expected_value(self, suite: TestSuite) -> str:
-        suite.register(self.result.save_status)
+        result = TestResult()
+        suite.register(result.save_status)
         suite.run()
-        return self.summary.results(self.result)
+        return self.summary.results(result)
