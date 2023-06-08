@@ -91,23 +91,3 @@ class TestSuite(SubjectImp):
             observers = []
         suite.register(*observers)
         return suite
-
-    @classmethod
-    def from_path(cls, name: str, path: str, is_package: bool,
-                 ignore: pm.Predicate=lambda _,__: False,
-                 observers: list[Observer] | None = None) -> Self:
-        module = pm.find_module(name, path)
-        if is_package:
-            return cls.from_package(module, ignore, observers=observers)
-        return cls.from_module(module, observers=observers)
-
-
-
-
-
-
-
-
-
-
-

@@ -109,43 +109,6 @@ class TestSuiteTest(TestCase):
         assert "passedTest1 passedTest2 passedTest1 passedTest2" == self.result.get_names_of_status(Status.PASSED)
         assert "failedTest1 failedTest2 failedTest1 failedTest2" == self.result.get_names_of_status(Status.FAILED)
 
-        
-    @Test
-    def test_can_construct_suite_from_package_path(self) -> None:
-        from xunit.tests import testpackage
-        result1 = TestResult()
-        result2 = TestResult()
-        
-        suite1 = TestSuite.from_path(
-            "testpackage", testpackage.__file__, is_package=True, observers=[result1.save_status]
-        )
-        suite2 = TestSuite.from_package(testpackage, observers=[result2.save_status])
-        
-        suite1.run()
-        suite2.run()
-        
-        assert result1.get_names_of_status(Status.PASSED) == result2.get_names_of_status(Status.PASSED)
-        assert result1.get_names_of_status(Status.FAILED) == result2.get_names_of_status(Status.FAILED)
-        assert result1.get_names_of_status(Status.NOT_COMPLETED) == result2.get_names_of_status(Status.NOT_COMPLETED)
-
-    @Test
-    def test_can_construct_suite_from_module_path(self) -> None:
-        from xunit.tests.testpackage.subpackage import subpackagemodule
-        result1 = TestResult()
-        result2 = TestResult()
-        
-        suite1 = TestSuite.from_path(
-            "subpackagemodule", subpackagemodule.__file__, is_package=False, observers=[self.result.save_status]
-        )
-        suite2 = TestSuite.from_module(subpackagemodule, observers=[self.result.save_status])
-        
-        suite1.run()
-        suite2.run()
-        
-        assert result1.get_names_of_status(Status.PASSED) == result2.get_names_of_status(Status.PASSED)
-        assert result1.get_names_of_status(Status.FAILED) == result2.get_names_of_status(Status.FAILED)
-        assert result1.get_names_of_status(Status.NOT_COMPLETED) == result2.get_names_of_status(Status.NOT_COMPLETED)
-
     @Test
     def test_can_inform_status(self) -> None:
         suite = TestSuite(self.result.save_status)
@@ -173,14 +136,3 @@ class TestSuiteTest(TestCase):
             TestStatus("Suite", Status.CREATED, "suite"),
             TestStatus("Suite", Status.CREATED, TestCls.__name__),
             TestStatus(TestCls.__name__, Status.FAILED_TO_RUN, "error")]
-
-
-
-
-
-
-
-
-
-        
-
