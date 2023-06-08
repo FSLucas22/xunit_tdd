@@ -102,22 +102,13 @@ class TestSuiteTest(TestCase):
 
     @Test
     def test_can_inform_error_in_run(self) -> None:
-        @TestClass
-        class TestCls(TestCase):
-            @Test
-            def test(self) -> None:
-                pass
-            
-            def run(self) -> None:
-                raise Exception()
-        
         error_info_factory = cast(StatusFactory, lambda e, name, status: TestStatus(name, status, "error"))
 
-        suite = TestSuite.from_test_case(TestCls, observers=[self.result.save_status],
+        suite = TestSuite.from_test_case(UnrunnableTest, observers=[self.result.save_status],
                                          error_info_factory=error_info_factory)
         suite.run()
 
         assert self.result.results == [
             TestStatus("Suite", Status.CREATED, "suite"),
-            TestStatus("Suite", Status.CREATED, TestCls.__name__),
-            TestStatus(TestCls.__name__, Status.FAILED_TO_RUN, "error")]
+            TestStatus("Suite", Status.CREATED, UnrunnableTest.__name__),
+            TestStatus(UnrunnableTest.__name__, Status.FAILED_TO_RUN, "error")]

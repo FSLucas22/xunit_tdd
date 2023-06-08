@@ -1,4 +1,4 @@
-from xunit.src import TestCase
+from xunit.src import Test, TestCase, TestClass
 from xunit.src.status import TestStatus
 
 
@@ -84,5 +84,12 @@ class DummyObserver:
         self.received.append(status)
 
 
-
-
+@TestClass
+class UnrunnableTest(TestCase):
+    
+    @Test
+    def test(self) -> None:
+        pass
+    
+    def run(self) -> None:
+        raise Exception()
