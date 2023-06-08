@@ -32,12 +32,10 @@ class TestSuite(SubjectImp):
             test.register(self.notify)
         self._tests += list(tests)
 
-    def merge(self, other_suite: 'TestSuite') -> Self:
-        merged = type(self)()
+    def merge(self, other_suite: 'TestSuite', name: str = DEFAULT_SUITE_NAME) -> Self:
+        merged = type(self)(name=name)
         
-        for test in self._tests + other_suite._tests:
-            merged.add(test)
-        
+        merged.add(self, other_suite)
         return merged
 
     def run(self) -> None:
@@ -88,7 +86,7 @@ class TestSuite(SubjectImp):
             obj_suite = cls.from_package(
                 obj.value, ignore=ignore
                 ) if obj.is_package else cls.from_module(obj.value)
-            suite = suite.merge(obj_suite)
+            suite.add(obj_suite)
         if observers is None:
             observers = []
         suite.register(*observers)
