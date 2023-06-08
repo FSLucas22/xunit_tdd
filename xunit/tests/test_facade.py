@@ -11,12 +11,15 @@ class TestFacade(TestCase):
     print: MockPrint
     runner: TestRunner
     summary: Summary
+    suite_factory: SuiteFactory
 
     def setup(self) -> None:
         self.print = MockPrint()
         self.summary = TestSummary()
         self.result = TestResult()
-        self.runner = TestRunner(self.print, self.summary)
+        self.suite_factory = VerboseSuiteFactory()
+        self.runner = TestRunner(self.print, self.summary, self.suite_factory)
+        
 
     @Test
     def test_mock(self) -> None:
@@ -25,21 +28,21 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_test_class(self) -> None:
-        suite = VerboseSuiteFactory().from_test_case(WasRun)
+        suite = self.suite_factory.from_test_case(WasRun)
 
         self.runner.run_for_class(WasRun)
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_module(self) -> None:
-        suite = VerboseSuiteFactory().from_module(testmodule)
+        suite = self.suite_factory.from_module(testmodule)
 
         self.runner.run_for_module(testmodule)
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_package(self) -> None:
-        suite = VerboseSuiteFactory().from_package(
+        suite = self.suite_factory.from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
         
         self.runner.run_for_package(
@@ -49,14 +52,14 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_module_path(self) -> None:
-        suite = VerboseSuiteFactory().from_module(testmodule)
+        suite = self.suite_factory.from_module(testmodule)
 
         self.runner.run_for_module_name(testmodule.__name__)
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_package_path(self) -> None:
-        suite = VerboseSuiteFactory().from_package(
+        suite = self.suite_factory.from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
         
         self.runner.run_for_package_name(

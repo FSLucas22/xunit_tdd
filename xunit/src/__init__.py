@@ -23,14 +23,20 @@ DEFAULT_SUMMARY = MixedTestSummary(
     SimpleTestSummary())
 
 
+DEFAULT_SUITE_FACTORY = NormalSuiteFactory()
+
+
 class TestRunner:
     capture_output: Callable[[str], None]
     summary: Summary
-    
+    suite_factory: SuiteFactory
+
     def __init__(self, capture_output: Callable[[str], None] = print, 
-                 summary: Summary=DEFAULT_SUMMARY) -> None:
+                 summary: Summary=DEFAULT_SUMMARY, 
+                 suite_factory: SuiteFactory = DEFAULT_SUITE_FACTORY) -> None:
         self.capture_output = capture_output
         self.summary = summary
+        self.suite_factory = suite_factory
 
     def _run(self, suite: TestSuite) -> None:
         result = TestResult()
@@ -39,22 +45,22 @@ class TestRunner:
         self.capture_output(self.summary.results(result))
 
     def run_for_class(self, cls: Type[TestCase]) -> None:
-        self._run(VerboseSuiteFactory().from_test_case(cls))
+        self._run(self.suite_factory.from_test_case(cls))
 
     def run_for_module(self, module: ModuleType) -> None:
-        self._run(VerboseSuiteFactory().from_module(module))
+        self._run(self.suite_factory.from_module(module))
 
     def run_for_package(
         self, package: ModuleType, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
-        self._run(VerboseSuiteFactory().from_package(package, ignore))
+        self._run(self.suite_factory.from_package(package, ignore))
 
     def run_for_module_name(self, module_name: str) -> None:
         module = importlib.import_module(module_name)
-        self._run(VerboseSuiteFactory().from_module(module))
+        self._run(self.suite_factory.from_module(module))
 
     def run_for_package_name(
         self, package_name: str, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
         package = importlib.import_module(package_name)
-        self._run(VerboseSuiteFactory().from_package(package, ignore=ignore))
+        self._run(self.suite_factory.from_package(package, ignore=ignore))
