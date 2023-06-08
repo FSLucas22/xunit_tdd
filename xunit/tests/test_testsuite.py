@@ -1,5 +1,6 @@
 from xunit.src import *
 from xunit.src.status import TestStatus
+from xunit.src.testsuite import DEFAULT_SUITE_NAME
 from xunit.tests.testclasses import *
 from typing import cast
 
@@ -91,7 +92,7 @@ class TestSuiteTest(TestCase):
     def test_can_inform_status(self) -> None:
         suite = TestSuite(self.result.save_status)
         suite.run()
-        assert self.result.get_results() == [TestStatus("Suite", Status.CREATED, "suite")]
+        assert self.result.get_results() == [TestStatus("Suite", Status.CREATED, DEFAULT_SUITE_NAME)]
 
     @Test
     def test_can_inform_error_in_run(self) -> None:
@@ -102,6 +103,6 @@ class TestSuiteTest(TestCase):
         suite.run()
 
         assert self.result.get_results() == [
-            TestStatus("Suite", Status.CREATED, "suite"),
+            TestStatus("Suite", Status.CREATED, DEFAULT_SUITE_NAME),
             TestStatus("Suite", Status.CREATED, UnrunnableTest.__name__),
             TestStatus(UnrunnableTest.__name__, Status.FAILED_TO_RUN, "error")]

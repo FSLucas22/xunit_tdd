@@ -7,6 +7,9 @@ from xunit.src.status import Status, StatusFactory, TestStatus
 from xunit.src.testcase import TestCase
 
 
+DEFAULT_SUITE_NAME = 'Base suite'
+
+
 class Runnable(Subject, Protocol):
 
     def run(self) -> None:
@@ -14,10 +17,10 @@ class Runnable(Subject, Protocol):
 
 
 class TestSuite(SubjectImp):
-    name: str = "suite"
+    name: str
     erro_info_factory: StatusFactory = TestStatus.from_exception
 
-    def __init__(self, *observers: Observer, name: str | None = None, 
+    def __init__(self, *observers: Observer, name: str = DEFAULT_SUITE_NAME, 
                  error_info_factory: StatusFactory | None = None) -> None:
         self._tests: list[Runnable] = []
         self.name = name or type(self).name
@@ -49,7 +52,7 @@ class TestSuite(SubjectImp):
                 )
 
     @classmethod
-    def suite(cls, observers: list[Observer] | None = None, name: str | None = None,
+    def suite(cls, observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME,
               error_info_factory: StatusFactory | None = None) -> Self:
         if observers is None:
             observers = []
@@ -57,7 +60,7 @@ class TestSuite(SubjectImp):
 
     @classmethod
     def from_test_case(cls, *tests: Type[TestCase],
-                       observers: list[Observer] | None = None, name: str | None = None,
+                       observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME,
                        error_info_factory: StatusFactory | None = None) -> Self:
         suite = cls.suite(observers, name, error_info_factory)
         for test_case in tests:
