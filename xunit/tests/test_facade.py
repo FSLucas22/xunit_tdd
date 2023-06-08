@@ -10,10 +10,14 @@ class TestFacade(TestCase):
 
     print: MockPrint
     runner: TestRunner
+    summary: TestSummary
+    result: TestResult
 
     def setup(self) -> None:
         self.print = MockPrint()
-        self.runner = TestRunner(self.print)
+        self.summary = Summary({})
+        self.result = TestResult()
+        self.runner = TestRunner(self.print, Summary({}))
 
     @Test
     def test_mock(self) -> None:
@@ -22,67 +26,46 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_test_class(self) -> None:
+        suite = TestSuite.from_test_case(DummyTestCase)
+
         self.runner.run_for_class(DummyTestCase)
-        assert self.print.passed_value == self.expected_value_for_class()
+        assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_module(self) -> None:
+        suite = TestSuite.from_module(testmodule)
+
         self.runner.run_for_module(testmodule)
-        assert self.print.passed_value == self.expected_value_for_module()
+        assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_package(self) -> None:
+        suite = TestSuite.from_package(
+            testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
+        
         self.runner.run_for_package(
-            testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
-        )
-        assert self.print.passed_value == self.expected_value_for_package()
+            testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
+        
+        assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_module_path(self) -> None:
+        suite = TestSuite.from_module(testmodule)
+
         self.runner.run_for_module_path(testmodule.__file__)
-        assert self.print.passed_value == self.expected_value_for_module()
+        assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_package_path(self) -> None:
-        self.runner.run_for_package_path(
-            testpackage.__file__, ignore=lambda obj, _: obj.name != "packagemodule"
-        )
-        assert self.print.passed_value == self.expected_value_for_package()
-
-    def expected_value_for_class(self) -> str:
-        result = TestResult()
-        summary = MixedTestSummary(
-            Summary(FORMATTERS, Status.PASSED),
-            ErrorInfoSummary(),
-            SimpleTestSummary()
-        )
-        suite = TestSuite.from_test_case(DummyTestCase)
-        suite.register(result.save_status)
-        suite.run()
-        return summary.results(result)
-
-    def expected_value_for_module(self) -> str:
-        result = TestResult()
-        summary = MixedTestSummary(
-            Summary(FORMATTERS, Status.PASSED),
-            ErrorInfoSummary(),
-            SimpleTestSummary()
-        )
-        suite = TestSuite.from_module(testmodule)
-        suite.register(result.save_status)
-        suite.run()
-        return summary.results(result)
-
-    def expected_value_for_package(self) -> str:
-        result = TestResult()
-        summary = MixedTestSummary(
-            Summary(FORMATTERS, Status.PASSED),
-            ErrorInfoSummary(),
-            SimpleTestSummary()
-        )
         suite = TestSuite.from_package(
-            testpackage, ignore=lambda obj, _: obj.name != "packagemodule"
-        )
-        suite.register(result.save_status)
+            testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
+        
+        self.runner.run_for_package_path(
+            testpackage.__file__, ignore=lambda obj, _: obj.name != "packagemodule")
+        
+        assert self.print.passed_value == self.expected_value(suite)
+
+    def expected_value(self, suite: TestSuite) -> str:
+        suite.register(self.result.save_status)
         suite.run()
-        return summary.results(result)
+        return self.summary.results(self.result)
