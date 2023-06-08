@@ -25,22 +25,25 @@ COLOR_FORMATTERS = {
     Status.NOT_COMPLETED: color.yellow
 }
 
-FORMATTERS: Mapping[Status, test_status_formatter] = {
+UNCOLORED_FORMATTERS = {
     Status.PASSED: basic_msg_formatter,
     Status.FAILED: error_msg_formatter,
     Status.NOT_COMPLETED: error_msg_formatter
 }
 
+FORMATTERS: Mapping[Status, test_status_formatter] = {
+    Status.PASSED: lambda msg: color.green(basic_msg_formatter(msg)),
+    Status.FAILED: lambda msg: color.red(error_msg_formatter(msg)),
+    Status.NOT_COMPLETED: lambda msg: color.yellow(error_msg_formatter(msg))
+}
+
 class TestStatusFormatter:
-    def __init__(self, color_formatters: Mapping[Status, formatter], 
-                 messege_formatters: Mapping[Status, test_status_formatter]) -> None:
-        self.color_formatters = color_formatters
+    def __init__(self, messege_formatters: Mapping[Status, test_status_formatter]) -> None:
         self.messege_formatters = messege_formatters
 
     def __call__(self, test_status: TestStatus) -> str:
-        color_formatter = self.color_formatters.get(test_status.result, lambda x: x)
         messege_formatter = self.messege_formatters.get(test_status.result, detailed_msg_formatter)
-        return color_formatter(messege_formatter(test_status))
+        return messege_formatter(test_status)
 
 
 class Summary:
@@ -50,7 +53,7 @@ class Summary:
         self.color_formatters = color_formatters
         self.messege_formatters = messege_formatters
         self.order_filter = order_filter
-        self.test_status_formatter = TestStatusFormatter(color_formatters, messege_formatters)
+        self.test_status_formatter = TestStatusFormatter(messege_formatters)
 
     def results(self, result: TestResult) -> str:
         
