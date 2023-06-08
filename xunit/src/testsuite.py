@@ -18,13 +18,13 @@ class Runnable(Subject, Protocol):
 
 class TestSuite(SubjectImp):
     name: str
-    erro_info_factory: StatusFactory = TestStatus.from_exception
+    erro_info_factory: StatusFactory
 
     def __init__(self, *observers: Observer, name: str = DEFAULT_SUITE_NAME, 
-                 error_info_factory: StatusFactory | None = None) -> None:
+                 error_info_factory: StatusFactory = TestStatus.from_exception) -> None:
         self._tests: list[Runnable] = []
-        self.name = name or type(self).name
-        self.error_info_factory = error_info_factory or type(self).erro_info_factory
+        self.name = name
+        self.error_info_factory = error_info_factory
         super().__init__(*observers)
         
     def add(self, *tests: Runnable) -> None:
@@ -53,7 +53,7 @@ class TestSuite(SubjectImp):
 
     @classmethod
     def suite(cls, observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME,
-              error_info_factory: StatusFactory | None = None) -> Self:
+              error_info_factory: StatusFactory = TestStatus.from_exception) -> Self:
         if observers is None:
             observers = []
         return cls(*observers, name=name, error_info_factory=error_info_factory)
@@ -61,7 +61,7 @@ class TestSuite(SubjectImp):
     @classmethod
     def from_test_case(cls, *tests: Type[TestCase],
                        observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME,
-                       error_info_factory: StatusFactory | None = None) -> Self:
+                       error_info_factory: StatusFactory = TestStatus.from_exception) -> Self:
         suite = cls.suite(observers, name, error_info_factory)
         for test_case in tests:
             test_suite = cls.suite(name=test_case.__name__, error_info_factory=error_info_factory)
