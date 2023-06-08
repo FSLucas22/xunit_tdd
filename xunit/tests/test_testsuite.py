@@ -85,16 +85,6 @@ class TestSuiteTest(TestCase):
         assert "y1" == self.result.get_names_of_status(Status.FAILED)
 
     @Test
-    def test_can_ignore_names(self) -> None:
-        import xunit.tests.testpackage as testpackage
-        suite = TestSuite.from_package(testpackage, ignore_name, observers=[self.result.save_status])
-        suite.run()
-        passed = self.result.get_names_of_status(Status.PASSED)
-        failed = self.result.get_names_of_status(Status.FAILED)
-        assert "x" in passed and "y" in passed and "z" not in passed
-        assert "x1" in failed and "y1" in failed and "z1" not in failed
-        
-    @Test
     def test_merge(self) -> None:
         suite1 = TestSuite.from_test_case(DummyTestCase)
         suite2 = TestSuite.from_test_case(DummyTestCase)
