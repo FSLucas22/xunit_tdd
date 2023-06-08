@@ -52,21 +52,6 @@ class SimpleTestSummary:
         return f"{run_count} run, {failed_count} failed, {not_completed_count} not completed"
 
 
-class PassedSummary(Summary):
-    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
-        super().__init__(formatters, Status.PASSED)
-    
-
-class FailedSummary(Summary):
-    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
-        super().__init__(formatters, Status.FAILED)
-
-
-class not_completedSummary(Summary):
-    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
-        super().__init__(formatters, Status.NOT_COMPLETED)
-
-
 class DetailedTestSummary(Summary):
     def test_status_formatter(self, test_status: TestStatus) -> str:
         return ""
