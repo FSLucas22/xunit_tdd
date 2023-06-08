@@ -24,7 +24,7 @@ class TestCaptureException(TestCase):
                     pass
                 
         result = TestResult()
-        suite = TestSuite.from_test_case(SomeTestClass)
+        suite = SuiteFactoryImp().from_test_case(SomeTestClass)
         suite.register(result.save_status)
         suite.run()
         assert result.get_names_of_status(Status.PASSED) == "testError"
