@@ -20,7 +20,7 @@ class TestSuiteTest(TestCase):
         assert self.result.get_status_count(Status.PASSED) == 1
         assert self.result.get_status_count(Status.FAILED) == 1
         assert self.result.get_status_count(Status.NOT_COMPLETED) == 0
-        assert "testMethod" == self.result.get_names_of_status(Status.PASSED)
+        assert "testMethod testBrokenMethod" == self.result.get_names_of_status(Status.PASSED, Status.FAILED)
 
     @Test
     def test_can_inform_status(self) -> None:
