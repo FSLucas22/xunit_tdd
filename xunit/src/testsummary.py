@@ -47,10 +47,8 @@ class TestStatusFormatter:
 
 
 class Summary:
-    def __init__(self, color_formatters: Mapping[Status, formatter] = COLOR_FORMATTERS,
-                 messege_formatters: Mapping[Status, test_status_formatter] = FORMATTERS,
+    def __init__(self, messege_formatters: Mapping[Status, test_status_formatter] = FORMATTERS,
                 *order_filter: Status):
-        self.color_formatters = color_formatters
         self.messege_formatters = messege_formatters
         self.order_filter = order_filter
         self.test_status_formatter = TestStatusFormatter(messege_formatters)
@@ -87,9 +85,9 @@ class DetailedTestSummary:
     
     def results(self, result: TestResult) -> str:
         summary = [
-            Summary(self.color_formatters, self.messege_formatters, Status.FAILED).results(result),
-            Summary(self.color_formatters, self.messege_formatters, Status.PASSED).results(result),
-            Summary(self.color_formatters, self.messege_formatters, Status.NOT_COMPLETED).results(result)
+            Summary(self.messege_formatters, Status.FAILED).results(result),
+            Summary(self.messege_formatters, Status.PASSED).results(result),
+            Summary(self.messege_formatters, Status.NOT_COMPLETED).results(result)
         ]
         return '\n'.join(summary)
 
@@ -106,9 +104,8 @@ class MixedTestSummary:
 
 
 class ErrorInfoSummary(Summary):
-    def __init__(self, color_formatters: Mapping[Status, formatter] = COLOR_FORMATTERS,
-                 messege_formatters: Mapping[Status, test_status_formatter] = FORMATTERS) -> None:
-        super().__init__(color_formatters, messege_formatters, Status.FAILED, Status.NOT_COMPLETED)
+    def __init__(self, messege_formatters: Mapping[Status, test_status_formatter] = FORMATTERS) -> None:
+        super().__init__(messege_formatters, Status.FAILED, Status.NOT_COMPLETED)
 
     
 class StatusSummary(Summary):
