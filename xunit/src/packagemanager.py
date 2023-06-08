@@ -20,7 +20,7 @@ class PackageObject(NamedTuple):
 
 class Predicate(Protocol):
     def __call__(self, obj: PackageObject, pkg: ModuleType, /) -> bool:
-        pass
+        ...
 
 
 def get_package_objects(package: ModuleType,
