@@ -79,8 +79,8 @@ class TestSuite(SubjectImp):
         suite = cls(name=name)
         for obj in objs:
             obj_suite = cls.from_package(
-                obj.value, ignore=ignore
-                ) if obj.is_package else cls.from_module(obj.value)
+                obj.value, ignore=ignore, name=obj.name
+                ) if obj.is_package else cls.from_module(obj.value, name=obj.name)
             suite.add(obj_suite)
         if observers is None:
             observers = []
