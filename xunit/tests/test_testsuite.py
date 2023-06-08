@@ -44,16 +44,15 @@ class TestSuiteTest(TestCase):
             observers=[self.result.save_status]
         )
         suite.run()
-        assert self.result.get_names_of_status(Status.PASSED) == "someTest"
-        assert self.result.get_names_of_status(Status.FAILED) == "someOtherTest"
+        assert self.result.get_names_of_status(Status.PASSED, Status.FAILED) == "someTest someOtherTest"
 
     @Test
     def test_from_module(self) -> None:
         import xunit.tests.testmodule as testmodule
         suite = TestSuite.from_module(testmodule, testmodule, observers=[self.result.save_status])
         suite.run()
-        assert self.result.get_names_of_status(Status.PASSED) == "someTest someTest"
-        assert self.result.get_names_of_status(Status.FAILED) == "someOtherTest someOtherTest"
+        assert self.result.get_names_of_status(
+            Status.PASSED, Status.FAILED) == "someTest someTest someOtherTest someOtherTest"
 
     @Test
     def test_from_package(self) -> None:
@@ -72,8 +71,7 @@ class TestSuiteTest(TestCase):
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackage"]
         suite = TestSuite.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
         suite.run()
-        assert "y" == self.result.get_names_of_status(Status.PASSED)
-        assert "y1" == self.result.get_names_of_status(Status.FAILED)
+        assert "y y1" == self.result.get_names_of_status(Status.PASSED, Status.FAILED)
 
     @Test
     def test_ignore_perpetuates(self) -> None:
@@ -81,8 +79,7 @@ class TestSuiteTest(TestCase):
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
         suite = TestSuite.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
         suite.run()
-        assert "y" == self.result.get_names_of_status(Status.PASSED)
-        assert "y1" == self.result.get_names_of_status(Status.FAILED)
+        assert "y y1" == self.result.get_names_of_status(Status.PASSED, Status.FAILED)
 
     @Test
     def test_merge(self) -> None:
