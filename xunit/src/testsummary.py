@@ -19,7 +19,7 @@ class Summary:
         
         status_list: list[str] = []
         
-        for status in result.get_results_of_status(*self.order_filter):
+        for status in result.get_results(*self.order_filter):
             messege = self.formatter(status)
             status_list.append(messege)
 

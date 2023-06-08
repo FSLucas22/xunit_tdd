@@ -24,7 +24,7 @@ class TestResultTest(TestCase):
         self.result.save_status(TestStatus("passedTest", Status.PASSED, ""))
         self.result.save_status(failed_test)
 
-        assert [failed_test] == self.result.get_results_of_status(Status.FAILED)
+        assert [failed_test] == self.result.get_results(Status.FAILED)
 
     @Test
     def test_should_get_multiple_names(self) -> None:

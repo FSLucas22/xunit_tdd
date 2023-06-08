@@ -67,7 +67,7 @@ class TestCaseTest(TestCase):
         expected_info = TestStatus.from_exception(
             error, "testMethod", Status.FAILED
         )
-        error_info = self.result.get_results_of_status(Status.FAILED)[0]
+        error_info = self.result.get_results(Status.FAILED)[0]
         assert expected_info == error_info
 
     @Test
@@ -80,6 +80,6 @@ class TestCaseTest(TestCase):
         expected_info = TestStatus.from_exception(
             error, "testMethod", Status.NOT_COMPLETED
         )
-        error_info = self.result.get_results_of_status(Status.NOT_COMPLETED)[0]
+        error_info = self.result.get_results(Status.NOT_COMPLETED)[0]
         assert error_info == expected_info
 
