@@ -14,24 +14,43 @@ formatter = Callable[[str], str]
 test_status_formatter = Callable[[TestStatus], str]
 
 
-FORMATTERS = {
+basic_msg_formatter: test_status_formatter = lambda status: f'{status.name} - {status.result}'
+error_msg_formatter: test_status_formatter = lambda status: f'{status.name} - {status.result}\n{status.info}'
+detailed_msg_formatter: test_status_formatter = lambda status: f'{status.name} - {status.result}: {status.info}'
+
+
+COLOR_FORMATTERS = {
     Status.FAILED: color.red,
     Status.PASSED: color.green,
     Status.NOT_COMPLETED: color.yellow
 }
 
+FORMATTERS: Mapping[Status, test_status_formatter] = {
+    Status.PASSED: basic_msg_formatter,
+    Status.FAILED: error_msg_formatter,
+    Status.NOT_COMPLETED: error_msg_formatter
+}
+
+class TestStatusFormatter:
+    def __init__(self, color_formatters: Mapping[Status, formatter], 
+                 messege_formatters: Mapping[Status, test_status_formatter]) -> None:
+        self.color_formatters = color_formatters
+        self.messege_formatters = messege_formatters
+
+    def __call__(self, test_status: TestStatus) -> str:
+        color_formatter = self.color_formatters.get(test_status.result, lambda x: x)
+        messege_formatter = self.messege_formatters.get(test_status.result, detailed_msg_formatter)
+        return color_formatter(messege_formatter(test_status))
+
 
 class Summary:
-    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS,
+    def __init__(self, color_formatters: Mapping[Status, formatter] = COLOR_FORMATTERS,
+                 messege_formatters: Mapping[Status, test_status_formatter] = FORMATTERS,
                 *order_filter: Status):
-        self.formatters = formatters
+        self.color_formatters = color_formatters
+        self.messege_formatters = messege_formatters
         self.order_filter = order_filter
-    
-    def formatter(self, status: Status) -> formatter:
-        return self.formatters.get(status, lambda x: x)
-    
-    def test_status_formatter(self, test_status: TestStatus) -> str:
-       return self.formatter(test_status.result)(f'{test_status.name} - {test_status.result}')
+        self.test_status_formatter = TestStatusFormatter(color_formatters, messege_formatters)
 
     def results(self, result: TestResult) -> str:
         
@@ -53,14 +72,21 @@ class SimpleTestSummary:
 
 
 class DetailedTestSummary:
-    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS):
-        self.formatters = formatters
+    def __init__(self, color_formatters: Mapping[Status, formatter] = COLOR_FORMATTERS,
+                 messege_formatters: Mapping[Status, test_status_formatter] = {
+                     Status.PASSED: basic_msg_formatter,
+                     Status.FAILED: basic_msg_formatter,
+                     Status.NOT_COMPLETED: basic_msg_formatter
+                 }):
+    
+        self.color_formatters = color_formatters
+        self.messege_formatters = messege_formatters
     
     def results(self, result: TestResult) -> str:
         summary = [
-            Summary(self.formatters, Status.FAILED).results(result),
-            Summary(self.formatters, Status.PASSED).results(result),
-            Summary(self.formatters, Status.NOT_COMPLETED).results(result)
+            Summary(self.color_formatters, self.messege_formatters, Status.FAILED).results(result),
+            Summary(self.color_formatters, self.messege_formatters, Status.PASSED).results(result),
+            Summary(self.color_formatters, self.messege_formatters, Status.NOT_COMPLETED).results(result)
         ]
         return '\n'.join(summary)
 
@@ -77,16 +103,10 @@ class MixedTestSummary:
 
 
 class ErrorInfoSummary(Summary):
-    def __init__(self, formatters: Mapping[Status, formatter] = FORMATTERS) -> None:
-        super().__init__(formatters, Status.FAILED, Status.NOT_COMPLETED)
-
-    def test_status_formatter(self, test_status: TestStatus) -> str:
-       return self.formatter(test_status.result)(
-           f"{test_status.name} - {test_status.result}\n{test_status.info}")
+    def __init__(self, color_formatters: Mapping[Status, formatter] = COLOR_FORMATTERS,
+                 messege_formatters: Mapping[Status, test_status_formatter] = FORMATTERS) -> None:
+        super().__init__(color_formatters, messege_formatters, Status.FAILED, Status.NOT_COMPLETED)
 
     
 class StatusSummary(Summary):
-    def test_status_formatter(self, test_status: TestStatus) -> str:
-       return self.formatter(test_status.result)(
-           f"{test_status.name} - {test_status.result}: {test_status.info}")
-
+    pass
