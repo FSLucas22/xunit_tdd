@@ -1,4 +1,3 @@
-import importlib
 from xunit.src.testcase import *
 from xunit.src.testresult import *
 from xunit.src.testsummary import *
@@ -9,9 +8,7 @@ from xunit.src import testcolours
 from xunit.src.factories import *
 from xunit.src.formatters import *
 from xunit.src.observer import *
-import xunit.src.packagemanager  as pm
-from typing import Type, Callable
-from types import ModuleType
+from typing import Callable
 
 
 color = testcolours
@@ -22,9 +19,6 @@ TestClass = testdecorator.TestClass
 DEFAULT_SUMMARY = MixedTestSummary(
     TestSummary(FORMATTERS),
     SimpleTestSummary())
-
-
-DEFAULT_SUITE_FACTORY = NormalSuiteFactory()
 
 
 class TestRunner(SubjectImp):
