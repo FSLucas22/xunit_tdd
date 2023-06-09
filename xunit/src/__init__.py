@@ -8,6 +8,7 @@ from xunit.src.testexceptions import *
 from xunit.src import testcolours
 from xunit.src.factories import *
 from xunit.src.formatters import *
+from xunit.src.observer import *
 import xunit.src.packagemanager  as pm
 from typing import Type, Callable
 from types import ModuleType
@@ -26,31 +27,39 @@ DEFAULT_SUMMARY = MixedTestSummary(
 DEFAULT_SUITE_FACTORY = NormalSuiteFactory()
 
 
-class TestRunner:
+class TestRunner(SubjectImp):
     capture_output: Callable[[str], None]
     summary: Summary
     suite_factory: SuiteFactory
 
     def __init__(self, capture_output: Callable[[str], None] = print, 
                  summary: Summary=DEFAULT_SUMMARY, 
-                 suite_factory: SuiteFactory = DEFAULT_SUITE_FACTORY) -> None:
+                 suite_factory: SuiteFactory = DEFAULT_SUITE_FACTORY,
+                 *observers: Observer) -> None:
+        
         self.capture_output = capture_output
         self.summary = summary
         self.suite_factory = suite_factory
+        self.suite: TestSuite | None = None
+        super().__init__(*observers)
 
-    def _run(self, suite: TestSuite) -> None:
+    def run(self) -> None:
         result = TestResult()
-        suite.register(result.save_status)
-        suite.run()
+        if self.suite is not None:
+            self.suite.register(result.save_status)
+            self.suite.run()
         self.capture_output(self.summary.results(result))
 
     def run_for_class(self, cls: Type[TestCase]) -> None:
-        self._run(self.suite_factory.from_test_case(cls))
+        self.suite = self.suite_factory.from_test_case(cls, observers=[self.notify])
+        self.run()
 
     def run_for_module(self, module: ModuleType) -> None:
-        self._run(self.suite_factory.from_module(module))
+        self.suite = self.suite_factory.from_module(module, observers=[self.notify])
+        self.run()
 
     def run_for_package(
         self, package: ModuleType, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
-        self._run(self.suite_factory.from_package(package, ignore))
+        self.suite = self.suite_factory.from_package(package, ignore, observers=[self.notify])
+        self.run()
