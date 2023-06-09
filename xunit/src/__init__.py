@@ -11,7 +11,7 @@ from xunit.src.formatters import *
 import xunit.src.packagemanager  as pm
 from typing import Type, Callable
 from types import ModuleType
-from pathlib import Path
+
 
 color = testcolours
 Test = testdecorator.Test

@@ -35,5 +35,3 @@ class TestCaptureException(TestCase):
         with expects(ExpectationError):
             with expects(Exception):
                 pass
-
-        

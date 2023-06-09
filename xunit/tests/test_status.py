@@ -1,7 +1,6 @@
 from xunit.src import *
 from xunit.src.status import TestStatus, Status
 import traceback
-from typing import cast
 
 
 @TestClass
@@ -33,6 +32,4 @@ class TestTestStatus(TestCase):
             traceback.format_exception(type(e), e, e.__traceback__)
             )
             assert info.name == name
-            assert info.result == result
-    
-            
+            assert info.result == result          

@@ -1,5 +1,6 @@
 from xunit.src import *
-from typing import Type, NewType
+from typing import Type
+
 
 @TestClass
 class TestTest(TestCase):
@@ -105,7 +106,6 @@ class TestTest(TestCase):
         assert result.get_status_count(Status.FAILED) == 1
         assert result.get_status_count(Status.NOT_COMPLETED) == 2
         
-
     @Test
     def test_attributes_added_by_decorator(self) -> None:
         @TestClass
@@ -124,10 +124,10 @@ class TestTest(TestCase):
 
     @Test
     def test_cannot_have_names_when_decorated(self) -> None:
-        try:
+        with expects(InvalidAttributeException):
             @TestClass
             class SomeTestClass(TestCase):
-                testNames = "another_test_method"
+                xunit_test_names = "another_test_method"
                 
                 @Test
                 def test_method(self) -> None:
@@ -135,10 +135,3 @@ class TestTest(TestCase):
 
                 def another_test_method(self) -> None:
                     pass
-      
-        except InvalidAttributeException as e:
-            return
-
-        raise AssertionError
-        
-        

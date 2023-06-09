@@ -1,8 +1,6 @@
 from xunit.src import *
 from xunit.src.status import TestStatus, Status
-from xunit.src.observer import Observer, Subject
 from xunit.tests.testclasses import *
-from typing import cast
 
 
 @TestClass
@@ -82,4 +80,3 @@ class TestCaseTest(TestCase):
         )
         error_info = self.result.get_results(Status.NOT_COMPLETED)[0]
         assert error_info == expected_info
-

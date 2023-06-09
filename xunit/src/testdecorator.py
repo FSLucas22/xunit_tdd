@@ -21,7 +21,7 @@ def Test(test_method: Callable[P, None]) -> Callable[P, None]:
 
 
 def TestClass(test_cls: Type[T]) -> Type[T]:
-    if hasattr(test_cls, 'testNames'):
+    if hasattr(test_cls, 'xunit_test_names'):
         raise InvalidAttributeException(
             "Class decorated with @TestClass cannot contain 'testName' attribute"
         )
