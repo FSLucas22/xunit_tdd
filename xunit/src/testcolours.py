@@ -11,3 +11,7 @@ def red(text: str) -> str:
 
 def yellow(text: str) -> str:
     return colored(text, 'yellow')
+
+
+def blue(text: str) -> str:
+    return colored(text, 'blue')

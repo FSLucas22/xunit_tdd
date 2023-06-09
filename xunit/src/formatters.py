@@ -24,7 +24,9 @@ class TestStatusFormatter:
 BASIC_FORMATTERS = TestStatusFormatter({
     Status.PASSED: lambda msg: color.green(basic_msg_formatter(msg)),
     Status.FAILED: lambda msg: color.red(basic_msg_formatter(msg)),
-    Status.NOT_COMPLETED: lambda msg: color.yellow(basic_msg_formatter(msg))
+    Status.NOT_COMPLETED: lambda msg: color.yellow(basic_msg_formatter(msg)),
+    Status.CREATED: lambda msg: color.blue(basic_msg_formatter(msg)),
+    Status.FAILED_TO_RUN: lambda msg: color.yellow(basic_msg_formatter(msg))
 })
 
 BASIC_UNCOLORED_FORMATTERS = TestStatusFormatter({
@@ -36,11 +38,14 @@ BASIC_UNCOLORED_FORMATTERS = TestStatusFormatter({
 UNCOLORED_FORMATTERS = TestStatusFormatter({
     Status.PASSED: basic_msg_formatter,
     Status.FAILED: error_msg_formatter,
-    Status.NOT_COMPLETED: error_msg_formatter
+    Status.NOT_COMPLETED: error_msg_formatter,
+    Status.FAILED_TO_RUN: error_msg_formatter
 })
 
 FORMATTERS = TestStatusFormatter({
     Status.PASSED: lambda msg: color.green(basic_msg_formatter(msg)),
     Status.FAILED: lambda msg: color.red(error_msg_formatter(msg)),
-    Status.NOT_COMPLETED: lambda msg: color.yellow(error_msg_formatter(msg))
+    Status.NOT_COMPLETED: lambda msg: color.yellow(error_msg_formatter(msg)),
+    Status.CREATED: lambda msg: color.blue(detailed_msg_formatter(msg)),
+    Status.FAILED_TO_RUN: lambda msg: color.yellow(error_msg_formatter(msg))
 })
