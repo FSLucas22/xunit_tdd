@@ -51,17 +51,3 @@ class TestRunner(SubjectImp):
             self.suite.register(result.save_status)
             self.suite.run()
         self.capture_output(self.summary.results(result))
-
-    def run_for_class(self, cls: Type[TestCase]) -> None:
-        self.suite = self.suite_factory.from_test_case(cls, observers=[self.notify])
-        self.run()
-
-    def run_for_module(self, module: ModuleType) -> None:
-        self.suite = self.suite_factory.from_module(module, observers=[self.notify])
-        self.run()
-
-    def run_for_package(
-        self, package: ModuleType, ignore: pm.Predicate=pm.ignore_name
-        ) -> None:
-        self.suite = self.suite_factory.from_package(package, ignore, observers=[self.notify])
-        self.run()

@@ -1,12 +1,17 @@
 from xunit.src import *
+from xunit.src import packagemanager as pm
 from xunit import tests
 import colorama
 import os
 
 
-if __name__ == "__main__":
+def main() -> None:
     if os.name == "nt":
         colorama.init()
-    TestRunner().run_for_package(tests)
+    TestRunner(suite=NormalSuiteFactory().from_package(tests, pm.ignore_name)).run()
     if os.name == "nt":
         colorama.deinit()
+
+
+if __name__ == "__main__":
+    main()
