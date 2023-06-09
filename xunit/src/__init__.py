@@ -54,13 +54,3 @@ class TestRunner:
         self, package: ModuleType, ignore: pm.Predicate=pm.ignore_name
         ) -> None:
         self._run(self.suite_factory.from_package(package, ignore))
-
-    def run_for_module_name(self, module_name: str) -> None:
-        module = importlib.import_module(module_name)
-        self._run(self.suite_factory.from_module(module))
-
-    def run_for_package_name(
-        self, package_name: str, ignore: pm.Predicate=pm.ignore_name
-        ) -> None:
-        package = importlib.import_module(package_name)
-        self._run(self.suite_factory.from_package(package, ignore=ignore))

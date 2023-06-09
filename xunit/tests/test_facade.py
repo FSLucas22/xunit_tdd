@@ -49,23 +49,6 @@ class TestFacade(TestCase):
         
         assert self.print.passed_value == self.expected_value(suite)
 
-    @Test
-    def test_facade_with_module_path(self) -> None:
-        suite = self.suite_factory.from_module(testmodule)
-
-        self.runner.run_for_module_name(testmodule.__name__)
-        assert self.print.passed_value == self.expected_value(suite)
-
-    @Test
-    def test_facade_with_package_path(self) -> None:
-        suite = self.suite_factory.from_package(
-            testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
-        
-        self.runner.run_for_package_name(
-            testpackage.__name__, ignore=lambda obj, _: obj.name != "packagemodule")
-        
-        assert self.print.passed_value == self.expected_value(suite)
-
     def expected_value(self, suite: TestSuite) -> str:
         result = TestResult()
         suite.register(result.save_status)
