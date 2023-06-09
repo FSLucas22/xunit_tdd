@@ -35,7 +35,7 @@ class NormalSuiteFactory:
         return base_suite
 
     def from_package(self, package: ModuleType,
-                    ignore: pm.Predicate = lambda _,__: False,
+                    ignore: pm.Predicate = pm.ignore_name,
                     observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME) -> TestSuite:
         objs = pm.get_package_objects(package, ignore)
         suite = self.suite(name=name)

@@ -23,6 +23,6 @@ class SuiteFactory(Protocol):
         ...
 
     def from_package(self, package: ModuleType,
-                    ignore: pm.Predicate = lambda _,__: False,
+                    ignore: pm.Predicate = pm.ignore_name,
                     observers: list[Observer] | None = None, name: str = DEFAULT_SUITE_NAME) -> TestSuite:
         ...

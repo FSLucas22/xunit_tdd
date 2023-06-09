@@ -41,8 +41,8 @@ class SuiteFactoryTest(TestCase):
     @Test
     def test_from_package(self) -> None:
         import xunit.tests.testpackage as testpackage
-        
-        suite = self.factory.from_package(testpackage, observers=[self.result.save_status])
+        ignore = lambda _, __: False
+        suite = self.factory.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
         suite.run()
         passed = self.result.get_names_of_status(Status.PASSED)
         failed = self.result.get_names_of_status(Status.FAILED)

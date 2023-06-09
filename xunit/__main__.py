@@ -8,7 +8,7 @@ import os
 def main() -> None:
     if os.name == "nt":
         colorama.init()
-    TestRunner(suite=NormalSuiteFactory().from_package(tests, pm.ignore_name)).run()
+    TestRunner(suite=NormalSuiteFactory().from_package(tests)).run()
     if os.name == "nt":
         colorama.deinit()
 
