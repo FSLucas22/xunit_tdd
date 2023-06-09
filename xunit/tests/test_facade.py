@@ -11,13 +11,11 @@ class TestFacade(TestCase):
     print: MockPrint
     runner: TestRunner
     summary: Summary
-    suite_factory: SuiteFactory
 
     def setup(self) -> None:
         self.print = MockPrint()
         self.summary = TestSummary()
         self.result = TestResult()
-        self.suite_factory = VerboseSuiteFactory()
         self.runner = TestRunner(self.print, self.summary)
 
     @Test
@@ -27,7 +25,7 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_test_class(self) -> None:
-        suite = self.suite_factory.from_test_case(WasRun)
+        suite = VerboseSuiteFactory().from_test_case(WasRun)
 
         self.runner.suite = suite
         self.runner.run()
@@ -35,7 +33,7 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_module(self) -> None:
-        suite = self.suite_factory.from_module(testmodule)
+        suite = VerboseSuiteFactory().from_module(testmodule)
 
         self.runner.suite = suite
         self.runner.run()
@@ -43,7 +41,7 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade_with_package(self) -> None:
-        suite = self.suite_factory.from_package(
+        suite = VerboseSuiteFactory().from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
         
         self.runner.suite = suite
