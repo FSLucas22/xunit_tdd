@@ -5,7 +5,7 @@ from xunit.tests.testclasses import *
 @TestClass
 class SuiteFactoryTest(TestCase):
     result: TestResult
-    factory: SuiteFactory
+    factory: VerboseSuiteFactory
 
     def setup(self) -> None:
         self.result = TestResult()

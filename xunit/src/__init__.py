@@ -5,7 +5,7 @@ from xunit.src.testsuite import TestSuite as TestSuite
 from xunit.src import testdecorator
 from xunit.src.testexceptions import *
 from xunit.src import testcolours
-from xunit.src.factories import *
+from xunit.src.loaders import *
 from xunit.src.formatters import *
 from xunit.src.observer import *
 from typing import Callable
