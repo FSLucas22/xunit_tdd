@@ -31,16 +31,18 @@ class TestRunner(SubjectImp):
     capture_output: Callable[[str], None]
     summary: Summary
     suite_factory: SuiteFactory
-
+    suite: TestSuite | None
+    
     def __init__(self, capture_output: Callable[[str], None] = print, 
                  summary: Summary=DEFAULT_SUMMARY, 
                  suite_factory: SuiteFactory = DEFAULT_SUITE_FACTORY,
-                 *observers: Observer) -> None:
+                 *observers: Observer,
+                 suite: TestSuite | None = None) -> None:
         
         self.capture_output = capture_output
         self.summary = summary
         self.suite_factory = suite_factory
-        self.suite: TestSuite | None = None
+        self.suite = suite
         super().__init__(*observers)
 
     def run(self) -> None:

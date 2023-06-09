@@ -29,14 +29,16 @@ class TestFacade(TestCase):
     def test_facade_with_test_class(self) -> None:
         suite = self.suite_factory.from_test_case(WasRun)
 
-        self.runner.run_for_class(WasRun)
+        self.runner.suite = suite
+        self.runner.run()
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
     def test_facade_with_module(self) -> None:
         suite = self.suite_factory.from_module(testmodule)
 
-        self.runner.run_for_module(testmodule)
+        self.runner.suite = suite
+        self.runner.run()
         assert self.print.passed_value == self.expected_value(suite)
 
     @Test
@@ -44,9 +46,8 @@ class TestFacade(TestCase):
         suite = self.suite_factory.from_package(
             testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
         
-        self.runner.run_for_package(
-            testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
-        
+        self.runner.suite = suite
+        self.runner.run()
         assert self.print.passed_value == self.expected_value(suite)
 
     def expected_value(self, suite: TestSuite) -> str:
