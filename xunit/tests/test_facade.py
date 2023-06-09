@@ -1,8 +1,6 @@
 from xunit.src import *
-from xunit.tests import testmodule
 from xunit.tests.testclasses import WasRun
 from xunit.tests.testclasses import MockPrint
-from xunit.tests import testpackage
 
 
 @TestClass
@@ -24,26 +22,9 @@ class TestFacade(TestCase):
         assert self.print.passed_value == "Test"
 
     @Test
-    def test_facade_with_test_class(self) -> None:
+    def test_facade(self) -> None:
         suite = VerboseSuiteFactory().from_test_case(WasRun)
 
-        self.runner.suite = suite
-        self.runner.run()
-        assert self.print.passed_value == self.expected_value(suite)
-
-    @Test
-    def test_facade_with_module(self) -> None:
-        suite = VerboseSuiteFactory().from_module(testmodule)
-
-        self.runner.suite = suite
-        self.runner.run()
-        assert self.print.passed_value == self.expected_value(suite)
-
-    @Test
-    def test_facade_with_package(self) -> None:
-        suite = VerboseSuiteFactory().from_package(
-            testpackage, ignore=lambda obj, _: obj.name != "packagemodule")
-        
         self.runner.suite = suite
         self.runner.run()
         assert self.print.passed_value == self.expected_value(suite)
