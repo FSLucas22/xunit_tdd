@@ -1,7 +1,7 @@
 from xunit.src import *
 from xunit.tests.testclasses import WasRun
 from xunit.tests.testclasses import MockPrint
-from xunit.src.loaders import testloader as loader
+from xunit.src import loader
 
 
 @TestClass

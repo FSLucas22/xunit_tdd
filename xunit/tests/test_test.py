@@ -1,6 +1,6 @@
 from xunit.src import *
 from typing import Type
-from xunit.src.loaders import testloader as loader
+from xunit.src import loader
 
 
 @TestClass

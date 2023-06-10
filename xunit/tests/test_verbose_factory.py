@@ -1,5 +1,5 @@
 from xunit.src import *
-from xunit.src.loaders import testloader as loader
+from xunit.src import loader
 from xunit.tests.testclasses import *
 
 
