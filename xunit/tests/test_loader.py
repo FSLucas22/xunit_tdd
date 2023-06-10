@@ -92,7 +92,7 @@ class TestLoadersOfSuites(TestCase):
     @Test
     def test_suites_from_package(self) -> None:
         import xunit.tests.testpackage as testpackage
-        self.suite.add(*loader.suites_from_package(testpackage, lambda _, __: False))
+        self.suite.add(*loader.suites_from_package(testpackage, ignore=lambda _, __: False))
         self.suite.run()
 
         passed = self.result.get_names_of_status(Status.PASSED)
@@ -112,7 +112,7 @@ class TestLoadersOfSuites(TestCase):
     @Test
     def test_suites_from_package_dont_duplicate_status(self) -> None:
         import xunit.tests.testpackage as testpackage
-        self.suite.add(*loader.suites_from_package(testpackage, lambda _, __: False))
+        self.suite.add(*loader.suites_from_package(testpackage, ignore=lambda _, __: False))
         self.suite.run()
 
         created = self.result.get_results(Status.CREATED)
