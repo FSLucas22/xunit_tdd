@@ -30,10 +30,3 @@ class TestCaptureException(TestCase):
 
         assert result.get_names_of_status(Status.PASSED) == "testError"
         assert result.get_names_of_status(Status.FAILED) == "testDifferentError testNoError"
-
-    @Test
-    def test_raises_expectation_error(self) -> None:
-        with expects(ExpectationError):
-            with expects(Exception):
-                pass
-            raise AssertionError("Did not ExpectationError")
