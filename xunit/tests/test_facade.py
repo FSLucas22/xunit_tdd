@@ -1,6 +1,7 @@
 from xunit.src import *
 from xunit.tests.testclasses import WasRun
 from xunit.tests.testclasses import MockPrint
+from xunit.src.loaders import testloader as loader
 
 
 @TestClass
@@ -23,7 +24,8 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade(self) -> None:
-        suite = VerboseSuiteFactory().from_test_case(WasRun)
+        suite = TestSuite()
+        suite.add(*loader.tests_from_class(WasRun))
 
         self.runner.suite = suite
         self.runner.run()

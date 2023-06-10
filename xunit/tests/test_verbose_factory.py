@@ -6,12 +6,10 @@ from xunit.tests.testclasses import *
 @TestClass
 class SuiteFactoryTest(TestCase):
     result: TestResult
-    factory: VerboseSuiteFactory
     suite: TestSuite
 
     def setup(self) -> None:
         self.result = TestResult()
-        self.factory = VerboseSuiteFactory()
         self.suite = TestSuite(self.result.save_status)
 
     @Test
@@ -53,6 +51,6 @@ class SuiteFactoryTest(TestCase):
     def test_ignore_perpetuates(self) -> None:
         import xunit.tests.testpackage as testpackage
         ignore = lambda obj, pkg: obj.name in ["packagemodule", "subpackagemodule"]
-        suite = self.factory.from_package(testpackage, ignore=ignore, observers=[self.result.save_status])
-        suite.run()
+        self.suite.add(*loader.tests_from_package(testpackage, ignore=ignore))
+        self.suite.run()
         assert "y y1" == self.result.get_names_of_status(Status.PASSED, Status.FAILED)

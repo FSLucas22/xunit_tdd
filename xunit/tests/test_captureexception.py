@@ -1,5 +1,6 @@
 from xunit.src import *
 from xunit.tests.testclasses import *
+from xunit.src.loaders import testloader as loader
 
 
 @TestClass
@@ -24,9 +25,10 @@ class TestCaptureException(TestCase):
                     pass
                 
         result = TestResult()
-        suite = VerboseSuiteFactory().from_test_case(SomeTestClass)
-        suite.register(result.save_status)
+        suite = TestSuite(result.save_status)
+        suite.add(*loader.tests_from_class(SomeTestClass))
         suite.run()
+
         assert result.get_names_of_status(Status.PASSED) == "testError"
         assert result.get_names_of_status(Status.FAILED) == "testDifferentError testNoError"
 

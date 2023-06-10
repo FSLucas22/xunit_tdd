@@ -1,5 +1,6 @@
 from xunit.src import *
 from typing import Type
+from xunit.src.loaders import testloader as loader
 
 
 @TestClass
@@ -63,11 +64,12 @@ class TestTest(TestCase):
             @Test
             def broken_method(self) -> None:
                 raise Exception
-
-        suite = VerboseSuiteFactory().from_test_case(UnnamedTestClass)
+            
         result = TestResult()
-        suite.register(result.save_status)
+        suite = TestSuite(result.save_status)
+        suite.add(*loader.tests_from_class(UnnamedTestClass))
         suite.run()
+
         assert result.get_names_of_status(Status.PASSED) == "test_method"
         assert result.get_names_of_status(Status.FAILED) == "broken_method"
 
@@ -96,12 +98,12 @@ class TestTest(TestCase):
             @Test
             def broken_method1(self) -> None:
                 raise Exception
-
-        suite = VerboseSuiteFactory().from_test_case(
-            BrokenUnnamedTestClass, UnnamedTestClass)
+        
         result = TestResult()
-        suite.register(result.save_status)
+        suite = TestSuite(result.save_status)
+        suite.add(*loader.tests_from_class(BrokenUnnamedTestClass, UnnamedTestClass))
         suite.run()
+
         assert result.get_status_count(Status.PASSED) == 1
         assert result.get_status_count(Status.FAILED) == 1
         assert result.get_status_count(Status.NOT_COMPLETED) == 2
