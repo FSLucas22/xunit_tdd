@@ -18,6 +18,16 @@ class SuiteFactoryTest(TestCase):
         self.suite.run()
   
         assert self.result.get_names_of_status(Status.PASSED, Status.FAILED) == "passed_test failed_test"
+        assert self.result.get_results(Status.CREATED) == [TestStatus('Suite', Status.CREATED, 'Base suite')]
+
+    @Test
+    def test_suites_from_class(self) -> None:
+        self.suite.add(*loader.suites_from_class(PassedTestCase))
+        self.suite.run()
+  
+        assert self.result.get_names_of_status(Status.PASSED, Status.FAILED) == "passed_test"
+        assert self.result.get_results(Status.CREATED) == [TestStatus('Suite', Status.CREATED, 'Base suite'),
+                                                           TestStatus('Suite', Status.CREATED, 'PassedTestCase')]
 
     @Test
     def test_tests_from_module(self) -> None:
@@ -26,7 +36,20 @@ class SuiteFactoryTest(TestCase):
         self.suite.run()
 
         assert self.result.get_names_of_status(Status.PASSED, Status.FAILED) == "someTest someOtherTest"
+        assert self.result.get_results(Status.CREATED) == [TestStatus('Suite', Status.CREATED, 'Base suite')]
 
+    @Test
+    def test_suites_from_module(self) -> None:
+        import xunit.tests.testmodule as testmodule
+        self.suite.add(*loader.suites_from_module(testmodule))
+        self.suite.run()
+
+        assert self.result.get_names_of_status(Status.PASSED, Status.FAILED) == "someTest someOtherTest"
+        results = self.result.get_results(Status.CREATED)
+        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testmodule') in results
+        assert TestStatus('Suite', Status.CREATED, 'SomeOtherTest') in results
+        assert TestStatus('Suite', Status.CREATED, 'SomeTest') in results
+    
     @Test
     def test_tests_from_package(self) -> None:
         import xunit.tests.testpackage as testpackage
@@ -36,6 +59,19 @@ class SuiteFactoryTest(TestCase):
         passed = self.result.get_names_of_status(Status.PASSED)
         failed = self.result.get_names_of_status(Status.FAILED)
 
+        assert "x" in passed and "y" in passed and "z" in passed
+        assert "x1" in failed and "y1" in failed and "z1" in failed
+        assert self.result.get_results(Status.CREATED) == [TestStatus('Suite', Status.CREATED, 'Base suite')]
+
+    @Test
+    def test_suites_from_package(self) -> None:
+        import xunit.tests.testpackage as testpackage
+        self.suite.add(*loader.suites_from_package(testpackage, lambda _, __: False))
+        self.suite.run()
+
+        passed = self.result.get_names_of_status(Status.PASSED)
+        failed = self.result.get_names_of_status(Status.FAILED)
+        print(passed)
         assert "x" in passed and "y" in passed and "z" in passed
         assert "x1" in failed and "y1" in failed and "z1" in failed
 
