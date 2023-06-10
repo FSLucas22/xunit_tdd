@@ -9,7 +9,7 @@ import os
 def main() -> None:
     if os.name == "nt":
         colorama.init()
-    suite = loader.load(TestSuite(), loader.suites_from_package(tests, ignore=pm.ignore_name))
+    suite = loader.load(TestSuite(), loader.suites_from_package(tests))
     TestRunner(suite=suite).run()
     if os.name == "nt":
         colorama.deinit()
