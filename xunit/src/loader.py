@@ -27,15 +27,20 @@ def tests_from_module(*modules: ModuleType) -> list[TestCase]:
     return result
 
 
-def tests_from_package(package: ModuleType, ignore: pm.Predicate = pm.ignore_name) -> list[TestCase]:
+def tests_from_package(*package: ModuleType, ignore: pm.Predicate = pm.ignore_name) -> list[TestCase]:
+    if len(package) == 0:
+        return []
+    
+    first_package = package[0]
+
     result: list[TestCase] = []
-    objs = pm.get_package_objects(package, ignore)
+    objs = pm.get_package_objects(first_package, ignore)
     for obj in objs:
         if obj.is_package:
             result.extend(tests_from_package(obj.value, ignore=ignore))
         else:
             result.extend(tests_from_module(obj.value))
-    return result
+    return result + tests_from_package(*package[1:])
 
 
 def suites_from_class(*tests: Type[TestCase], 

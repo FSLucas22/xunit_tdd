@@ -32,7 +32,7 @@ class TestLoadersOfTestCases(TestCase):
     @Test
     def test_tests_from_package(self) -> None:
         import xunit.tests.testpackage as testpackage
-        self.suite.add(*loader.tests_from_package(testpackage, lambda _, __: False))
+        self.suite.add(*loader.tests_from_package(testpackage, ignore=lambda _, __: False))
         self.suite.run()
 
         passed = self.result.get_names_of_status(Status.PASSED)
