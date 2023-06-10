@@ -76,6 +76,11 @@ class SuiteFactoryTest(TestCase):
         assert "x" in passed and "y" in passed and "z" in passed
         assert "x1" in failed and "y1" in failed and "z1" in failed
         assert TestStatus('Suite', Status.CREATED, testpackage.__name__) in created
+        assert TestStatus('Suite', Status.CREATED, 'packagemodule') in created
+        assert TestStatus('Suite', Status.CREATED, 'packagemodule2') in created
+        assert TestStatus('Suite', Status.CREATED, 'subpackagemodule') in created
+        assert TestStatus('Suite', Status.CREATED, 'TestX') in created
+        assert TestStatus('Suite', Status.CREATED, 'TestY') in created
 
     @Test
     def test_ignore(self) -> None:
