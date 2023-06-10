@@ -61,7 +61,9 @@ class SuiteFactoryTest(TestCase):
 
         assert "x" in passed and "y" in passed and "z" in passed
         assert "x1" in failed and "y1" in failed and "z1" in failed
-        assert self.result.get_results(Status.CREATED) == [TestStatus('Suite', Status.CREATED, 'Base suite')]
+        assert self.result.get_results(Status.CREATED) == [
+            TestStatus('Suite', Status.CREATED, 'Base suite'),
+            TestStatus('Suite', Status.CREATED, testpackage.__name__)]
 
     @Test
     def test_suites_from_package(self) -> None:
@@ -71,9 +73,10 @@ class SuiteFactoryTest(TestCase):
 
         passed = self.result.get_names_of_status(Status.PASSED)
         failed = self.result.get_names_of_status(Status.FAILED)
-        print(passed)
+        created = self.result.get_results(Status.CREATED)
+
         assert "x" in passed and "y" in passed and "z" in passed
-        assert "x1" in failed and "y1" in failed and "z1" in failed
+        assert "x1" in failed and "y1" in failed and "z1" in failed    
 
     @Test
     def test_ignore(self) -> None:
