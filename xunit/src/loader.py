@@ -59,13 +59,12 @@ def suites_from_module(*modules: ModuleType) -> list[TestSuite]:
 
 def suites_from_package(package: ModuleType, ignore: pm.Predicate = pm.ignore_name) -> list[TestSuite]:
     objs: list[pm.PackageObject] = pm.get_package_objects(package, ignore)
-    result: list[TestSuite] = []
-
+    main_suite = TestSuite(name=package.__name__)
     for obj in objs:
         suite = TestSuite(name=obj.name)
         if obj.is_package:
             suite.add(*suites_from_package(obj.value, ignore=ignore))
         else:
             suite.add(*suites_from_module(obj.value))
-        result.append(suite)
-    return result
+        main_suite.add(suite) 
+    return [main_suite]
