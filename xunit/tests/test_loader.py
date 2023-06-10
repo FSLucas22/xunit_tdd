@@ -72,7 +72,6 @@ class SuiteFactoryTest(TestCase):
         passed = self.result.get_names_of_status(Status.PASSED)
         failed = self.result.get_names_of_status(Status.FAILED)
         created = self.result.get_results(Status.CREATED)
-        print(created)
         assert "x" in passed and "y" in passed and "z" in passed
         assert "x1" in failed and "y1" in failed and "z1" in failed
         assert TestStatus('Suite', Status.CREATED, testpackage.__name__) in created
@@ -83,6 +82,19 @@ class SuiteFactoryTest(TestCase):
                           'xunit.tests.testpackage.subpackage.subpackagemodule') in created
         assert TestStatus('Suite', Status.CREATED, 'TestX') in created
         assert TestStatus('Suite', Status.CREATED, 'TestY') in created
+
+    @Test
+    def test_suites_from_package_dont_duplicate_status(self) -> None:
+        import xunit.tests.testpackage as testpackage
+        self.suite.add(*loader.suites_from_package(testpackage, lambda _, __: False))
+        self.suite.run()
+
+        created = self.result.get_results(Status.CREATED)
+
+        assert TestStatus('Suite', Status.CREATED, 'packagemodule') not in created
+        assert TestStatus('Suite', Status.CREATED, 'packagemodule2') not in created
+        assert TestStatus('Suite', Status.CREATED, 'subpackage') not in created
+        assert TestStatus('Suite', Status.CREATED, 'subpackagemodule') not in created
 
     @Test
     def test_ignore(self) -> None:
