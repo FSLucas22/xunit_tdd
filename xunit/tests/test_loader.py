@@ -72,13 +72,15 @@ class SuiteFactoryTest(TestCase):
         passed = self.result.get_names_of_status(Status.PASSED)
         failed = self.result.get_names_of_status(Status.FAILED)
         created = self.result.get_results(Status.CREATED)
-
+        print(created)
         assert "x" in passed and "y" in passed and "z" in passed
         assert "x1" in failed and "y1" in failed and "z1" in failed
         assert TestStatus('Suite', Status.CREATED, testpackage.__name__) in created
-        assert TestStatus('Suite', Status.CREATED, 'packagemodule') in created
-        assert TestStatus('Suite', Status.CREATED, 'packagemodule2') in created
-        assert TestStatus('Suite', Status.CREATED, 'subpackagemodule') in created
+        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testpackage.packagemodule') in created
+        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testpackage.packagemodule2') in created
+        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testpackage.subpackage') in created
+        assert TestStatus('Suite', Status.CREATED, 
+                          'xunit.tests.testpackage.subpackage.subpackagemodule') in created
         assert TestStatus('Suite', Status.CREATED, 'TestX') in created
         assert TestStatus('Suite', Status.CREATED, 'TestY') in created
 

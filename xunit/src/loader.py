@@ -66,5 +66,5 @@ def suites_from_package(package: ModuleType, ignore: pm.Predicate = pm.ignore_na
             suite.add(*suites_from_package(obj.value, ignore=ignore))
         else:
             suite.add(*suites_from_module(obj.value))
-        main_suite.add(suite) 
+        main_suite.add(suite)
     return [main_suite]
