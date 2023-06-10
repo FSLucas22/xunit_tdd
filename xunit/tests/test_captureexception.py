@@ -36,3 +36,4 @@ class TestCaptureException(TestCase):
         with expects(ExpectationError):
             with expects(Exception):
                 pass
+            raise AssertionError("Did not ExpectationError")
