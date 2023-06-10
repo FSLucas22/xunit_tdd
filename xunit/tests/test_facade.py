@@ -24,8 +24,7 @@ class TestFacade(TestCase):
 
     @Test
     def test_facade(self) -> None:
-        suite = TestSuite()
-        suite.add(*loader.tests_from_class(WasRun))
+        suite = loader.load(TestSuite(), loader.tests_from_class(WasRun))
 
         self.runner.suite = suite
         self.runner.run()

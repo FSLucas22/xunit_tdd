@@ -66,9 +66,8 @@ class TestTest(TestCase):
                 raise Exception
             
         result = TestResult()
-        suite = TestSuite(result.save_status)
-        suite.add(*loader.tests_from_class(UnnamedTestClass))
-        suite.run()
+        loader.load(TestSuite(result.save_status),
+                    loader.tests_from_class(UnnamedTestClass)).run()
 
         assert result.get_names_of_status(Status.PASSED) == "test_method"
         assert result.get_names_of_status(Status.FAILED) == "broken_method"
@@ -100,9 +99,8 @@ class TestTest(TestCase):
                 raise Exception
         
         result = TestResult()
-        suite = TestSuite(result.save_status)
-        suite.add(*loader.tests_from_class(BrokenUnnamedTestClass, UnnamedTestClass))
-        suite.run()
+        loader.load(TestSuite(result.save_status), 
+                    loader.tests_from_class(BrokenUnnamedTestClass, UnnamedTestClass)).run()
 
         assert result.get_status_count(Status.PASSED) == 1
         assert result.get_status_count(Status.FAILED) == 1

@@ -25,9 +25,8 @@ class TestCaptureException(TestCase):
                     pass
                 
         result = TestResult()
-        suite = TestSuite(result.save_status)
-        suite.add(*loader.tests_from_class(SomeTestClass))
-        suite.run()
+        loader.load(TestSuite(result.save_status), 
+                    loader.tests_from_class(SomeTestClass)).run()
 
         assert result.get_names_of_status(Status.PASSED) == "testError"
         assert result.get_names_of_status(Status.FAILED) == "testDifferentError testNoError"
