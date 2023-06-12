@@ -1,4 +1,4 @@
-from typing import Type, Any, Iterator
+from typing import Type, Iterator
 from contextlib import contextmanager
 
 
