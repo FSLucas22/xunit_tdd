@@ -1,7 +1,7 @@
 from xunit.src.testcase import *
 from xunit.src.testresult import *
 from xunit.src.testsummary import *
-from xunit.src.testsuite import TestSuite as TestSuite
+from xunit.src.testsuite import Runnable, TestSuite as TestSuite
 from xunit.src import testdecorator
 from xunit.src.testexceptions import *
 from xunit.src import testcolours
@@ -23,21 +23,21 @@ DEFAULT_SUMMARY = MixedTestSummary(
 class TestRunner(SubjectImp):
     capture_output: Callable[[str], None]
     summary: Summary
-    suite: TestSuite | None
+    suite: Runnable | None
     
     def __init__(self, capture_output: Callable[[str], None] = print, 
                  summary: Summary=DEFAULT_SUMMARY,
                  *observers: Observer,
-                 suite: TestSuite | None = None) -> None:
+                 runnable: Runnable | None = None) -> None:
         
         self.capture_output = capture_output
         self.summary = summary
-        self.suite = suite
+        self.runnable = runnable
         super().__init__(*observers)
 
     def run(self) -> None:
         result = TestResult()
-        if self.suite is not None:
-            self.suite.register(result.save_status)
-            self.suite.run()
+        if self.runnable is not None:
+            self.runnable.register(result.save_status)
+            self.runnable.run()
         self.capture_output(self.summary.results(result))

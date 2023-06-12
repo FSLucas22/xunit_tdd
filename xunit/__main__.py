@@ -10,7 +10,7 @@ def main() -> None:
     if os.name == "nt":
         colorama.init()
     suite = loader.load(TestSuite(), loader.suites_from_package(tests))
-    TestRunner(suite=suite).run()
+    TestRunner(runnable=suite).run()
     if os.name == "nt":
         colorama.deinit()
 

@@ -26,7 +26,7 @@ class TestFacade(TestCase):
     def test_facade(self) -> None:
         suite = loader.load(TestSuite(), loader.tests_from_class(WasRun))
 
-        self.runner.suite = suite
+        self.runner.runnable = suite
         self.runner.run()
         assert self.print.passed_value == self.expected_value(suite)
 
