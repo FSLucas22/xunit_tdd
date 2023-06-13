@@ -24,7 +24,7 @@ class SubjectImp:
         self._observers += list(observers)
 
     def unregister(self, *observers: Observer) -> None:
-        for observer in self._observers:
+        for observer in observers:
             if observer in self._observers:
                 self._observers.remove(observer)
 

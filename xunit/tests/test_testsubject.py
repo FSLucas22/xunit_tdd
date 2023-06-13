@@ -19,19 +19,40 @@ class TestSubject(TestCase):
         assert observer.received == [status, status]
     
     @Test
-    def test_subject(self) -> None:
+    def test_unregister(self) -> None:
         observer1 = DummyObserver()
         observer2 = DummyObserver()
         subject: Subject = SubjectImp(observer1, observer2) 
         status = TestStatus("x", Status.PASSED, "z")
         
+        subject.unregister(observer1, observer2)
+        
+        subject.notify(status)
+        
+        assert observer1.received == []
+        assert observer2.received == []
+    
+    @Test
+    def test_only_unregister_correct_observer(self) -> None:
+        observer1 = DummyObserver()
+        observer2 = DummyObserver()
+        observer3 = DummyObserver()
+        subject: Subject = SubjectImp(observer1, observer2, observer3) 
+        status = TestStatus("x", Status.PASSED, "z")
+        
+        subject.unregister(observer2)
+        subject.notify(status)
+        
+        assert observer1.received == [status] == observer3.received
+        assert observer2.received == []
+        
+    
+    @Test
+    def test_register(self) -> None:
+        observer1 = DummyObserver()
+        observer2 = DummyObserver()
+        subject: Subject = SubjectImp(observer1, observer2)
+        status = TestStatus("x", Status.PASSED, "z")
         subject.notify(status)
         
         assert observer1.received == observer2.received == [status]
-        
-        subject.unregister(observer1)
-        
-        subject.notify(status)
-        
-        assert observer1.received == [status]
-        assert observer2.received == [status, status]
