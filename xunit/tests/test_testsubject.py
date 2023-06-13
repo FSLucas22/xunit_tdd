@@ -51,7 +51,8 @@ class TestSubject(TestCase):
     def test_register(self) -> None:
         observer1 = DummyObserver()
         observer2 = DummyObserver()
-        subject: Subject = SubjectImp(observer1, observer2)
+        subject: Subject = SubjectImp(observer1)
+        subject.register(observer2)
         status = TestStatus("x", Status.PASSED, "z")
         subject.notify(status)
         
