@@ -1,6 +1,6 @@
 from typing import Protocol
-from xunit.src.testresult import TestResult
-from xunit.src.status import Status
+from .testresult import TestResult
+from .status import Status
 from .formatters import *
 
 
