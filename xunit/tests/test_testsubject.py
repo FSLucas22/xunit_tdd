@@ -1,7 +1,7 @@
-from xunit.src import *
-from xunit.src.status import TestStatus, Status
-from xunit.src.observer import *
-from xunit.tests.testclasses import DummyObserver
+from ..src import *
+from ..src.status import TestStatus, Status
+from ..src.observer import *
+from .testclasses import DummyObserver
 from typing import cast
 
 
