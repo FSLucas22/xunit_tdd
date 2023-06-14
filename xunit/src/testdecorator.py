@@ -1,6 +1,6 @@
 from typing import Type, TypeVar, ParamSpec, Callable
-from xunit.src.testcase import TestCase
-from xunit.src.testexceptions import InvalidAttributeException
+from .testcase import TestCase
+from .testexceptions import InvalidAttributeException
 
     
 T = TypeVar('T', bound=TestCase)
