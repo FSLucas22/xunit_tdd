@@ -1,7 +1,7 @@
-from xunit.src import *
-from xunit.src.status import TestStatus
-from xunit.src.testsuite import DEFAULT_SUITE_NAME
-from xunit.tests.testclasses import *
+from ..src import *
+from ..src.status import TestStatus
+from ..src.testsuite import DEFAULT_SUITE_NAME
+from .testclasses import *
 from typing import cast
 
 
