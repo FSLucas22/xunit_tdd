@@ -1,9 +1,9 @@
 from types import ModuleType
 from typing import Sequence, Type
-from xunit.src.status import StatusFactory, TestStatus
-from xunit.src.testcase import TestCase
-from xunit.src import packagemanager as pm
-from xunit.src.testsuite import Runnable, TestSuite
+from .status import StatusFactory, TestStatus
+from .testcase import TestCase
+from . import packagemanager as pm
+from .testsuite import Runnable, TestSuite
 
 
 def load(suite: TestSuite, tests: Sequence[Runnable]) -> TestSuite:
