@@ -1,5 +1,5 @@
-from xunit.src import *
-from xunit.src.status import TestStatus, Status
+from ..src import *
+from ..src.status import TestStatus, Status
 import traceback
 
 
