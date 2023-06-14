@@ -1,2 +1,2 @@
-from xunit.src.testcase import *
-from xunit.tests import *
+from .src.testcase import *
+from .tests import *
