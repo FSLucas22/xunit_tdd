@@ -1,5 +1,5 @@
-from xunit.src.status import *
-from xunit.src.observer import Observer, SubjectImp
+from .status import *
+from .observer import Observer, SubjectImp
 
 
 class TestCase(SubjectImp):
