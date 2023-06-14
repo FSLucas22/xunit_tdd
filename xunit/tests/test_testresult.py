@@ -1,6 +1,6 @@
-from xunit.src import *
-from xunit.src.status import TestStatus, Status
-from xunit.tests.testclasses import *
+from ..src import *
+from ..src.status import TestStatus, Status
+from .testclasses import *
 
 
 @TestClass
