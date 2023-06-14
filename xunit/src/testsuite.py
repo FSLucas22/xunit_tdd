@@ -1,6 +1,6 @@
 from typing import Protocol
-from xunit.src.observer import Observer, Subject, SubjectImp
-from xunit.src.status import Status, StatusFactory, TestStatus
+from .observer import Observer, Subject, SubjectImp
+from .status import Status, StatusFactory, TestStatus
 
 
 DEFAULT_SUITE_NAME = 'Base suite'
