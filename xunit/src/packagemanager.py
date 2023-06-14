@@ -7,8 +7,8 @@ from pathlib import Path
 from types import ModuleType
 from typing import NamedTuple, Protocol, Type
 
-from xunit.src.testcase import TestCase
-from xunit.src.testexceptions import InvalidPathError
+from .testcase import TestCase
+from .testexceptions import InvalidPathError
 
 
 class PackageObject(NamedTuple):
