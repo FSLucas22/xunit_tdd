@@ -1,6 +1,6 @@
-from xunit.src import *
-from xunit.tests.testclasses import *
-from xunit.src import loader
+from ..src import *
+from .testclasses import *
+from ..src import loader
 
 
 @TestClass
