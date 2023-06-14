@@ -1,4 +1,4 @@
-from xunit.src import *
+from ..src import *
 
 
 @TestClass
