@@ -1,7 +1,7 @@
-from xunit.src import *
-from xunit.tests.testclasses import WasRun
-from xunit.tests.testclasses import MockPrint
-from xunit.src import loader
+from ..src import *
+from .testclasses import WasRun
+from .testclasses import MockPrint
+from ..src import loader
 
 
 @TestClass
