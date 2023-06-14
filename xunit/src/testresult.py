@@ -1,4 +1,4 @@
-from xunit.src.status import TestStatus, Status
+from .status import TestStatus, Status
 
 
 class TestResult:
