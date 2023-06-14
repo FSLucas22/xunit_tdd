@@ -1,6 +1,6 @@
 from typing import Callable, Mapping
 from .status import Status, TestStatus
-import xunit.src.testcolours as color
+from . import testcolours as color
 
 
 formatter = Callable[[str], str]
