@@ -1,5 +1,5 @@
-from xunit.src import Test, TestCase, TestClass
-from xunit.src.status import TestStatus
+from ..src import Test, TestCase, TestClass
+from ..src.status import TestStatus
 
 
 class WasRun(TestCase):
