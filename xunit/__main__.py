@@ -1,5 +1,4 @@
 from .src import *
-from .src import packagemanager as pm
 from .src import loader
 from . import tests
 import colorama
