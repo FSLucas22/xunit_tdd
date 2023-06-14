@@ -1,7 +1,7 @@
-from xunit.src import *
-from xunit.src import packagemanager as pm
-from xunit.src import loader
-from xunit import tests
+from .src import *
+from .src import packagemanager as pm
+from .src import loader
+from . import tests
 import colorama
 import os
 
