@@ -85,7 +85,7 @@ class TestLoadersOfSuites(TestCase):
 
         assert self.result.get_names_of_status(Status.PASSED, Status.FAILED) == "someTest someOtherTest"
         results = self.result.get_results(Status.CREATED)
-        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testmodule') in results
+        assert TestStatus('Suite', Status.CREATED, testmodule.__name__) in results
         assert TestStatus('Suite', Status.CREATED, 'SomeOtherTest') in results
         assert TestStatus('Suite', Status.CREATED, 'SomeTest') in results
 
@@ -101,11 +101,11 @@ class TestLoadersOfSuites(TestCase):
         assert "x" in passed and "y" in passed and "z" in passed
         assert "x1" in failed and "y1" in failed and "z1" in failed
         assert TestStatus('Suite', Status.CREATED, testpackage.__name__) in created
-        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testpackage.packagemodule') in created
-        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testpackage.packagemodule2') in created
-        assert TestStatus('Suite', Status.CREATED, 'xunit.tests.testpackage.subpackage') in created
+        assert TestStatus('Suite', Status.CREATED, 'tests.testpackage.packagemodule') in created
+        assert TestStatus('Suite', Status.CREATED, 'tests.testpackage.packagemodule2') in created
+        assert TestStatus('Suite', Status.CREATED, 'tests.testpackage.subpackage') in created
         assert TestStatus('Suite', Status.CREATED, 
-                          'xunit.tests.testpackage.subpackage.subpackagemodule') in created
+                          'tests.testpackage.subpackage.subpackagemodule') in created
         assert TestStatus('Suite', Status.CREATED, 'TestX') in created
         assert TestStatus('Suite', Status.CREATED, 'TestY') in created
 
