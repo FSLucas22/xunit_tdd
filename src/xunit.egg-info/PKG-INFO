@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: xunit
+Version: 0.0.0
+Summary: Python package for unit testing
+Author: Lucas Ferreira dos Santos
+License: MIT
+Platform: unix
+Platform: linux
+Platform: osx
+Platform: cygwin
+Platform: win32
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.11
+License-File: LICENSE
